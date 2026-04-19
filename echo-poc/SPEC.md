@@ -1,6 +1,16 @@
 # Phase 1b Test Specification: PINN-MIMICS Soil Moisture Retrieval at Moor House
 
-**Vantage · Phase 1b · Pre-Registration · v0.1 — Draft for Sign-Off**
+**Vantage · Phase 1b · Pre-Registration · v0.1.1 — Signed (non-substantive amendment 2026-04-19)**
+
+> **Versioning note (v0.1 → v0.1.1, 2026-04-19):** Non-substantive amendment.
+> Added §15 "Phase 1b Pre-Registration document" cross-referencing the new
+> companion document `phase1b/SUCCESS_CRITERIA.md` (pre-registration formalisation
+> per Session F-1). Renumbered "References" from §15 to §16. **No threshold,
+> tier, or signed-criterion change.** All §10 RMSE thresholds, §9 dominance
+> criteria, §11 diagnostics, and §14 sign-off block stand verbatim. Tracked
+> as a SPEC v0.1 → v0.1.1 minor amendment in the v0.1 sign-off record
+> at §14, not as a DEV-1b-NNN entry (no scientific deviation; document
+> structural addition only).
 
 *A controlled module-replacement re-run of the ECHO Phase 1 PoC — only the physics branch changes.*
 
@@ -24,7 +34,8 @@ Companion to: `MIMICS Literature Review v1.0` and `poc_results.md v1.0`.
 12. [Risk register & mitigations](#12-risk-register--mitigations)
 13. [Honest-gates protocol & deviation log template](#13-honest-gates-protocol--deviation-log-template)
 14. [Pre-registration sign-off](#14-pre-registration-sign-off)
-15. [References](#15-references)
+15. [Phase 1b Pre-Registration document](#15-phase-1b-pre-registration-document)
+16. [References](#16-references)
 
 ---
 
@@ -514,7 +525,84 @@ and the individual DEV-1b-NNN.md files.
 
 ---
 
-## 15. References
+## 15. Phase 1b Pre-Registration document
+
+> Added 2026-04-19 (Session F-1). Non-substantive amendment to SPEC v0.1.
+> Formalises the pre-registration of the Phase 1b success criteria,
+> experimental protocol, and diagnostic thresholds in a dedicated
+> companion document so that the lit review §10 proposals (which were
+> "not yet pre-registered" at sign-off) are bound to explicit numerical
+> thresholds before Block 2 (λ search + PINN-MIMICS trainer) begins.
+
+The Phase 1b pre-registration is jointly held by:
+
+1. **This SPEC.md** — §10 (numerical RMSE outcome categories), §9 (λ
+   search + dominance criteria), §11 (diagnostic plan including new
+   Diagnostics A–D), and §14 (signed sign-off block, 2026-04-19). The
+   numerical thresholds in SPEC §10 are authoritative; if any
+   companion document conflicts on a number, SPEC.md wins.
+2. **[`phase1b/SUCCESS_CRITERIA.md`](phase1b/SUCCESS_CRITERIA.md)** —
+   the formal pre-registration companion document. Contains the
+   primary criterion (verbatim from §10), the secondary criteria
+   translated into explicit numerical thresholds (Forward fit r > 0.3;
+   residual ratio < 2.0; VH r > 0.2; residual–NDVI |r| < 0.5), the
+   dominance constraint and pre-registered fallback procedure (mirrors
+   §9), the action-tier mapping (Strong / Moderate / Inconclusive /
+   Refutation as joint conditions on primary × secondary × dominance),
+   the locked experimental protocol (training sizes, repetitions,
+   seeds, λ-grid, baselines), and the Phase 4 diagnostic thresholds
+   (D-1 through D-4).
+3. **[`tests/unit/test_pre_registration_lock.py`](tests/unit/test_pre_registration_lock.py)** —
+   the technical lock. Fails if SUCCESS_CRITERIA.md is modified after
+   any Phase 1b training artefact is produced, or if SPEC §10 RMSE
+   thresholds are silently changed. Once Block 2 begins, the test is
+   the enforcement mechanism for the pre-registration discipline that
+   DEV-1b-001 / DEV-1b-002 established for the prior amendments.
+
+### Lock metadata
+
+| Field | Value |
+|---|---|
+| Document version | v1.0 |
+| Date locked | 2026-04-19 |
+| Tag at lock | `phase1b-success-criteria-pre-registered` |
+| Parent commit | `63ef5fa` (Session F handoff close) |
+| Lead investigator | Matthew Denyer / 2026-04-19 |
+| Independent reviewer | [science agent] / 2026-04-19 |
+
+### What §15 commits the experiment to
+
+- The SUCCESS_CRITERIA.md secondary thresholds (S1: r > 0.3; S2: < 2.0;
+  S3: r > 0.2; S4: |r| < 0.5) become the locked secondary-criteria
+  numerical thresholds for Phase 1b. SPEC §10 already lists these
+  criteria at category level; SUCCESS_CRITERIA.md numerically
+  pre-registers them.
+- The action-tier mapping (Strong / Moderate / Inconclusive /
+  Refutation) is locked. The downstream recommendation (Phase 1c L-band
+  NISAR; Phase 1c with honest scoping; pivot to L-band; Phase 1c
+  priority increases) follows automatically from the observed outcome
+  pattern. No post-hoc selection of action.
+- Editing SUCCESS_CRITERIA.md after Block 2 begins requires a
+  DEV-1b-NNN entry **and** an explicit update to the regression test
+  in the same commit. Same honest-gates discipline as DEV-1b-001 /
+  DEV-1b-002.
+
+### What §15 does not commit the experiment to
+
+- Any change to SPEC §10 RMSE thresholds (those are signed at §14 on
+  2026-04-19; this section is a non-substantive amendment that adds
+  no new threshold and changes no signed threshold).
+- Any change to the SPEC §14 sign-off block. The signatures and
+  Phase E closure verdict at §14 remain valid for SPEC v0.1.1 the
+  same as for SPEC v0.1.
+- Any Session F sub-module promotion. DEV-1b-008's five-way
+  promotion queue remains evidence-led from training diagnostics per
+  SPEC §11; this pre-registration adds neither candidates nor commitments
+  to that queue.
+
+---
+
+## 16. References
 
 1. Attema, E.P.W. and Ulaby, F.T. (1978) 'Vegetation modeled as a water cloud', *Radio Science*, 13(2), pp. 357–364. [Phase 1 physics model.]
 2. Ulaby, F.T., Sarabandi, K., McDonald, K., Whitt, M. and Dobson, M.C. (1990) 'Michigan microwave canopy scattering model', *International Journal of Remote Sensing*, 11(7), pp. 1223–1253. [The MIMICS paper.]
