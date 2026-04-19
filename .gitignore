@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Raw data (too large for git — see README for download instructions)
+echo-poc/data/raw/
+
+# Processed data (regeneratable from raw)
+echo-poc/data/processed/
+
+# Publisher PDFs staged for G2 anchor reading — copyrighted,
+# obtained via Open University Library access. Redistribution rights
+# not held. Reproducers must obtain these independently; provenance
+# captured in phase1b/refs/README.md and phase1b/refs/anchor_reads/.
+echo-poc/phase1b/refs/*.pdf
+echo-poc/phase1b/refs/*.docx
+
+# Model outputs (regeneratable)
+echo-poc/outputs/models/
+echo-poc/outputs/figures/
+echo-poc/outputs/metrics/
+echo-poc/outputs/export/
+echo-poc/outputs/write-up/
+
+# Keep gate results trackable but not required
+# echo-poc/outputs/gates/
+
+# Node modules
+node_modules/
+.next/
+out/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+credentials.json
+.cdsapirc
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+Thumbs.db

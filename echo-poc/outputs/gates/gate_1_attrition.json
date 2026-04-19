@@ -1,0 +1,10 @@
+{
+  "s1_overpasses_raw": 148,
+  "after_step1_vwc_flag": 146,
+  "after_step2_frozen": 120,
+  "after_step3_snow": 120,
+  "after_step4_missing_ancillary": 120,
+  "after_step5_orbit": 120,
+  "after_step6_supplementary_qc": 119,
+  "final_paired_observations": 119
+}

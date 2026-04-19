@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIMICS Literature Review — Phase 1b Science Preparation</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #161a24;
+    --surface2: #1c2130;
+    --border: rgba(255,255,255,0.07);
+    --text: #d4dae8;
+    --muted: #8892a4;
+    --heading: #eef1f7;
+    --cyan: #38bdf8;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --purple: #a78bfa;
+    --red: #f87171;
+    --accent-line: 3px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .page-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+
+  .doc-badge {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    border: 1px solid rgba(56,189,248,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-header h1 {
+    font-family: 'Georgia', serif;
+    font-size: 2.2rem;
+    font-weight: normal;
+    color: var(--heading);
+    max-width: 780px;
+    margin: 0 auto 0.75rem;
+    line-height: 1.3;
+  }
+
+  .page-header .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .meta-strip {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .meta-strip span { display: flex; align-items: center; gap: 0.4rem; }
+  .meta-strip .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); }
+
+  /* Table of Contents */
+  .toc-block {
+    max-width: 860px;
+    margin: 2.5rem auto;
+    padding: 1.5rem 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: var(--accent-line) solid var(--cyan);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .toc-block h2 {
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--cyan);
+    margin-bottom: 1rem;
+  }
+
+  .toc-block ol {
+    list-style: none;
+    counter-reset: toc;
+    column-count: 2;
+    column-gap: 2rem;
+  }
+
+  .toc-block li {
+    counter-increment: toc;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text);
+    padding: 0.1rem 0;
+  }
+
+  .toc-block li::before {
+    content: counter(toc, decimal-leading-zero) ".";
+    color: var(--muted);
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    margin-right: 0.5rem;
+  }
+
+  .toc-block a { color: var(--text); text-decoration: none; }
+  .toc-block a:hover { color: var(--cyan); }
+
+  /* Main content */
+  .doc-body { max-width: 860px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+  .section {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-family: 'Georgia', serif;
+    font-size: 1.55rem;
+    font-weight: normal;
+    color: var(--heading);
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  h2 .hl { color: var(--cyan); }
+  h2 .hl-amber { color: var(--amber); }
+  h2 .hl-green { color: var(--green); }
+  h2 .hl-purple { color: var(--purple); }
+
+  h3 {
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--heading);
+    margin: 2rem 0 0.75rem;
+  }
+
+  h4 {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  .lead {
+    font-size: 1.05rem;
+    color: var(--heading);
+    border-left: var(--accent-line) solid var(--cyan);
+    padding-left: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  /* Callouts */
+  .callout {
+    padding: 1.1rem 1.4rem;
+    border-radius: 4px;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .callout.cyan { background: rgba(56,189,248,0.07); border-left: var(--accent-line) solid var(--cyan); }
+  .callout.amber { background: rgba(251,191,36,0.07); border-left: var(--accent-line) solid var(--amber); }
+  .callout.green { background: rgba(74,222,128,0.07); border-left: var(--accent-line) solid var(--green); }
+  .callout.red { background: rgba(248,113,113,0.07); border-left: var(--accent-line) solid var(--red); }
+  .callout.purple { background: rgba(167,139,250,0.07); border-left: var(--accent-line) solid var(--purple); }
+
+  .callout strong { color: var(--heading); }
+
+  /* Parameter table */
+  .param-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+  }
+
+  .param-table th {
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    background: var(--surface);
+  }
+
+  .param-table td {
+    padding: 0.65rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .param-table tr:last-child td { border-bottom: none; }
+  .param-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .param-table .param-name {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  .param-table .category-header td {
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    background: rgba(251,191,36,0.04);
+    padding: 0.4rem 0.8rem;
+    border-bottom: 1px solid rgba(251,191,36,0.15);
+  }
+
+  /* Status badges */
+  .badge {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .badge.free { background: rgba(74,222,128,0.12); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+  .badge.fixed { background: rgba(56,189,248,0.12); color: var(--cyan); border: 1px solid rgba(56,189,248,0.25); }
+  .badge.constrained { background: rgba(251,191,36,0.12); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
+  .badge.risk { background: rgba(248,113,113,0.12); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+
+  /* Architecture diagram */
+  .arch-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+  }
+
+  .arch-layer {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .arch-layer.crown { border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.06); }
+  .arch-layer.trunk { border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.06); }
+  .arch-layer.ground { border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.06); }
+  .arch-layer.soil { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.06); }
+
+  .arch-arrow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0.2rem 0;
+  }
+
+  .arch-label { font-weight: bold; min-width: 100px; }
+  .arch-label.crown { color: var(--purple); }
+  .arch-label.trunk { color: var(--amber); }
+  .arch-label.ground { color: var(--green); }
+  .arch-label.soil { color: var(--red); }
+  .arch-desc { color: var(--muted); font-size: 0.75rem; }
+
+  /* Mechanism grid */
+  .mech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .mech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+  }
+
+  .mech-card h4 { margin: 0 0 0.5rem; }
+  .mech-card p { font-size: 0.87rem; color: var(--muted); margin: 0; }
+
+  /* Decision box */
+  .decision-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .decision-box .decision-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--purple);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  /* Risk items */
+  .risk-item {
+    border-left: var(--accent-line) solid var(--amber);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    background: rgba(251,191,36,0.04);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .risk-item h4 { color: var(--amber); margin: 0 0 0.4rem; font-family: 'Georgia', serif; font-size: 0.95rem; text-transform: none; letter-spacing: 0; }
+  .risk-item p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+  /* Finding box */
+  .finding-box {
+    border-left: var(--accent-line) solid var(--green);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    background: rgba(74,222,128,0.04);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .finding-box .finding-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  .finding-box p { font-size: 0.9rem; margin: 0; }
+
+  /* Reference list */
+  .ref-list { list-style: none; margin: 1rem 0; }
+  .ref-list li {
+    padding: 0.4rem 0;
+    padding-left: 3rem;
+    position: relative;
+    font-size: 0.87rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.55;
+  }
+
+  .ref-list li:last-child { border-bottom: none; }
+
+  .ref-num {
+    position: absolute;
+    left: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: var(--cyan);
+    min-width: 2.5rem;
+  }
+
+  /* Equation bar */
+  .eq-bar {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    padding: 0.8rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin: 1rem 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    color: var(--text);
+  }
+
+  .eq-bar .eq-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Closing */
+  .closing {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .closing p { color: var(--muted); font-size: 0.85rem; }
+
+  em { font-style: italic; color: var(--text); }
+  strong { color: var(--heading); }
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.82em;
+    color: var(--cyan);
+    background: rgba(56,189,248,0.08);
+    padding: 0.1em 0.3em;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .toc-block ol { column-count: 1; }
+    .mech-grid { grid-template-columns: 1fr; }
+    .page-header h1 { font-size: 1.6rem; }
+    .meta-strip { flex-wrap: wrap; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="doc-badge">Vantage · Phase 1b · Science Preparation</div>
+  <h1>MIMICS for Blanket Bog: A Literature Review and Parameter Scoping Study</h1>
+  <p class="subtitle">Evaluating the Michigan Microwave Canopy Scattering Model as the Phase 1b physics branch for C-band SAR soil moisture retrieval at Moor House</p>
+  <div class="meta-strip">
+    <span><span class="dot"></span> v1.0 — April 2026</span>
+    <span><span class="dot"></span> Phase 1b Preparation</span>
+    <span><span class="dot"></span> Follows Green Paper v4.1.0</span>
+  </div>
+</div>
+
+<div class="toc-block">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#s1">Why MIMICS — The Phase 1 finding</a></li>
+    <li><a href="#s2">MIMICS model structure and physics</a></li>
+    <li><a href="#s3">The full parameter space</a></li>
+    <li><a href="#s4">MIMICS at C-band — what the literature says</a></li>
+    <li><a href="#s5">Adaptation precedents — non-forest vegetation</a></li>
+    <li><a href="#s6">The peat swamp forest analogue</a></li>
+    <li><a href="#s7">Mapping MIMICS to blanket bog canopy</a></li>
+    <li><a href="#s8">Parameter decisions for the PoC</a></li>
+    <li><a href="#s9">Identifiability and the C-band constraint</a></li>
+    <li><a href="#s10">Pre-registered diagnostics</a></li>
+    <li><a href="#s11">Open questions and risks</a></li>
+    <li><a href="#s12">References</a></li>
+  </ol>
+</div>
+
+<div class="doc-body">
+
+<!-- ===== S1 ===== -->
+<div class="section" id="s1">
+  <span class="section-label">Section 01</span>
+  <h2>Why MIMICS — <span class="hl">the Phase 1 finding.</span></h2>
+
+  <p class="lead">Phase 1 did not fail because the PINN architecture was wrong, or because training data was insufficient, or because C-band carries no soil moisture signal at Moor House. It failed because the physics model was structurally inadequate. That diagnosis is precise enough to motivate a specific upgrade.</p>
+
+  <p>The Phase 1 experiment at Moor House (Sentinel-1 C-band, COSMOS-UK ground truth, N = 119 observations, 2021–2024) produced three diagnostic results that together point unambiguously at the Water Cloud Model (WCM) as the binding constraint:</p>
+
+  <p><strong>WCM forward fit: r = 0.007.</strong> Even with optimised parameters (A = 0.080, B = 0.176), the WCM could not reproduce observed backscatter variation. This is structural failure — no parameter values can make a two-parameter bulk-volume model represent a layered, branching, multi-constituent canopy.</p>
+
+  <p><strong>Residual ratio 3.3–6.4× across all training sizes.</strong> The ML correction branch dominated at every data volume. The physics branch was active (parameters were learning, sensitivity was confirmed) but the structural form of the WCM left so much unexplained variance that the correction branch had to absorb it all — consuming the capacity that should have been available for soil moisture extrapolation.</p>
+
+  <p><strong>WCM residuals correlated with NDVI at r = 0.82.</strong> The vegetation state drives the error. The model cannot represent the way canopy scattering changes with season, moisture, and phenology at Moor House. The WCM's implicit assumption — that the canopy is a uniform, isotropic cloud of water droplets — is not physically consistent with a layered heather/<em>Sphagnum</em> canopy at C-band wavelengths.</p>
+
+  <div class="callout cyan">
+    <strong>The upgrade logic:</strong> MIMICS (Michigan Microwave Canopy Scattering model, Ulaby et al. 1990 [1]) explicitly represents the structures the WCM ignores — crown geometry, branching architecture, stem cylinders, leaf discs, and the separation of trunk and crown contributions. For a canopy where the WCM's structural deficiency is precisely characterised, MIMICS is the principled next step. The question this PoC answers is whether MIMICS has sufficient structural fidelity for blanket bog to recover the physics-informed advantage.
+  </div>
+
+  <p>This review characterises what MIMICS is, what its literature base tells us about performance at C-band and over non-forest vegetation, how it maps to Moor House canopy conditions, and what parameter decisions the Phase 1b experiment will need to make.</p>
+</div>
+
+<!-- ===== S2 ===== -->
+<div class="section" id="s2">
+  <span class="section-label">Section 02</span>
+  <h2>MIMICS model structure <span class="hl-amber">and physics.</span></h2>
+
+  <p class="lead">MIMICS is a first-order solution to the vector radiative transfer equation for a canopy subdivided into three distinct physical regions. Unlike the WCM, it does not treat vegetation as a statistical cloud — it represents the geometric and dielectric structure of discrete scatterers explicitly.</p>
+
+  <h3>The three-region architecture</h3>
+
+  <p>MIMICS partitions the scene vertically into three regions, each contributing separately to the total backscatter budget:</p>
+
+  <div class="arch-diagram">
+    <div class="arch-layer crown">
+      <span class="arch-label crown">Crown Layer</span>
+      <span class="arch-desc">Discs (leaves) + cylinders (branches/needles) — random orientation, size distributions, dielectric from water content</span>
+    </div>
+    <div class="arch-arrow">↕ attenuation through crown</div>
+    <div class="arch-layer trunk">
+      <span class="arch-label trunk">Trunk / Stem Layer</span>
+      <span class="arch-desc">Dielectric cylinders — vertical, uniform diameter, number density, height, water content</span>
+    </div>
+    <div class="arch-arrow">↕ rough surface interaction</div>
+    <div class="arch-layer ground">
+      <span class="arch-label ground">Ground Surface</span>
+      <span class="arch-desc">Rough dielectric half-space — RMS height, correlation length, dielectric constant (∝ soil moisture)</span>
+    </div>
+    <div class="arch-arrow">↕ propagation medium</div>
+    <div class="arch-layer soil">
+      <span class="arch-label soil">Soil Volume</span>
+      <span class="arch-desc">Dielectric mixing model (Dobson 1985) — volumetric water content → complex permittivity</span>
+    </div>
+  </div>
+
+  <h3>Scattering mechanisms</h3>
+
+  <p>MIMICS accounts for two classes of scattering — direct backscatter from individual regions, and multiple-scattering terms involving pairs of regions. At first order, the total backscattering coefficient decomposes as:</p>
+
+  <div class="eq-bar">
+    <span class="eq-label">MIMICS first-order total backscatter decomposition</span>
+    σ⁰_total = σ⁰_crown_direct + σ⁰_trunk_direct + σ⁰_ground_direct
+             + σ⁰_crown-ground + σ⁰_trunk-ground + σ⁰_crown-trunk
+  </div>
+
+  <p>This is fundamentally different from the WCM formulation (σ⁰_total = σ⁰_veg + T² · σ⁰_soil), which only separates vegetation direct scatter and attenuated soil scatter. MIMICS explicitly models the interaction terms — particularly the trunk-ground double-bounce and crown-ground interaction — which are the dominant mechanisms at C-band for woody, low-stature shrub canopies.</p>
+
+  <div class="mech-grid">
+    <div class="mech-card">
+      <h4>Crown direct</h4>
+      <p>Volume scattering from leaves and branches within the crown layer. Dominant at high NDVI; sensitive to leaf size relative to wavelength. At C-band (λ ≈ 5.6 cm), large heather leaves (~1–2 cm) fall in the Mie scattering regime.</p>
+    </div>
+    <div class="mech-card">
+      <h4>Trunk-ground double bounce</h4>
+      <p>Two-way interaction: upward scattering from ground to stem, reflected back. Key mechanism in erect-stem shrubs. Strongly polarisation-dependent — HH > VV. Observable in C-band VH cross-pol.</p>
+    </div>
+    <div class="mech-card">
+      <h4>Crown-ground interaction</h4>
+      <p>Energy transmitted through crown, scattered by ground, retransmitted upward. At C-band, this is where soil moisture information enters. Attenuated by the crown two-way loss — the critical bottleneck.</p>
+    </div>
+    <div class="mech-card">
+      <h4>Ground direct</h4>
+      <p>Bare surface scattering at the peat/water interface. At blanket bog moisture levels (VWC 60–90%), the dielectric contrast is high. Attenuated by both crown and trunk layers.</p>
+    </div>
+  </div>
+
+  <h3>Frequency range and design assumptions</h3>
+
+  <p>MIMICS-I was designed for the 0.5–10 GHz range (covering P-, L-, S-, C-, and X-band) at incidence angles between 15° and 70° from normal. Sentinel-1 operates at 5.405 GHz (C-band) with Interferometric Wide Swath (IW) mode incidence angles of approximately 29°–46°, placing Moor House descending pass (orbit 154) well within the model's design range.</p>
+
+  <div class="callout amber">
+    <strong>C-band caveat:</strong> MIMICS was validated primarily at L-band for forests. At C-band, the shorter wavelength (5.6 cm) means the Rayleigh approximation breaks down for larger scatterers — mature heather stems (diameter 3–8 mm, length 10–40 cm) interact with C-band in the resonance rather than the long-wavelength limit. The infinite-cylinder approximation for trunks may introduce errors. This is a known limitation and a source of parametric uncertainty in Phase 1b.
+  </div>
+</div>
+
+<!-- ===== S3 ===== -->
+<div class="section" id="s3">
+  <span class="section-label">Section 03</span>
+  <h2>The full <span class="hl">parameter space.</span></h2>
+
+  <p class="lead">MIMICS requires 8–20 parameters depending on implementation depth. This is both its strength — structural fidelity — and its principal challenge for soil moisture inversion: identifiability. Understanding the parameter space is prerequisite to designing a tractable Phase 1b experiment.</p>
+
+  <table class="param-table">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Symbol</th>
+        <th>Physical meaning</th>
+        <th>Typical range (heather/shrub)</th>
+        <th>Phase 1b treatment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="category-header">
+        <td colspan="5">Crown Layer — Leaves/Needles</td>
+      </tr>
+      <tr>
+        <td class="param-name">Leaf thickness / half-length</td>
+        <td><em>a</em></td>
+        <td>Disc half-radius or cylinder half-length for leaves</td>
+        <td>0.3–1.5 cm (heather leaves ~0.2–0.3 cm, scale-like)</td>
+        <td><span class="badge fixed">Fixed from literature</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Leaf density</td>
+        <td><em>N_l</em></td>
+        <td>Number of leaves per unit volume</td>
+        <td>Coupled to LAI from Sentinel-2</td>
+        <td><span class="badge constrained">From S-2 LAI proxy</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Leaf water content</td>
+        <td><em>m_g (leaf)</em></td>
+        <td>Gravimetric moisture of leaves → dielectric via Ulaby & El-Rayes 1987</td>
+        <td>0.5–0.8 g/g (evergreen heather)</td>
+        <td><span class="badge constrained">Seasonal prior, learnable</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Leaf orientation dist.</td>
+        <td>θ distribution</td>
+        <td>Zenith angle distribution of leaf normals (uniform, erectophile, planophile)</td>
+        <td>Heather: near-random → use uniform</td>
+        <td><span class="badge fixed">Fixed — uniform</span></td>
+      </tr>
+      <tr class="category-header">
+        <td colspan="5">Crown Layer — Branches</td>
+      </tr>
+      <tr>
+        <td class="param-name">Branch radius</td>
+        <td><em>a_b</em></td>
+        <td>Mean cylinder radius of woody branches</td>
+        <td>1–5 mm (heather: 1–4 mm)</td>
+        <td><span class="badge fixed">Fixed from field literature</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Branch length</td>
+        <td><em>l_b</em></td>
+        <td>Mean cylinder half-length</td>
+        <td>2–15 cm</td>
+        <td><span class="badge fixed">Fixed from field literature</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Branch density</td>
+        <td><em>N_b</em></td>
+        <td>Branches per unit volume</td>
+        <td>Highly variable; coupled to biomass</td>
+        <td><span class="badge constrained">Learnable with bounds</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Branch water content</td>
+        <td><em>m_g (branch)</em></td>
+        <td>Gravimetric moisture of woody stems</td>
+        <td>0.3–0.6 g/g</td>
+        <td><span class="badge constrained">Tied to leaf moisture</span></td>
+      </tr>
+      <tr class="category-header">
+        <td colspan="5">Crown Layer — Geometry</td>
+      </tr>
+      <tr>
+        <td class="param-name">Crown height</td>
+        <td><em>h_c</em></td>
+        <td>Vertical extent of crown layer</td>
+        <td>0.2–0.8 m (heather at Moor House: 0.3–0.5 m)</td>
+        <td><span class="badge fixed">Fixed from site measurement</span></td>
+      </tr>
+      <tr class="category-header">
+        <td colspan="5">Trunk / Stem Layer</td>
+      </tr>
+      <tr>
+        <td class="param-name">Stem radius</td>
+        <td><em>a_t</em></td>
+        <td>Mean radius of erect stems (modelled as vertical cylinders)</td>
+        <td>1–5 mm (heather basal stems)</td>
+        <td><span class="badge fixed">Fixed from field literature</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Stem height</td>
+        <td><em>h_t</em></td>
+        <td>Height of trunk/stem layer below crown</td>
+        <td>0.1–0.3 m</td>
+        <td><span class="badge fixed">Fixed from site measurement</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Stem density</td>
+        <td><em>N_t</em></td>
+        <td>Stems per unit area</td>
+        <td>5–50 per m² (heather: 10–30 per m²)</td>
+        <td><span class="badge constrained">Learnable with bounds</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Stem water content</td>
+        <td><em>m_g (stem)</em></td>
+        <td>Gravimetric moisture — older woody stems are drier</td>
+        <td>0.25–0.50 g/g</td>
+        <td><span class="badge fixed">Fixed seasonal prior</span></td>
+      </tr>
+      <tr class="category-header">
+        <td colspan="5">Ground / Soil Layer</td>
+      </tr>
+      <tr>
+        <td class="param-name">Surface RMS height</td>
+        <td><em>s</em></td>
+        <td>Surface roughness parameter for Oh model</td>
+        <td>0.5–3 cm (peat surface, Sphagnum)</td>
+        <td><span class="badge constrained">Learnable — key unknown</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Correlation length</td>
+        <td><em>l</em></td>
+        <td>Surface correlation length for Oh model</td>
+        <td>5–15 cm</td>
+        <td><span class="badge constrained">Learnable or fixed ratio to s</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Soil moisture (VWC)</td>
+        <td><em>m_v</em></td>
+        <td>Volumetric water content → ε via Dobson 1985</td>
+        <td>0.4–0.9 cm³/cm³ (blanket bog)</td>
+        <td><span class="badge free">The retrieval target</span></td>
+      </tr>
+      <tr class="category-header">
+        <td colspan="5">Radar System</td>
+      </tr>
+      <tr>
+        <td class="param-name">Frequency</td>
+        <td><em>f</em></td>
+        <td>Operating frequency</td>
+        <td>5.405 GHz (Sentinel-1 C-band)</td>
+        <td><span class="badge fixed">Fixed — sensor parameter</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Incidence angle</td>
+        <td><em>θ</em></td>
+        <td>Local incidence angle at Moor House for orbit 154</td>
+        <td>~33–38° (descending, IW mode)</td>
+        <td><span class="badge fixed">Fixed per acquisition</span></td>
+      </tr>
+      <tr>
+        <td class="param-name">Polarisation</td>
+        <td>VV, VH</td>
+        <td>Transmit/receive polarisation</td>
+        <td>Both available from Sentinel-1 GRD</td>
+        <td><span class="badge fixed">Fixed — sensor parameter</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">
+    <strong>Practical parameter count for the PoC:</strong> If structural parameters (geometry, dielectric prior) are fixed from literature and field data, the learnable space reduces to approximately 3–5 free parameters: branch density (<em>N_b</em>), stem density (<em>N_t</em>), leaf/branch water content (single linked variable, <em>m_g</em>), surface RMS height (<em>s</em>), and correlation length (<em>l</em>). Soil moisture <em>m_v</em> is the retrieval target — it must be identified from this constrained system. This is a substantially different identifiability problem than WCM's 2-parameter case, but tractable with the Phase 1 diagnostic framework applied rigorously.
+  </div>
+</div>
+
+<!-- ===== S4 ===== -->
+<div class="section" id="s4">
+  <span class="section-label">Section 04</span>
+  <h2>MIMICS at C-band — <span class="hl-purple">what the literature says.</span></h2>
+
+  <p class="lead">MIMICS was designed to span the 0.5–10 GHz range, placing Sentinel-1's 5.405 GHz firmly within scope. However, the model's theoretical foundations and published validations skew heavily toward L-band forest applications. Understanding what the literature does and does not tell us about C-band MIMICS performance is essential context for Phase 1b.</p>
+
+  <h3>The original validation base (Ulaby et al. 1990) [1]</h3>
+
+  <p>The original MIMICS paper validated the model primarily at L-band over temperate and boreal forest types (walnut orchard, coniferous stands). The walnut orchard study (McDonald, Dobson & Ulaby 1990 [2]) used truck-based scatterometers at L- and X-band with carefully characterised ground truth — the canonical MIMICS validation. At L-band, crown-ground and trunk-ground interactions dominate, and MIMICS performed well. At C-band, the same study showed that <strong>direct crown scattering becomes a larger fraction of total backscatter</strong>, because the shorter wavelength interacts more strongly with canopy elements whose size is now comparable to λ/2π.</p>
+
+  <h3>C-band sensitivity analysis findings</h3>
+
+  <p>Multiple studies (Kasischke & Christensen 1990 [3], Ji et al. 2020 [4]) have used MIMICS sensitivity analysis at C-band and found a consistent pattern: the model's C-band output is <strong>highly sensitive to crown layer properties</strong> — particularly leaf area index (LAI) and branch density — and relatively <strong>less sensitive to trunk parameters</strong> compared to L-band. This matters for blanket bog: heather has no distinct trunk layer in the forest sense; it has a zone of woody stems that transitions into the crown. The crown sensitivity at C-band is actually well-suited to a system where the crown layer is the dominant scattering structure.</p>
+
+  <div class="finding-box">
+    <span class="finding-label">Key C-band finding from the literature</span>
+    <p>At C-band and co-polarised modes (VV, HH), direct crown volume scattering and crown-ground interactions are the primary mechanisms. At cross-polarisation (VH), the incoherent rough surface-stem interaction carries complementary information. This is exactly the polarisation sensitivity pattern observed in the Phase 1 RF feature importances (VH/VV ratio contributing 15% feature importance). MIMICS has the structural terms to model this explicitly — the WCM does not.</p>
+  </div>
+
+  <h3>The WCM vs MIMICS at C-band over dense vegetation</h3>
+
+  <p>A 2020 review (Li et al. [5]) explicitly characterises the WCM as "applicable only to areas with low vegetation" and notes that it "overlooks the multiple scattering term between the surface and vegetation." For C-band specifically, the MIMICS model decouples vegetation and soil scattering through electromagnetic modeling of layered media, though its parameter sensitivity limits large-scale applications. This parameter sensitivity — frequently cited as MIMICS' primary limitation — is precisely what the PINN architecture addresses: by embedding MIMICS as a differentiable physics branch with constrained learnable parameters, we turn the parameter sensitivity problem into information about the scene.</p>
+
+  <h3>Adaptation of MIMICS for crops (the Toure 1994 precedent) [6]</h3>
+
+  <p>The most directly relevant precedent for our adaptation work is Toure et al. (1994) [6], who adapted MIMICS for agricultural crops (wheat and canola) at L- and C-band. Their key methodological finding: the crop cover situation is simulated by a rough ground and a crown layer composed of scatterers with different forms, distributions, and dielectric constants. The authors omit trunks from the final agricultural representation because these components are of the same order as the wavelength, contrary to the model's implicit assumptions. This adaptation logic applies directly to heather: at C-band, heather stems (1–4 mm diameter, 10–30 cm length) are in the same wavelength-comparable size regime, and the infinite-cylinder approximation for trunks may need modification. We may model the heather "trunk" zone as an extension of the crown layer with cylindrical scatterers rather than as a classic trunk region.</p>
+
+  <h3>Simplified MIMICS variants</h3>
+
+  <p>Several groups have produced simplified MIMICS variants for low-stature vegetation. The "ROO" model (noted in [5]) is a simplified MIMICS applicable to row crops. Wu et al. (2020) [7] and Bao et al. (2014) [8] simplified MIMICS for soil moisture estimation from C-band SAR over crops, reducing the parameter set while preserving the first-order scattering structure. These simplifications typically collapse the branch and leaf parameters into effective medium properties — a useful design option if the full MIMICS parameterisation proves non-identifiable for blanket bog.</p>
+</div>
+
+<!-- ===== S5 ===== -->
+<div class="section" id="s5">
+  <span class="section-label">Section 05</span>
+  <h2>Adaptation precedents — <span class="hl-amber">non-forest vegetation.</span></h2>
+
+  <p class="lead">MIMICS was designed for tree canopies with closed crowns and distinct trunk layers. Applying it to low-stature shrub vegetation — where the crown/trunk distinction collapses and canopy height is measured in centimetres rather than metres — requires structural choices with no single established precedent. The literature offers several relevant analogues.</p>
+
+  <h3>Agricultural crops — the established adaptation route</h3>
+
+  <p>The Toure (1994) adaptation [6] is the template. For wheat and canola, the trunk layer is eliminated and the entire canopy represented as a crown layer of mixed-geometry scatterers (disc leaves + cylinder stems). The same approach is applicable to heather. The simplification is physically justified at C-band because the stem resonance condition means MIMICS' long-cylinder trunk model is inaccurate anyway — treating the stems as finite cylinders within the crown distribution is more physically consistent.</p>
+
+  <p>Winter wheat studies at C-band (Bao et al. 2014 [8], subsequent Chinese group work) demonstrate that <strong>simplified MIMICS at C-band achieves soil moisture retrieval RMSEs of 0.03–0.06 cm³/cm³ over crops</strong>. These numbers are in the regime we need — the baseline RF at Moor House achieved RMSE 0.147. The physics model, if correctly parameterised, should be able to reduce this substantially through better constraint of the inversion.</p>
+
+  <h3>Shrubland — sparse literature</h3>
+
+  <p>There is almost no published work applying MIMICS specifically to heather or ericaceous shrub species. The closest vegetation analogues with MIMICS applications are semi-arid shrublands (Ferrazzoli-group work, Tor Vergata model comparisons) and arctic/subarctic tundra where shrubby dwarf willows and alders have been studied. None of these are direct analogues for <em>Calluna vulgaris</em> dominated blanket bog.</p>
+
+  <p>This gap is actually a publication opportunity: if Phase 1b successfully parameterises MIMICS for <em>Calluna</em>-dominated blanket bog, this is novel — the model has not been validated at this vegetation type. A sensitivity analysis paper describing the parameterisation approach and forward model behaviour would be publishable independently of the PINN retrieval result.</p>
+
+  <h3>Wetland vegetation — the most relevant structural analogue</h3>
+
+  <p>Dense grassland and marshland vegetation at C-band provides the best structural analogy for low-stature peatland canopies. A study at Biebrza Wetlands, Poland [17] — grassland and marshland biomes — demonstrated Sentinel-1 soil moisture retrieval under wetland vegetation using semi-empirical models. The vegetation here (sedges, rushes, <em>Phragmites</em>) has a similar layered structure to heather: a stem zone with mostly vertical cylinders, and a crown zone with leaves. The cross-polarisation VH signal carries most of the soil moisture information through the vegetation attenuation — consistent with our Phase 1 feature importance findings.</p>
+
+  <h3>Understory extension — the Multi-MIMICS precedent</h3>
+
+  <p>Liang (2005) [9] developed Multi-MIMICS, which adds an understory layer to the standard MIMICS crown-trunk-ground structure. This is relevant because blanket bog has a natural layered structure: heather forms the upper canopy; <em>Sphagnum</em> moss forms a ground-layer substrate that has distinct dielectric properties (very high water content, very different surface roughness characteristics than mineral soil). If the <em>Sphagnum</em> layer is treated as a separate vegetated layer above the mineral ground, a two-crown-layer adaptation may be more physically accurate than a single crown + ground structure.</p>
+</div>
+
+<!-- ===== S6 ===== -->
+<div class="section" id="s6">
+  <span class="section-label">Section 06</span>
+  <h2>The peat swamp forest <span class="hl-green">analogue.</span></h2>
+
+  <p class="lead">The most directly relevant published MIMICS application over organic/peat substrates is Hamdan et al. (2003) [10] — a study using MIMICS-I to model L-band SAR backscatter from Pekan peat swamp forest in Pahang, Malaysia. Although the vegetation type (tropical peat swamp forest) differs from blanket bog, the substrate (peat) and retrieval challenge (disentangling canopy from wet organic soil) share the core structure of our problem.</p>
+
+  <h3>What the peat swamp forest study found</h3>
+
+  <p>The study was aimed at improving understanding of radar backscatter from peat swamp forest using MIMICS-I model. Results of the sensitivity analysis showed that parameters of the canopy layer contributed significantly to radar backscatter. The results of simulations showed that L-band microwave energy was capable of penetrating the canopy to the ground layer, as shown by significant trunk-ground contributions in both flooded and non-flooded forest conditions.</p>
+
+  <p>Two findings are directly relevant to Phase 1b. First, even over peat substrates with a high-moisture water-table layer, the canopy parameters dominate the backscatter budget — the soil signal is attenuated, but recoverable. Second, the flooded surface case (water beneath canopy, analogous to near-saturated Moor House conditions) produced distinguishable signatures from the non-flooded case — demonstrating that MIMICS can in principle separate canopy and substrate contributions even over organic, high-moisture ground.</p>
+
+  <h3>The L-band vs C-band difference for peat substrates</h3>
+
+  <p>The peat swamp study used JERS-1 L-band (1.27 GHz, HH polarisation). At L-band, trunk-ground double-bounce is the dominant mechanism and the canopy is semi-transparent. At C-band (5.405 GHz), the crown layer absorbs and scatters more energy — the crown is optically thicker. <strong>This means the Phase 1b C-band MIMICS implementation will have a smaller crown-ground and trunk-ground contribution fraction than the peat swamp study, and a larger direct crown contribution.</strong> More of the soil moisture information will arrive via attenuated path through the crown — making the crown characterisation more critical, and the inversion more sensitive to errors in crown parameter estimates.</p>
+
+  <div class="callout amber">
+    <strong>Critical implication:</strong> At C-band over heather bog, MIMICS-derived soil moisture will be most sensitive to errors in the crown layer parameterisation. The forward model sensitivity analysis (dσ/d[crown param]) should be the first diagnostic run — not just for m_v, but for each of the crown parameters that could be mis-specified. This directly extends the Phase 1 sensitivity analysis methodology.
+  </div>
+</div>
+
+<!-- ===== S7 ===== -->
+<div class="section" id="s7">
+  <span class="section-label">Section 07</span>
+  <h2>Mapping MIMICS to <span class="hl">blanket bog canopy.</span></h2>
+
+  <p class="lead">Moor House (NE England, 550m ASL) is dominated by <em>Calluna vulgaris</em> (heather) with a ground-layer matrix of <em>Sphagnum</em> spp., cotton grass (<em>Eriophorum vaginatum</em>), and other bog plants. The MIMICS parameterisation must represent this realistically within a framework designed for tree canopies.</p>
+
+  <h3>Canopy structure at Moor House</h3>
+
+  <p><em>Calluna vulgaris</em> at Moor House presents a distinctive micro-architecture that does not fit either the "crop" or "forest" canopy paradigm cleanly:</p>
+
+  <ul style="margin: 0.75rem 0 1rem 2rem;">
+    <li style="margin-bottom: 0.4rem;"><strong>Height:</strong> 20–50 cm total; 10–20 cm woody stem zone, 10–30 cm leafy crown zone</li>
+    <li style="margin-bottom: 0.4rem;"><strong>Leaves:</strong> Scale-like needles ~0.2–0.3 cm long — smaller than C-band λ/2π ≈ 0.9 cm, placing them at the boundary of Rayleigh and resonance regimes</li>
+    <li style="margin-bottom: 0.4rem;"><strong>Stems:</strong> Woody, branching, 1–4 mm diameter — at C-band, diameter-to-wavelength ratio ≈ 0.003–0.012, in the Rayleigh regime (long-wavelength limit) for the infinite cylinder approximation</li>
+    <li style="margin-bottom: 0.4rem;"><strong>Density:</strong> 5–30 stems per m², high branch density, LAI ≈ 2–5</li>
+    <li style="margin-bottom: 0.4rem;"><strong>Below canopy:</strong> <em>Sphagnum</em> moss with very high water content (70–90% gravimetric) forms a rough, absorbent surface — not a simple mineral soil</li>
+  </ul>
+
+  <h3>The proposed MIMICS structure for blanket bog</h3>
+
+  <div class="arch-diagram">
+    <div class="arch-layer crown">
+      <span class="arch-label crown">Crown Layer (10–30 cm)</span>
+      <span class="arch-desc">Calluna: cylinders (branches, a_b ≈ 1–3 mm, l_b ≈ 3–15 cm) + disc-like scale leaves (a_l ≈ 0.15 cm). Orientation: random azimuth, near-horizontal elevation bias for branches.</span>
+    </div>
+    <div class="arch-arrow">↑ Modify: treat as extended crown rather than trunk</div>
+    <div class="arch-layer trunk">
+      <span class="arch-label trunk">Stem Zone (0–10 cm)</span>
+      <span class="arch-desc">Older woody Calluna stems: denser, vertical cylinders (a_t ≈ 2–5 mm). Option A: model as trunk layer. Option B: merge with crown as lower density sub-layer.</span>
+    </div>
+    <div class="arch-arrow">↑ Key structural decision — see Section 8</div>
+    <div class="arch-layer ground">
+      <span class="arch-label ground">Sphagnum Surface</span>
+      <span class="arch-desc">Very rough, high-moisture organic surface. RMS height s ≈ 1–5 cm (larger than mineral soil). ε driven by peat VWC, NOT Dobson (mineral soil) model. Mironov or empirical peat dielectric required.</span>
+    </div>
+    <div class="arch-layer soil">
+      <span class="arch-label soil">Peat Substrate (COSMOS-UK measurement depth)</span>
+      <span class="arch-desc">VWC target: 0.40–0.90 cm³/cm³. Dobson model may not apply — peat organic content invalidates mineral soil calibration. Mironov (2009) or peat-specific dielectric model preferred.</span>
+    </div>
+  </div>
+
+  <h3>The Sphagnum surface problem</h3>
+
+  <p>This is likely the single most important structural decision in Phase 1b. The Moor House peat surface is not mineral soil. The Dobson (1985) dielectric mixing model used in Phase 1 was calibrated on mineral soils with defined sand/silt/clay fractions. Peat has:</p>
+
+  <ul style="margin: 0.5rem 0 1rem 2rem;">
+    <li>Very high organic content (>90% of dry mass)</li>
+    <li>Low bulk density (0.05–0.15 g/cm³ vs 1.2–1.6 for mineral soil)</li>
+    <li>High porosity (0.85–0.95)</li>
+    <li>A complex water distribution — free water in pores, bound water in <em>Sphagnum</em> hyaline cells, capillary water</li>
+  </ul>
+
+  <p>The Phase 1 Green Paper identified peat-specific dielectric mixing as a documented risk (Medium severity). In Phase 1b, we must decide: use Dobson as in Phase 1 (accepting the known bias), or implement a peat-appropriate dielectric model. The Mironov (2009) model [11] is the best available alternative — it uses two-phase bound/free water structure that maps better to peat than the mineral-soil Dobson formulation.</p>
+</div>
+
+<!-- ===== S8 ===== -->
+<div class="section" id="s8">
+  <span class="section-label">Section 08</span>
+  <h2>Parameter decisions <span class="hl-amber">for the PoC.</span></h2>
+
+  <p class="lead">Not all MIMICS parameters need to be jointly optimised. The key design task for Phase 1b is deciding which parameters are: (a) fixed from prior knowledge, (b) constrained by auxiliary Sentinel-2 data, or (c) jointly learned. This determines the effective complexity of the inversion and the identifiability of m_v.</p>
+
+  <h3>Decision 1 — Trunk layer treatment</h3>
+
+  <div class="decision-box">
+    <span class="decision-label">Structural architecture decision</span>
+    <p><strong>Option A (full MIMICS):</strong> Retain separate trunk layer with vertical stem cylinders. Provides trunk-ground double-bounce explicitly. Risk: stem parameter identifiability at C-band is poor — VV/VH at Sentinel-1 does not have sufficient information to separate trunk and crown contributions robustly.</p>
+    <p style="margin-top: 0.75rem;"><strong>Option B (two-layer MIMICS, Toure-style):</strong> Merge stem zone into a lower-density crown sub-layer or eliminate trunk layer. Treat entire canopy as a single crown with height-distributed scatterers. This is the Toure (1994) crop adaptation approach. Reduces parameter count by 3–4; loses explicit trunk-ground term.</p>
+    <p style="margin-top: 0.75rem;"><strong>Recommendation:</strong> Start with Option B for Phase 1b tractability. If the forward model fit (key diagnostic) shows systematic residuals that correlate with canopy density, extend to Option A as a sensitivity test. The Toure precedent gives a literature justification for this choice at C-band.</p>
+  </div>
+
+  <h3>Decision 2 — Dielectric model for peat</h3>
+
+  <div class="decision-box">
+    <span class="decision-label">Ground layer physics decision</span>
+    <p><strong>Option A (Dobson 1985, Phase 1 continuity):</strong> Use same dielectric model as Phase 1. Allows direct comparison — any improvement attributable to canopy model alone. Known bias for peat, but the bias is partially systematic and may be absorbed by a calibration constant.</p>
+    <p style="margin-top: 0.75rem;"><strong>Option B (Mironov 2009):</strong> Implement peat-appropriate dielectric model. More physically correct. Adds implementation complexity; requires soil texture parameter (set for peat: ~0% sand, ~0% clay, 100% organic). Breaks direct Phase 1 comparison unless a Dobson run is also performed.</p>
+    <p style="margin-top: 0.75rem;"><strong>Recommendation:</strong> Implement both and run as comparative arms. The forward model fit diagnostic will show whether Mironov provides meaningfully different ε estimates at Moor House moisture levels. If the difference is small (&lt;5% in ε), use Dobson for simplicity and document the decision. If large, Mironov must be adopted and the Phase 1 systematic bias is characterised as a finding.</p>
+  </div>
+
+  <h3>Decision 3 — Vegetation water content coupling</h3>
+
+  <div class="decision-box">
+    <span class="decision-label">Temporal variation design decision</span>
+    <p><em>Calluna</em> is evergreen — leaf water content does not vary dramatically with season, unlike deciduous crops. However, branch moisture varies with dew, rainfall interception, and transpiration. The question is whether to treat vegetation water content (VWC) as: (a) a fixed, site-calibrated constant, (b) a seasonally varying function driven by a phenology proxy, or (c) a time-varying learnable parameter.</p>
+    <p style="margin-top: 0.75rem;"><strong>Phase 1b v0.1 adoption (revised April 2026):</strong> Option (a) — a single time-stable scalar <em>m<sub>g</sub></em>, tied across branch and leaf, sigmoid-bounded to the literature range [0.3, 0.6] g/g (branch range; see Section 3 parameter table and SPEC §5 branch-dominant-scatterer justification). This is simpler than Option (b) and sits well with <em>Calluna</em>'s evergreen character, at the cost of not capturing branch-moisture variation from dew, interception, and transpiration. The v0.1-draft version of SPEC §5 additionally placed an NDWI-derived quantitative prior on this scalar; that prior was withdrawn pre-sign-off (SPEC DEV-1b-002) because (i) no heather-specific NDWI → <em>m<sub>g</sub></em> calibration exists in the peer-reviewed literature, and (ii) the prior target is a single training-set-mean scalar, which for a single-site study does not discriminate against any comparator site and therefore reduces to a scalar choice rather than an empirical procedure.</p>
+    <p style="margin-top: 0.75rem;"><strong>Pre-registered v0.2 fallback (if m_g non-identifiable at post-experiment review):</strong> Option (b) — a <strong>season-stratified literature scalar prior</strong> (summer <em>m<sub>g</sub></em> vs winter <em>m<sub>g</sub></em>), sourced from the <em>Calluna</em> water-relations literature, with the prior operating as two scalars selected by a growing/dormant phenological categorical at each observation. Framed as sanity-bound regularisation rather than a retrieval target; envelope σ set wider than the v0.1-draft value (σ ≥ 0.5 × m_g prior) to reflect its role as a regularisation boundary, not an empirical calibration. <strong>Reverting to any NDWI-derived mapping — linear, per-observation, or training-set-averaged — is explicitly not the fallback.</strong> This commitment is locked in at Phase 1b pre-registration via SPEC DEV-1b-002; invoking the v0.2 fallback at the post-experiment review does not constitute a further deviation.</p>
+    <p style="margin-top: 0.75rem;"><strong>Why season-stratification is the right fallback form:</strong> Decision 3's own reasoning identifies <em>branch</em> moisture as the seasonally variable component (dew, rainfall interception, transpiration). A season-stratified prior captures that variation without invoking Sentinel-2 optical data that lacks a calibrated transfer function for this canopy. It uses real <em>Calluna</em> field data where available, maps directly to the model's tied-parameter structure (one scalar per season), and does not introduce any new physical claims the v0.1 pre-registration cannot defend.</p>
+  </div>
+
+  <h3>Decision 4 — Surface roughness treatment</h3>
+
+  <div class="decision-box">
+    <span class="decision-label">Ground surface parameterisation decision</span>
+    <p>The <em>Sphagnum</em> surface at Moor House is highly irregular — RMS height likely 2–5 cm (much larger than mineral agricultural soil at 0.5–2 cm). The Oh (1992) model used in Phase 1 for surface scattering has a known range of validity (s &lt; 3 cm for C-band). At higher roughness values, the AIEM (Advanced Integral Equation Model) is more accurate but substantially more complex to implement as a differentiable module.</p>
+    <p style="margin-top: 0.75rem;"><strong>Recommendation:</strong> Run a prior sensitivity analysis — use the Phase 1 Oh model at mean Moor House roughness estimates and check whether it saturates or produces unphysical values. If within range, retain Oh for Phase 1b. If outside valid range, implement the simplified AIEM (Chen et al. 2003). Surface roughness s and correlation length l should be jointly learnable parameters — they are the most information-bearing unknowns after m_v.</p>
+  </div>
+
+  <h3>Decision 5 — What Sentinel-2 can and cannot constrain</h3>
+
+  <div class="decision-box">
+    <span class="decision-label">Optical-to-structural prior decision</span>
+    <p>Phase 1 already uses monthly NDVI composites from Sentinel-2 as a feature in the WCM-PINN. The question for MIMICS is whether Sentinel-2 can constrain the additional structural parameters MIMICS introduces — in particular the leaf number density parameter <em>N<sub>l</sub></em> via a NDVI → LAI → <em>N<sub>l</sub></em> chain.</p>
+    <p style="margin-top: 0.75rem;"><strong>Erratum (April 2026, post-publication, pre-Phase-1b-sign-off):</strong> An earlier version of this section claimed an empirical NDVI → LAI relationship for heather from Lees et al. (2021) [12]. On rechecking, that paper concerns Sentinel-1 SAR backscatter as a water-table-depth proxy and contains no such relationship. The Lees PhD thesis (Reading, 2019) was checked as an alternative source; its optical-vegetation work is <em>Sphagnum</em>-focused and concerns GPP rather than leaf area, and it explicitly notes that NDVI → LAI for Sphagnum systems is problematic owing to ill-defined Beer's-law extinction coefficients (citing Weston et al. 2015). The original citation was a misread and is withdrawn. Reference [12] is retained because Lees et al. (2021) remains the right citation for the SAR-derived peatland-resilience work it actually presents.</p>
+    <p style="margin-top: 0.75rem;"><strong>What the broader literature actually says:</strong> NDVI → LAI relationships for mixed <em>Calluna–Sphagnum–Eriophorum</em> canopies are not well-established. NDVI saturates rapidly across the LAI ≈ 2–5 range relevant at Moor House, and the Beer's-law extinction coefficient required for the conventional inversion is poorly defined for <em>Sphagnum</em> understory. Multiple peatland studies have found that chlorophyll-based indices (CI, MTCI) outperform NDVI as predictors of canopy properties in these systems (Harris 2008; Lees et al. 2020; Letendre et al. 2008; Tucker et al. 2022). A generic shrubland NDVI → LAI exponential with a default <em>k<sub>ext</sub></em> = 0.5 would inject mis-calibrated noise into the prior rather than informative signal, so it is not a viable substitute either.</p>
+    <p style="margin-top: 0.75rem;"><strong>Recommendation:</strong> Do not use any Sentinel-2-derived quantitative prior on physics-branch parameters. Constrain <em>N<sub>l</sub></em> only by literature bounds for <em>Calluna</em> ([10³, 10⁵] m⁻³, see Section 7), and constrain <em>m<sub>g</sub></em> only by its literature bounds ([0.3, 0.6] g/g, branch range — see Decision 3 and Section 3). Let the data drive within those bounds. This is more honest about what C-band-relevant optical information Sentinel-2 actually carries for this canopy. NDWI remains extractable as a canopy-water proxy, but the mapping from Gao-NDWI to a specific <em>m<sub>g</sub></em> in g/g for <em>Calluna</em> lacks peer-reviewed calibration, and when the prior target is a single time-stable scalar (as SPEC §5 requires for an evergreen canopy), the per-observation NDWI information is averaged out before the prior is formed — at a single site the resulting training-set-mean NDWI does not discriminate against any comparator site, so the "prior" is in effect a scalar choice rather than an empirical procedure. See Phase 1b SPEC DEV-1b-002 for the decision reasoning.</p>
+    <p style="margin-top: 0.75rem;"><strong>Retained Sentinel-2 uses:</strong> NDVI remains in the Phase 1b seven-feature input vector (unchanged from Phase 1). NDWI is extracted (Gao 1996, using Sentinel-2 B08 and B11 bands) as a diagnostic-only covariate — Phase 1b's §11 diagnostic plan includes a post-experiment correlation check between training-set-mean NDWI and the learned <em>m<sub>g</sub></em> value, so the extraction is not wasted. NDWI does not enter the input feature vector or any loss term. A growing/dormant phenological categorical remains available as an optional modulation on the m_g prior in the v0.2 fallback (see Decision 3).</p>
+    <p style="margin-top: 0.75rem;"><strong>Trade-off and pre-registered fallbacks:</strong> Dropping both optical priors raises the effective parameter-to-data ratio for MIMICS. The §9 Phase 1b dominance constraint (L_physics > 10% of total loss) was introduced as the primary defence against over-parameterisation, and it is now the sole structural regulariser for the MIMICS parameter space. If post-experiment Diagnostic B (parameter correlation matrix) shows non-identifiability, the pre-registered v0.2 fallbacks are:</p>
+    <ul style="margin: 0.5rem 0 1rem 2rem;">
+      <li><strong><em>N<sub>l</sub></em>:</strong> introduce a chlorophyll-index-based prior (CI from Sentinel-2 red-edge bands), <em>not</em> reverting to NDVI → LAI. (SPEC DEV-1b-001.)</li>
+      <li><strong><em>m<sub>g</sub></em>:</strong> introduce a <strong>season-stratified literature scalar prior</strong> (summer m_g vs winter m_g, per Decision 3), framed as sanity-bound regularisation rather than a retrieval target. <em>Not</em> reverting to any NDWI-derived mapping. (SPEC DEV-1b-002.)</li>
+    </ul>
+    <p style="margin-top: 0.5rem;">Both commitments are locked in at Phase 1b pre-registration; invoking either at v0.2 does not constitute a further deviation.</p>
+  </div>
+
+<!-- ===== S9 ===== -->
+<div class="section" id="s9">
+  <span class="section-label">Section 09</span>
+  <h2>Identifiability and <span class="hl-purple">the C-band constraint.</span></h2>
+
+  <p class="lead">The core risk of Phase 1b is not that MIMICS is wrong — it is that the system is under-determined: more unknown parameters than independent observations per acquisition. Understanding the identifiability constraint at C-band is prerequisite to a successful experiment design.</p>
+
+  <h3>What Sentinel-1 dual-pol actually provides</h3>
+
+  <p>Each Sentinel-1 acquisition provides two independent observables: σ⁰_VV and σ⁰_VH (and derived VH/VV ratio, but this is linearly dependent). So per observation we have effectively two independent measurements. MIMICS with 4–5 learnable parameters is <strong>structurally under-determined at a single acquisition</strong>. This is why the time-series formulation and the PINN architecture are essential — the physics constraints and the learnable parameter priors provide the additional regularisation that a direct inversion cannot.</p>
+
+  <h3>The polarisation information budget</h3>
+
+  <div class="mech-grid">
+    <div class="mech-card">
+      <h4>VV — what it sees</h4>
+      <p>Dominated by direct crown backscatter and attenuated ground direct scatter. More sensitive to canopy vertical water profile and incidence angle. At C-band over heather, VV is the primary soil moisture bearing channel but heavily modulated by canopy.</p>
+    </div>
+    <div class="mech-card">
+      <h4>VH — what it adds</h4>
+      <p>Cross-polarisation from volume scattering within crown (branch-leaf interactions) and incoherent stem-surface interactions. More sensitive to canopy structure (branch density, orientation diversity). The Phase 1 RF placed 15% importance on VH/VV — this is the structural information MIMICS needs.</p>
+    </div>
+  </div>
+
+  <p>The VH channel is particularly valuable because it carries geometric/structural information orthogonal to the VV soil moisture signal. MIMICS predicts the VH backscatter explicitly through the cross-polarised scattering terms of the crown layer cylinders and discs. The ability to match both VV and VH simultaneously with a single set of parameters is a much stronger constraint than matching VV alone — this was not possible with the WCM's two-parameter isotropic formulation.</p>
+
+  <h3>Where the PINN architecture compensates</h3>
+
+  <p>The multi-observation time series (N ≈ 130 acquisition pairs over 4 years) provides information that a single-acquisition inversion cannot. Specifically:</p>
+
+  <ul style="margin: 0.5rem 0 1rem 2rem;">
+    <li><strong>Structural parameters (crown geometry, branch density)</strong> should be approximately time-stable — the physics branch can learn these from the ensemble of observations where soil moisture varies but structure does not.</li>
+    <li><strong>Soil moisture m_v</strong> is the rapidly varying quantity — it is the target of the time-varying inference.</li>
+    <li><strong>Temporal smoothness constraint</strong> (the Lsmooth loss term from Phase 1) penalises physically implausible rapid changes in retrieved m_v, providing implicit regularisation.</li>
+  </ul>
+
+  <p>This temporal structure is the core of why the PINN approach is architecturally sound for this problem. It is also why a direct MIMICS inversion (without the ML residual and temporal constraints) would likely fail — the single-acquisition problem is under-determined regardless of the physics model quality.</p>
+
+  <h3>Identifiability diagnostic plan</h3>
+
+  <p>The Phase 1 diagnostic framework (parameter sensitivity |dσ/dθ|, residual ratio, forward fit r) transfers directly. For MIMICS, add:</p>
+
+  <ul style="margin: 0.5rem 0 1rem 2rem;">
+    <li><strong>Cross-pol forward fit:</strong> Run MIMICS in forward mode over observed NDVI/NDWI range — does it reproduce the observed VH variance? If not, the crown parameters are misspecified.</li>
+    <li><strong>Parameter correlation matrix:</strong> Compute ∂σ⁰_VV/∂θ_i and ∂σ⁰_VH/∂θ_i for each learnable parameter θ_i. Check for near-collinear rows — these indicate parameter pairs that cannot be separated from dual-pol observations alone.</li>
+    <li><strong>Dobson vs Mironov forward difference:</strong> Compute |ε_Dobson - ε_Mironov| over the observed m_v range — if &lt;5%, the choice of dielectric model is not the binding constraint.</li>
+  </ul>
+</div>
+
+<!-- ===== S10 ===== -->
+<div class="section" id="s10">
+  <span class="section-label">Section 10</span>
+  <h2>Pre-registered <span class="hl-green">diagnostics.</span></h2>
+
+  <p class="lead">Replicating the Phase 1 approach, the Phase 1b experiment should pre-register its success criteria and diagnostic tests before any training begins. The following are proposed based on this literature review — they are not yet pre-registered.</p>
+
+  <h3>Proposed success criteria (to be pre-registered)</h3>
+
+  <p><strong>Primary:</strong> PINN-MIMICS RMSE at N≈25 &lt; RF baseline RMSE (0.155 cm³/cm³). This is the criterion Phase 1 failed to meet with WCM — if MIMICS recovers this, the physics-informed advantage is established.</p>
+
+  <p><strong>Secondary:</strong> MIMICS forward fit r &gt; 0.3 (vs WCM forward fit r = 0.007). Even weak positive correlation confirms structural improvement over WCM.</p>
+
+  <p><strong>Structural adequacy check:</strong> Residual ratio std(ε)/std(m_v,physics) &lt; 2.0 at N=83 (full training). At Phase 1 values of 3.3–6.4, the physics branch was not constraining — MIMICS must reduce this substantially to provide useful regularisation.</p>
+
+  <p><strong>Identifiability check:</strong> VH forward fit r &gt; 0.2. If the model cannot simultaneously fit both polarisations, the parameter set is misspecified regardless of the retrieval outcome.</p>
+
+  <h3>Gate outcomes (proposed)</h3>
+
+  <table class="param-table" style="margin: 1rem 0;">
+    <thead>
+      <tr>
+        <th>Outcome</th>
+        <th>Criteria</th>
+        <th>Implication</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:var(--green)">Strong</strong></td>
+        <td>All primary + secondary + structural criteria met</td>
+        <td>MIMICS validates; proceed to multi-site extension and NISAR comparison</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--cyan)">Moderate</strong></td>
+        <td>Primary met; secondary or structural partial</td>
+        <td>MIMICS improves; identifiability work needed; NISAR L-band path prioritised</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--amber)">Inconclusive</strong></td>
+        <td>Primary not met; forward fit improved vs WCM</td>
+        <td>MIMICS partially structured but insufficient; simplified MIMICS or L-band pivot</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--red)">Refutation</strong></td>
+        <td>No improvement in forward fit; residual ratio unchanged</td>
+        <td>C-band + MIMICS insufficient for dense blanket bog; L-band NISAR becomes primary path</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== S11 ===== -->
+<div class="section" id="s11">
+  <span class="section-label">Section 11</span>
+  <h2>Open questions <span class="hl-amber">and risks.</span></h2>
+
+  <div class="risk-item">
+    <h4>R1 — Scale mismatch between MIMICS assumptions and Moor House vegetation</h4>
+    <p>MIMICS was designed for closed-crown tree canopies. Blanket bog heather is a dwarf shrub — the crown/trunk distinction is ambiguous and the canopy height is 10–50× smaller than forest applications. The infinite-cylinder approximation for trunks may introduce systematic errors at C-band stem sizes. Mitigation: use the Toure crop-adaptation strategy (single crown, no trunk), and characterise any remaining systematic bias as a forward model offset term.</p>
+  </div>
+
+  <div class="risk-item">
+    <h4>R2 — Sphagnum dielectric not represented by any existing model</h4>
+    <p>No published dielectric mixing model was specifically calibrated for <em>Sphagnum</em>-dominated peat. The Mironov (2009) model is the closest available but was calibrated on generic organic soils. The resulting dielectric error propagates directly into the m_v retrieval as a systematic bias. Mitigation: run forward model sensitivity dσ/dm_v under Dobson vs Mironov vs range of peat-like ε scenarios; if bias is bounded and systematic, a site-specific calibration constant can compensate.</p>
+  </div>
+
+  <div class="risk-item">
+    <h4>R3 — Over-parameterisation under a small dataset</h4>
+    <p>N ≈ 130 observations with 4–5 learnable MIMICS parameters (plus soil moisture) is a higher parameter-to-data ratio than Phase 1's WCM (2 parameters). The PINN loss function's physics regularisation is the primary defence against overfitting, but the λ hyperparameter search must be repeated for MIMICS. The dominance constraint (physics branch must provide non-trivial constraint) should be enforced more strictly than in Phase 1 — the pre-registered residual ratio target captures this.</p>
+  </div>
+
+  <div class="risk-item">
+    <h4>R4 — Differentiable implementation complexity</h4>
+    <p>MIMICS is substantially more complex than the WCM as a computational graph. The Phase 1 architecture description explicitly notes that WCM → MIMICS is "a module replacement, not an architectural change" — but implementing MIMICS as a fully differentiable PyTorch module requires careful handling of the polarimetric matrix operations (4×4 Stokes-like transformation matrices), the cylinder/disc scattering amplitude tensors, and the radiative transfer propagation terms. This is a non-trivial software engineering task that should be tackled before the experiment design is finalised.</p>
+  </div>
+
+  <div class="risk-item">
+    <h4>R5 — No ground truth for MIMICS structural parameters at Moor House</h4>
+    <p>We have COSMOS-UK soil moisture (the retrieval target) and Sentinel-2 optical data (proxy for LAI/NDVI). We do not have in-situ measurements of heather stem density, branch diameter distributions, or canopy water content at Moor House. These must be sourced from published <em>Calluna</em> literature. Errors in the fixed structural priors propagate into the retrieval as systematic bias. Mitigation: sensitivity analysis over the plausible range of each fixed parameter; flag parameters where |dσ/dθ| is large as priorities for field validation if Phase 1b proceeds to production.</p>
+  </div>
+</div>
+
+<!-- ===== S12 ===== -->
+<div class="section" id="s12">
+  <span class="section-label">Section 12</span>
+  <h2>References.</h2>
+
+  <ul class="ref-list">
+    <li><span class="ref-num">[1]</span> Ulaby, F.T., Sarabandi, K., McDonald, K., Whitt, M. and Dobson, M.C. (1990) 'Michigan microwave canopy scattering model (MIMICS)', <em>International Journal of Remote Sensing</em>, 11(7), pp. 2097–2128.</li>
+    <li><span class="ref-num">[2]</span> McDonald, K.C., Dobson, M.C. and Ulaby, F.T. (1990) 'Using MIMICS to model L-band multiangle and multitemporal backscatter from a walnut orchard', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, 28(4), pp. 477–491.</li>
+    <li><span class="ref-num">[3]</span> Kasischke, E.S. and Christensen, N.L. (1990) 'Connecting forest ecosystem and microwave backscatter models to estimate relative changes in aboveground biomass and stand structure', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, 28(3), pp. 297–308.</li>
+    <li><span class="ref-num">[4]</span> Ji, Y. et al. (2020) 'Forest structure dependency analysis of L-band SAR backscatter', <em>PeerJ</em>, 8, e10055.</li>
+    <li><span class="ref-num">[5]</span> Li, Y. et al. (2025) 'Soil moisture retrieval under different land cover conditions based on Sentinel-1 SAR', <em>Remote Sensing of Environment</em>, 321, p. 114697.</li>
+    <li><span class="ref-num">[6]</span> Toure, A. et al. (1994) 'Adaptation of the MIMICS backscattering model to the agricultural context — wheat and canola at L and C bands', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, 32(1), pp. 47–61.</li>
+    <li><span class="ref-num">[7]</span> Wu, F. et al. (2020) 'Soil moisture estimation based on the microwave scattering mechanism during different crop phenological periods', <em>Journal of Hydrology</em>, 590, p. 125388.</li>
+    <li><span class="ref-num">[8]</span> Bao, Y. et al. (2014) 'A semi-empirical backscattering model at L-band and C-band for a soybean canopy with soil moisture inversion', <em>ISPRS Journal of Photogrammetry and Remote Sensing</em>, 93, pp. 139–150.</li>
+    <li><span class="ref-num">[9]</span> Liang, P. et al. (2005) 'Multi-layer microwave canopy scattering model — Multi-MIMICS', <em>PhD Dissertation</em>, University of Michigan. [Multilayer model for mixed-species forest — directly relevant for Sphagnum understory treatment.]</li>
+    <li><span class="ref-num">[10]</span> Hamdan, O. et al. (2003) 'Using MIMICS to model L-band SAR backscatter from a peat swamp forest', <em>Malaysian Forester</em>, 66(2). [The only published MIMICS study over peat substrate — key reference.]</li>
+    <li><span class="ref-num">[11]</span> Mironov, V.L. et al. (2009) 'Generalized refractive mixing dielectric model for moist soils', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, 47(7), pp. 1998–2010. [Alternative to Dobson for organic soils.]</li>
+    <li><span class="ref-num">[12]</span> Lees, K.J. et al. (2021) 'Using remote sensing to assess peatland resilience by estimating soil surface moisture and drought recovery', <em>Science of the Total Environment</em>, 761, 143312.</li>
+    <li><span class="ref-num">[13]</span> Oh, Y., Sarabandi, K. and Ulaby, F.T. (1992) 'An empirical model and an inversion technique for radar scattering from bare soil surfaces', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, 30(2), pp. 370–381.</li>
+    <li><span class="ref-num">[14]</span> Dobson, M.C. et al. (1985) 'Microwave dielectric behavior of wet soil — Part II: Dielectric mixing models', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, GE-23(1), pp. 35–46.</li>
+    <li><span class="ref-num">[15]</span> Bechtold, M. et al. (2018) 'Inferring water table depth dynamics from ENVISAT-ASAR C-band backscatter over a range of peatlands', <em>Remote Sensing</em>, 10(4), p. 536. [Confirms C-band soil moisture signal over peatlands — validates the retrieval premise.]</li>
+    <li><span class="ref-num">[16]</span> Toca, L. et al. (2022) 'High resolution C-band SAR backscatter response to peatland water table depth and soil moisture: a laboratory experiment', <em>International Journal of Remote Sensing</em>, 43(14), pp. 5231–5251. [Laboratory demonstration of C-band sensitivity to peat hydrology.]</li>
+    <li><span class="ref-num">[17]</span> Sentinel-1 wetland soil moisture study — Biebrza Wetlands, Poland (2015–2017). ESA-funded, ISMN archived. [Closest published study to our retrieval problem — grassland/marshland at C-band.]</li>
+    <li><span class="ref-num">[18]</span> Ulaby, F.T. and El-Rayes, M.A. (1987) 'Microwave dielectric spectrum of vegetation — Part II: Dual-dispersion model', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, GE-25(5), pp. 550–557. [Required for computing dielectric constant of heather leaves/branches from gravimetric moisture.]</li>
+    <li><span class="ref-num">[19]</span> Chiu, T. and Sarabandi, K. (2000) 'Electromagnetic scattering from short branching vegetation', <em>IEEE Transactions on Geoscience and Remote Sensing</em>, 38(2). [Short branching vegetation model — applicable to heather architecture.]</li>
+    <li><span class="ref-num">[20]</span> Attema, E.P.W. and Ulaby, F.T. (1978) 'Vegetation modeled as a water cloud', <em>Radio Science</em>, 13(2), pp. 357–364. [Phase 1 physics model — the baseline against which MIMICS improvement is measured.]</li>
+  </ul>
+</div>
+
+</div><!-- end doc-body -->
+
+<div class="closing">
+  <p>Vantage · Phase 1b Science Preparation · MIMICS Literature Review v1.0 · April 2026</p>
+  <p style="margin-top: 0.5rem; color: var(--muted); font-size: 0.8rem;">Follows Green Paper v4.1.0 — pre-experiment reference document. Pre-registration of success criteria to be completed before any MIMICS implementation begins.</p>
+</div>
+
+</body>
+</html>

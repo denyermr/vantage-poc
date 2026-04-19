@@ -1,0 +1,51 @@
+======================================================================
+PRE-P3.6 GRADIENT FLOW DIAGNOSTIC
+======================================================================
+
+Lambda triple: lambda1=0.01, lambda2=0.01, lambda3=1.0
+Batch size: 10 (first 10 rows of config_000 training set)
+
+GRADIENT MAGNITUDES (mean |grad| across parameters):
+  Physics branch (physics_net):    2.005992e-02
+  Correction branch (correction_net): 8.804373e-02
+  WCM parameters (A_raw, B_raw):   5.892596e-02
+
+  Ratio (physics / correction):     0.227840
+
+ARCHITECTURE CHECK:
+  Correction net input shape: [10, 7]
+  Physics outputs in correction input: False
+  (By design: both branches receive the same normalised feature matrix X.
+   Physics contributes through m_v_physics -> m_v_final -> L_data,
+   and through WCM forward -> sigma_wcm -> L_physics.)
+
+LOSS COMPONENTS:
+  L_data:      0.112325
+  L_physics:   12.693341  (x lambda1=0.01)
+  L_monotonic: 0.000000  (x lambda2=0.01)
+  L_bounds:    0.000000  (x lambda3=1.0)
+  Total:       0.239259
+
+INDIVIDUAL PARAMETER GRADIENTS:
+  A_raw: 8.596280e-02
+  B_raw: 3.188913e-02
+  physics_net.net.0.weight: 9.413045e-04
+  physics_net.net.0.bias: 1.510243e-03
+  physics_net.net.2.weight: 1.411091e-03
+  physics_net.net.2.bias: 6.723609e-03
+  physics_net.net.4.weight: 6.345935e-03
+  physics_net.net.4.bias: 1.034274e-01
+  correction_net.net.0.weight: 1.274739e-03
+  correction_net.net.0.bias: 1.828993e-03
+  correction_net.net.3.weight: 1.554632e-03
+  correction_net.net.3.bias: 6.238990e-03
+  correction_net.net.6.weight: 2.405693e-03
+  correction_net.net.6.bias: 2.529685e-02
+  correction_net.net.8.weight: 3.104883e-02
+  correction_net.net.8.bias: 6.347011e-01
+
+======================================================================
+CONCLUSION: Physics branch active
+======================================================================
+
+Physics branch receives meaningful gradient signal. Ratio = 0.2278 (> 0.01 threshold). Standard PINN description applies.

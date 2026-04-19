@@ -1,0 +1,41 @@
+{
+  "config_idx": 20,
+  "fraction": 0.25,
+  "fraction_label": "25%",
+  "rep": 0,
+  "seed_used": 62,
+  "n_train": 16,
+  "n_val": 4,
+  "train_indices": [
+    5,
+    7,
+    8,
+    20,
+    21,
+    25,
+    31,
+    34,
+    37,
+    38,
+    51,
+    56,
+    57,
+    58,
+    65,
+    72
+  ],
+  "val_indices": [
+    19,
+    44,
+    47,
+    52
+  ],
+  "season_counts_train": {
+    "DJF": 1,
+    "MAM": 4,
+    "JJA": 6,
+    "SON": 5
+  },
+  "stratification_used": true,
+  "generated_at": "2026-03-09T12:36:00.986295+00:00"
+}

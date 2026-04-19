@@ -1,0 +1,176 @@
+{
+  "gate": "G1 \u2014 Phase 1 baseline reproducibility",
+  "spec_reference": "SPEC.md (Phase 1b) \u00a72",
+  "tolerance_cm3_cm3": 0.005,
+  "pass": true,
+  "anchors_pass": true,
+  "n_configs_per_model": {
+    "RF": 40,
+    "NN": 40
+  },
+  "rows": [
+    {
+      "model": "null",
+      "fraction": "10%",
+      "published_rmse": 0.178,
+      "observed_rmse": 0.177593,
+      "drift": -0.000407,
+      "abs_drift": 0.000407,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "null",
+      "fraction": "25%",
+      "published_rmse": 0.178,
+      "observed_rmse": 0.177593,
+      "drift": -0.000407,
+      "abs_drift": 0.000407,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "null",
+      "fraction": "50%",
+      "published_rmse": 0.178,
+      "observed_rmse": 0.177593,
+      "drift": -0.000407,
+      "abs_drift": 0.000407,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "null",
+      "fraction": "100%",
+      "published_rmse": 0.178,
+      "observed_rmse": 0.177593,
+      "drift": -0.000407,
+      "abs_drift": 0.000407,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "RF",
+      "fraction": "10%",
+      "published_rmse": 0.144,
+      "observed_rmse": 0.14447,
+      "drift": 0.00047,
+      "abs_drift": 0.00047,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "RF",
+      "fraction": "25%",
+      "published_rmse": 0.155,
+      "observed_rmse": 0.154627,
+      "drift": -0.000373,
+      "abs_drift": 0.000373,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "RF",
+      "fraction": "50%",
+      "published_rmse": 0.155,
+      "observed_rmse": 0.154921,
+      "drift": -7.9e-05,
+      "abs_drift": 7.9e-05,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "RF",
+      "fraction": "100%",
+      "published_rmse": 0.147,
+      "observed_rmse": 0.147035,
+      "drift": 3.5e-05,
+      "abs_drift": 3.5e-05,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "NN",
+      "fraction": "10%",
+      "published_rmse": 0.319,
+      "observed_rmse": 0.319473,
+      "drift": 0.000473,
+      "abs_drift": 0.000473,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "NN",
+      "fraction": "25%",
+      "published_rmse": 0.236,
+      "observed_rmse": 0.236146,
+      "drift": 0.000146,
+      "abs_drift": 0.000146,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "NN",
+      "fraction": "50%",
+      "published_rmse": 0.219,
+      "observed_rmse": 0.219479,
+      "drift": 0.000479,
+      "abs_drift": 0.000479,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "NN",
+      "fraction": "100%",
+      "published_rmse": 0.159,
+      "observed_rmse": 0.159396,
+      "drift": 0.000396,
+      "abs_drift": 0.000396,
+      "tolerance": 0.005,
+      "pass": true
+    }
+  ],
+  "anchor_rows": [
+    {
+      "model": "null",
+      "fraction": "100%",
+      "published_rmse": 0.178,
+      "observed_rmse": 0.177593,
+      "drift": -0.000407,
+      "abs_drift": 0.000407,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "RF",
+      "fraction": "25%",
+      "published_rmse": 0.155,
+      "observed_rmse": 0.154627,
+      "drift": -0.000373,
+      "abs_drift": 0.000373,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "RF",
+      "fraction": "100%",
+      "published_rmse": 0.147,
+      "observed_rmse": 0.147035,
+      "drift": 3.5e-05,
+      "abs_drift": 3.5e-05,
+      "tolerance": 0.005,
+      "pass": true
+    },
+    {
+      "model": "NN",
+      "fraction": "100%",
+      "published_rmse": 0.159,
+      "observed_rmse": 0.159396,
+      "drift": 0.000396,
+      "abs_drift": 0.000396,
+      "tolerance": 0.005,
+      "pass": true
+    }
+  ],
+  "generated_at": "2026-04-17T13:14:17.124188+00:00"
+}

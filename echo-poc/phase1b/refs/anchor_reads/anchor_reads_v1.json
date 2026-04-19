@@ -1,0 +1,160 @@
+{
+  "calibration_version": "v1-labelcentre-full",
+  "generated_at": "2026-04-18",
+  "session": "Phase 1b Session D (continuation prompt Step 3)",
+  "supersedes": "anchor_reads_v0.json",
+  "summary": "All five anchor sets refined. Set A (T94 Fig. 2 CHH): pixel detection, spot-check confirmed. Set B (T94 Fig. 2 CVV): pixel detection, spot-check confirmed at 3 rows. Set C (T94 Fig. 7 CHH at theta=30 deg): HUMAN TRANSCRIPTION (detection fell back per continuation-prompt clause — spec marker mapping inconsistent with T94 caption, and five-marker template detection was low confidence on overlapping clusters). Set D (M90 Fig. 10): line-continuity detection of MIMICS curves; spec's original 'open-circle markers' description is materially incorrect (circles are VV Measured, not VV MIMICS) — MIMICS values are drawn as LINES. Set E (T94 Tables IV(a) + V(a)): text extraction via pdftotext, no pixels. Matches spec exactly.",
+  "render_dpi": 400,
+  "pdfs": {
+    "T94": {
+      "path": "phase1b/refs/Toure_1994_MIMICS_agricultural.pdf",
+      "doi": "10.1109/36.285188"
+    },
+    "M90": {
+      "path": "phase1b/refs/McDonald_1990_MIMICS_walnut_orchard.pdf",
+      "doi_in_dev1b003": "10.1109/TGRS.1990.572943",
+      "doi_in_pdf_metadata": "10.1109/TGRS.1990.572925",
+      "note": "DOI typo in DEV-1b-003; PDF metadata is authoritative. Non-blocking."
+    }
+  },
+
+  "set_A": {
+    "description": "T94 Fig. 2 CHH panel (page 49, bottom-left). Wheat, site #13, 18 July 1988, C-band HH.",
+    "method": "pixel-detection, hollow-square template scoring",
+    "calibration": {
+      "plot_box_px": {"top": 1332, "bot": 1772, "lft": 953, "rgt": 1604},
+      "y_axis_label_centres_px": {"0_dB": 1391.5, "-10_dB": 1519.5, "-20_dB": 1645.0, "-30_dB": 1763.5},
+      "linear_fit_px_per_dB": 12.4,
+      "x_axis_ticks_px": [955.5, 1023.0, 1096.5, 1167.0, 1241.0, 1312.5, 1387.0, 1457.0, 1533.0, 1600.5],
+      "x_axis_tick_labels_deg": [10, 15, 20, 25, 30, 35, 40, 50, 60, 70]
+    },
+    "spot_check": {
+      "target": "A.1 (theta=20, CHH)",
+      "human_answer": "closer to -9.5 dB",
+      "refined_value": -9.48,
+      "verdict": "confirmed"
+    },
+    "rows": [
+      {"row_id": "A.1", "theta_deg": 20, "pol": "HH", "refined_dB": -9.48, "spec_v0.1_estimate_dB": -8.5, "delta_from_v0.1": -0.98, "marker_px": [1097, 1509], "template_score_top1": 219.9, "score_margin": 50.1, "confidence": "high (spot-check confirmed)"},
+      {"row_id": "A.2", "theta_deg": 30, "pol": "HH", "refined_dB": -10.44, "spec_v0.1_estimate_dB": -10.0, "delta_from_v0.1": -0.44, "marker_px": [1241, 1521], "template_score_top1": 218.6, "score_margin": 93.8, "confidence": "high"},
+      {"row_id": "A.3", "theta_deg": 40, "pol": "HH", "refined_dB": -11.57, "spec_v0.1_estimate_dB": -11.0, "delta_from_v0.1": -0.57, "marker_px": [1387, 1535], "template_score_top1": 196.7, "score_margin": 72.1, "confidence": "high"},
+      {"row_id": "A.4", "theta_deg": 50, "pol": "HH", "refined_dB": -12.70, "spec_v0.1_estimate_dB": -12.5, "delta_from_v0.1": -0.20, "marker_px": [1457, 1549], "template_score_top1": 177.5, "score_margin": 52.9, "confidence": "high"}
+    ]
+  },
+
+  "set_B": {
+    "description": "T94 Fig. 2 CVV panel (page 49, bottom-right). Same inputs as Set A; polarisation VV.",
+    "method": "pixel-detection, hollow-square template scoring",
+    "calibration": {
+      "plot_box_px": {"top": 1328, "bot": 1773, "lft": 1808, "rgt": 2463},
+      "y_axis_label_centres_px": {"0_dB": 1396.0, "-10_dB": 1521.0, "-20_dB": 1643.0, "-30_dB": 1765.5},
+      "linear_fit_px_per_dB": 12.32
+    },
+    "spot_check": {
+      "target": "B.3 (theta=40, CVV)",
+      "human_answer_B.2": "one hollow and one filled at ~-10, overlapping",
+      "human_answer_B.3": "hollow just under -10 but not quite -11; filled ~-11",
+      "human_answer_B.4": "hollow significantly lower at ~-14; Brewster drop confirmed",
+      "verdict": "confirmed at all three checked rows"
+    },
+    "rows": [
+      {"row_id": "B.1", "theta_deg": 20, "pol": "VV", "refined_dB": -9.99, "spec_v0.1_estimate_dB": -9.5, "delta_from_v0.1": -0.49, "marker_px": [1953, 1519], "template_score_top1": 200.5, "score_margin": 69.5, "confidence": "high (detector-only; no spot-check needed)"},
+      {"row_id": "B.2", "theta_deg": 30, "pol": "VV", "refined_dB": -10.39, "spec_v0.1_estimate_dB": -11.0, "delta_from_v0.1": 0.61, "marker_px": [2099, 1524], "template_score_top1": 217.6, "score_margin": 93.0, "confidence": "high (spot-check confirmed ~-10)"},
+      {"row_id": "B.3", "theta_deg": 40, "pol": "VV", "refined_dB": -11.12, "spec_v0.1_estimate_dB": -12.5, "delta_from_v0.1": 1.38, "marker_px": [2245, 1533], "template_score_top1": 159.2, "score_margin": 32.7, "confidence": "high (spot-check confirmed hollow just under -10/not-quite-11)", "note": "spec v0.1 estimate of -12.5 was off the filled (measured) marker; refined value on the hollow (MIMICS) marker."},
+      {"row_id": "B.4", "theta_deg": 50, "pol": "VV", "refined_dB": -14.13, "spec_v0.1_estimate_dB": -15.0, "delta_from_v0.1": 0.87, "marker_px": [2317, 1570], "template_score_top1": 190.5, "score_margin": 57.5, "confidence": "high (Brewster-regime drop, spot-check confirmed ~-14)"}
+    ]
+  },
+
+  "set_C": {
+    "description": "T94 Fig. 7 CHH panel (page 54, bottom-left). Five scattering-mechanism decomposition plus total sigma-zero. All read at theta=30 deg.",
+    "method": "HUMAN TRANSCRIPTION (v1 fallback per continuation-prompt Step 3 fallback clause)",
+    "fallback_reason": "Pixel-detection pipeline produced low-confidence reads because (a) g2_anchor_spec.md v0.1 marker-to-mechanism mapping conflicted with the T94 Fig. 7 caption's legend (C.3/C.4 marker types are swapped between spec and caption; see notes_v0.2 below), and (b) the middle cluster near -20 to -22 dB has at least two hollow-square-like markers in very close proximity that template scoring could not reliably distinguish.",
+    "caption_verified_marker_mapping": {
+      "Total_sigma_zero": "o (open circle)",
+      "Ground-cover-ground": "filled triangle",
+      "Cover-ground": "open triangle",
+      "Ground-cover": "filled square",
+      "Direct_cover": "open square",
+      "Direct_ground": "filled diamond"
+    },
+    "human_reads_at_theta_30": {
+      "C.1_direct_ground": {"marker": "filled diamond", "refined_dB": -11, "spec_v0.1_estimate_dB": -10, "delta_from_v0.1": -1.0, "confidence": "high"},
+      "C.2_direct_cover": {"marker": "open square", "refined_dB": -20, "spec_v0.1_estimate_dB": -20, "delta_from_v0.1": 0.0, "confidence": "high"},
+      "C.3_cover_ground": {"marker": "open triangle", "refined_dB": null, "spec_v0.1_estimate_dB": -22, "delta_from_v0.1": null, "confidence": "none", "note": "NOT VISIBLE in the CHH panel at theta=30. Likely coincident with other markers at -20 dB, or the mechanism is negligible at CHH theta=30 for this canopy. Row dropped from v0.2 anchor set with a DEV note (see DEV-1b-003 Appendix)."},
+      "C.4_ground_cover": {"marker": "filled square", "refined_dB": -20, "spec_v0.1_estimate_dB": -22, "delta_from_v0.1": 2.0, "confidence": "high", "note": "Filled square sits under open square (C.2 Direct cover) at the same dB ~ -20."},
+      "C.5_ground_cover_ground": {"marker": "filled triangle", "refined_dB": -35, "spec_v0.1_estimate_dB": -40, "delta_from_v0.1": 5.0, "confidence": "high", "note": "Spec estimate of -40 with 2.0 dB tolerance would not capture the true -35 dB; this is a real anchor correction, not a noise-level difference."},
+      "C.6_total_sigma_zero": {"marker": "open circle", "refined_dB": -10, "spec_v0.1_estimate_dB": -10, "delta_from_v0.1": 0.0, "confidence": "high"}
+    },
+    "v0.2_anchor_set_size": 5,
+    "dropped_from_spec": ["C.3"]
+  },
+
+  "set_D": {
+    "description": "M90 Fig. 10 (page 487). Walnut orchard, L-band multiangle. MIMICS-modelled sigma-zero at theta=40 deg and 55 deg, HH and VV.",
+    "method": "pixel-detection of LINE positions (not markers)",
+    "spec_correction": {
+      "v0.1_language": "'open-circle markers (labelled VV MIMICS and HH MIMICS)'",
+      "actual_figure_semantics": "MIMICS output is drawn as LINES (solid=VV, dotted=HH, dashed=HV). Markers represent MEASURED values (open-circle VV Measured, open-square HH Measured, open-triangle HV Measured). Spec v0.1 was materially incorrect; v0.2 corrects it."
+    },
+    "calibration": {
+      "plot_box_px": {"top": 294, "bot": 1044, "lft": 1022, "rgt": 1962},
+      "y_axis_label_centres_px": {"-5_dB": 300.5, "-10_dB": 478.5, "-15_dB": 663.5, "-20_dB": 853.5, "-25_dB": 1035.5},
+      "linear_fit_px_per_dB": 36.75,
+      "x_axis_extent_deg": [35, 60],
+      "x_axis_ticks_deg": [35, 40, 45, 50, 55, 60],
+      "MIMICS_curve_extent_deg": [40, 55]
+    },
+    "rows": [
+      {"row_id": "D.1", "theta_deg": 40, "pol": "HH", "curve_type": "dotted", "refined_dB": -11.73, "spec_v0.1_estimate_dB": -12.0, "delta_from_v0.1": 0.27, "method": "column-darkness histogram; dotted line at y=548 (dB=-11.73), present in 55% of 71 sampled columns right of marker", "confidence": "high"},
+      {"row_id": "D.2", "theta_deg": 55, "pol": "HH", "curve_type": "dotted", "refined_dB": -11.35, "spec_v0.1_estimate_dB": -12.0, "delta_from_v0.1": 0.65, "method": "column-darkness histogram; dotted line at y=532 (dB=-11.30), present in 46% of 24 sampled columns left of marker", "confidence": "medium (dotted line intermittent; fewer samples available because MIMICS curves end at theta=55)"},
+      {"row_id": "D.3", "theta_deg": 40, "pol": "VV", "curve_type": "solid", "refined_dB": -12.17, "spec_v0.1_estimate_dB": -13.0, "delta_from_v0.1": 0.83, "method": "column-darkness histogram; solid line at y=564 (dB=-12.17), present in 56% of 71 sampled columns", "confidence": "high"},
+      {"row_id": "D.4", "theta_deg": 55, "pol": "VV", "curve_type": "solid", "refined_dB": -12.17, "spec_v0.1_estimate_dB": -13.0, "delta_from_v0.1": 0.83, "method": "column-darkness histogram; solid line at y=564 (dB=-12.17), present in 100% of 24 sampled columns", "confidence": "high"}
+    ]
+  },
+
+  "set_E": {
+    "description": "T94 Table V(a) (wheat L-band, page 57) and Table IV(a) reference cover (page 51). Sensitivity coefficients d(sigma-zero)/dP * zeta in dB.",
+    "method": "text extraction via pdftotext -layout (no pixels)",
+    "reference_cover_inputs_verified": {
+      "source": "T94 Table IV(a), page 51",
+      "stem_m_g": 0.7,
+      "stem_diameter_cm": 0.2,
+      "stem_height_m": 0.4,
+      "stem_density_per_m2": 200,
+      "stem_PDF": "vertical",
+      "leaf_m_g": 0.7,
+      "leaf_length_cm": 12,
+      "leaf_width_cm": 1,
+      "leaf_thickness_cm": 0.02,
+      "leaf_density_per_m3": 3000,
+      "leaf_PDF": "uniform",
+      "soil_m_v_g_per_cm3": 0.2,
+      "C_band_s_cm": 0.45,
+      "C_band_l_s_cm": 1.2,
+      "L_band_s_cm": 1,
+      "L_band_l_s_cm": 5
+    },
+    "rows": [
+      {"row_id": "E.1", "parameter": "Soil m_v", "zeta": "+/-0.04 g/cm3", "theta_deg": 30, "pol": "VV", "refined_dB": 1.21, "spec_v0.1_dB": 1.21, "delta_from_v0.1": 0.00, "source": "T94 Table V(a) page 57, L band, VV column at theta=30, row 'm_v +/-0.04 g/cm3'", "confidence": "exact (text extraction)"},
+      {"row_id": "E.2", "parameter": "Soil m_v", "zeta": "+/-0.04 g/cm3", "theta_deg": 30, "pol": "HH", "refined_dB": 1.16, "spec_v0.1_dB": 1.16, "delta_from_v0.1": 0.00, "source": "T94 Table V(a) page 57, L band, HH column at theta=30, row 'm_v +/-0.04 g/cm3'", "confidence": "exact"},
+      {"row_id": "E.3", "parameter": "Stem height", "zeta": "+/-0.05 m", "theta_deg": 30, "pol": "VV", "refined_dB": 0.10, "spec_v0.1_dB": 0.10, "delta_from_v0.1": 0.00, "source": "T94 Table V(a) page 57, L band, VV column at theta=30, row 'h +/-0.05 m'", "confidence": "exact"},
+      {"row_id": "E.4", "parameter": "Stem height", "zeta": "+/-0.05 m", "theta_deg": 30, "pol": "HH", "refined_dB": 0.05, "spec_v0.1_dB": 0.05, "delta_from_v0.1": 0.00, "source": "T94 Table V(a) page 57, L band, HH column at theta=30, row 'h +/-0.05 m'", "confidence": "exact"},
+      {"row_id": "E.5", "parameter": "Leaf width", "zeta": "+/-0.5 cm", "theta_deg": 30, "pol": "HH", "refined_dB": 0.18, "spec_v0.1_dB": 0.18, "delta_from_v0.1": 0.00, "source": "T94 Table V(a) page 57, L band, HH column at theta=30, row 'w +/-0.5 cm'", "confidence": "exact"}
+    ]
+  },
+
+  "summary_stats": {
+    "n_anchors_refined_v1": 22,
+    "n_anchors_dropped": 1,
+    "dropped_ids": ["C.3"],
+    "n_anchors_exact_agreement_with_v0.1": 5,
+    "n_anchors_delta_under_0.5_dB": 10,
+    "n_anchors_delta_0.5_to_1.0_dB": 5,
+    "n_anchors_delta_over_1.0_dB": 3,
+    "largest_deltas": [
+      {"row": "C.5", "delta": 5.0, "note": "spec -40 dB, actual -35 dB; real correction"},
+      {"row": "C.4", "delta": 2.0, "note": "spec -22 dB, actual -20 dB (filled-square sits at same dB as open-square)"},
+      {"row": "B.3", "delta": 1.38, "note": "spec read off wrong marker (filled instead of hollow)"}
+    ]
+  }
+}

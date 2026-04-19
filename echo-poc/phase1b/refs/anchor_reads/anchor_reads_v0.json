@@ -1,0 +1,194 @@
+{
+  "calibration_version": "v0-labelcentre",
+  "generated_at": "2026-04-18",
+  "session": "Phase 1b Session D (continuation prompt Step 1)",
+  "render_dpi": 400,
+  "notes": "Sets A and B only. Sets C, D, E not refined in v0 (pending spot-check in Step 2 of continuation prompt). Spec-estimate deltas shown are informational (to highlight which rows require human cross-check), not pass/fail judgments — ±0.5 dB is the G2 tolerance against PyTorch, not against spec estimates.",
+  "pdf": {
+    "path": "phase1b/refs/Toure_1994_MIMICS_agricultural.pdf",
+    "page_rendered": 3,
+    "paper_page": 49,
+    "figure": "Fig. 2 (wheat, 18 July 1988, site #13)"
+  },
+  "calibration": {
+    "CHH": {
+      "plot_box_px": {"top": 1332, "bot": 1772, "lft": 953, "rgt": 1604},
+      "y_axis_label_centres_px": {
+        "0_dB": 1391.5,
+        "-10_dB": 1519.5,
+        "-20_dB": 1645.0,
+        "-30_dB": 1763.5
+      },
+      "linear_fit_px_per_dB": 12.4,
+      "linearity_check_pct": 0.8,
+      "x_axis_ticks_px_from_bottom_border": [955.5, 1023.0, 1096.5, 1167.0, 1241.0, 1312.5, 1387.0, 1457.0, 1533.0, 1600.5],
+      "x_axis_tick_labels": [10, 15, 20, 25, 30, 35, 40, 50, 60, 70],
+      "x_axis_interval_stddev_px": 2.4
+    },
+    "CVV": {
+      "plot_box_px": {"top": 1328, "bot": 1773, "lft": 1808, "rgt": 2463},
+      "y_axis_label_centres_px": {
+        "0_dB": 1396.0,
+        "-10_dB": 1521.0,
+        "-20_dB": 1643.0,
+        "-30_dB": 1765.5
+      },
+      "linear_fit_px_per_dB": 12.32,
+      "linearity_check_pct": 0.8,
+      "x_axis_ticks_calculated_px": [1808.0, 1880.8, 1953.6, 2026.3, 2099.1, 2171.9, 2244.7, 2317.4, 2390.2, 2463.0],
+      "x_axis_tick_labels": [10, 15, 20, 25, 30, 35, 40, 50, 60, 70],
+      "x_axis_source": "calculated from plot-box width (direct tick detection on CVV contaminated by 'Cvv' panel label text)"
+    }
+  },
+  "marker_detection": {
+    "template_size_px": 22,
+    "rim_thickness_px": 3,
+    "score": "mean_brightness(interior 8x8) - mean_brightness(rim)",
+    "high_score_interpretation": "hollow square = MIMICS predicted (open marker)",
+    "search_window_px": {"x_halfwidth": 12, "y_halfwidth": "full plot interior"},
+    "candidates_kept_per_theta": 2,
+    "chosen_policy": "highest score; second-best retained in JSON for audit"
+  },
+  "reads": [
+    {
+      "set": "A",
+      "row_id": "A.1",
+      "panel": "CHH",
+      "theta_deg": 20,
+      "polarisation": "HH",
+      "spec_estimate_dB": -8.5,
+      "refined_dB": -9.48,
+      "delta_from_spec_dB": -0.98,
+      "marker_pixel_xy": [1097, 1509],
+      "template_score_top1": 219.9,
+      "template_score_top2": 169.8,
+      "score_margin": 50.1,
+      "second_candidate_dB": -21.73,
+      "second_candidate_note": "likely spurious — inside the Esys/Eres text-label region"
+    },
+    {
+      "set": "A",
+      "row_id": "A.2",
+      "panel": "CHH",
+      "theta_deg": 30,
+      "polarisation": "HH",
+      "spec_estimate_dB": -10.0,
+      "refined_dB": -10.44,
+      "delta_from_spec_dB": -0.44,
+      "marker_pixel_xy": [1241, 1521],
+      "template_score_top1": 218.6,
+      "template_score_top2": 124.8,
+      "score_margin": 93.8,
+      "second_candidate_dB": -29.88,
+      "second_candidate_note": "near bottom border — spurious"
+    },
+    {
+      "set": "A",
+      "row_id": "A.3",
+      "panel": "CHH",
+      "theta_deg": 40,
+      "polarisation": "HH",
+      "spec_estimate_dB": -11.0,
+      "refined_dB": -11.57,
+      "delta_from_spec_dB": -0.57,
+      "marker_pixel_xy": [1387, 1535],
+      "template_score_top1": 196.7,
+      "template_score_top2": 124.6,
+      "score_margin": 72.1,
+      "second_candidate_dB": -29.96,
+      "second_candidate_note": "near bottom border — spurious"
+    },
+    {
+      "set": "A",
+      "row_id": "A.4",
+      "panel": "CHH",
+      "theta_deg": 50,
+      "polarisation": "HH",
+      "spec_estimate_dB": -12.5,
+      "refined_dB": -12.70,
+      "delta_from_spec_dB": -0.20,
+      "marker_pixel_xy": [1457, 1549],
+      "template_score_top1": 177.5,
+      "template_score_top2": 124.6,
+      "score_margin": 52.9,
+      "second_candidate_dB": -29.96,
+      "second_candidate_note": "near bottom border — spurious"
+    },
+    {
+      "set": "B",
+      "row_id": "B.1",
+      "panel": "CVV",
+      "theta_deg": 20,
+      "polarisation": "VV",
+      "spec_estimate_dB": -9.5,
+      "refined_dB": -9.99,
+      "delta_from_spec_dB": -0.49,
+      "marker_pixel_xy": [1953, 1519],
+      "template_score_top1": 200.5,
+      "template_score_top2": 131.0,
+      "score_margin": 69.5,
+      "second_candidate_dB": -19.16,
+      "second_candidate_note": "likely a separate marker in the text-label region; not on the MIMICS curve"
+    },
+    {
+      "set": "B",
+      "row_id": "B.2",
+      "panel": "CVV",
+      "theta_deg": 30,
+      "polarisation": "VV",
+      "spec_estimate_dB": -11.0,
+      "refined_dB": -10.39,
+      "delta_from_spec_dB": 0.61,
+      "marker_pixel_xy": [2099, 1524],
+      "template_score_top1": 217.6,
+      "template_score_top2": 124.6,
+      "score_margin": 93.0,
+      "second_candidate_dB": -29.80,
+      "second_candidate_note": "near bottom border — spurious"
+    },
+    {
+      "set": "B",
+      "row_id": "B.3",
+      "panel": "CVV",
+      "theta_deg": 40,
+      "polarisation": "VV",
+      "spec_estimate_dB": -12.5,
+      "refined_dB": -11.12,
+      "delta_from_spec_dB": 1.38,
+      "marker_pixel_xy": [2245, 1533],
+      "template_score_top1": 159.2,
+      "template_score_top2": 126.5,
+      "score_margin": 32.7,
+      "second_candidate_dB": -29.88,
+      "second_candidate_note": "near bottom border — spurious",
+      "audit_flag": "lowest score margin of Set B; visual inspection of the CVV panel at θ=40° shows TWO squares in the vertical column — detector picked the hollow (MIMICS) one at -11.1 dB; the filled (measured, ■) one is at about -12 dB. Spec estimate -12.5 likely read off the filled (measured) marker rather than the hollow (MIMICS) one. This is the primary spot-check question."
+    },
+    {
+      "set": "B",
+      "row_id": "B.4",
+      "panel": "CVV",
+      "theta_deg": 50,
+      "polarisation": "VV",
+      "spec_estimate_dB": -15.0,
+      "refined_dB": -14.13,
+      "delta_from_spec_dB": 0.87,
+      "marker_pixel_xy": [2317, 1570],
+      "template_score_top1": 190.5,
+      "template_score_top2": 133.0,
+      "score_margin": 57.5,
+      "second_candidate_dB": 0.73,
+      "second_candidate_note": "above 0 dB — false positive at top border",
+      "audit_flag": "θ=50° is the Brewster-effect artefact regime for VV (T94 §III, reproduced in DEV-1b-003). The MIMICS (□) curve drops sharply below the measured (■) curve here; the two markers are visually separated. Detector picked the hollow one on the Brewster drop."
+    }
+  ],
+  "summary": {
+    "n_reads": 8,
+    "n_exceed_half_dB_vs_spec_estimate": 5,
+    "rows_exceeding_spec_estimate_by_more_than_half_dB": ["A.1", "A.3", "B.2", "B.3", "B.4"],
+    "interpretation": "Deltas from spec estimates are expected (spec-v0.1 values were ±0.3-0.5 dB scaffolding). None of these deltas constitute a G2 failure; G2 failure is defined against PyTorch-vs-anchor, not against spec-estimate.",
+    "spot_check_targets": {
+      "primary": "A.1 (θ=20°, CHH) — largest Set A delta; label-vs-baseline calibration risk concentrated at the top of the dB range",
+      "secondary": "B.3 (θ=40°, CVV) — largest overall delta; lowest score margin; the two-markers-at-the-same-theta question directly diagnoses whether v0.1 spec estimates were off hollow-vs-filled marker"
+    }
+  }
+}

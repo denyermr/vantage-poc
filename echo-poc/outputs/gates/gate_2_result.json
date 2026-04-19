@@ -1,0 +1,163 @@
+{
+  "gate": 2,
+  "timestamp": "2026-03-09T13:36:43.658718+00:00",
+  "passed": true,
+  "exit_code": 0,
+  "criteria": {
+    "G2-01": {
+      "id": "G2-01",
+      "description": "Config files",
+      "threshold": "40 valid",
+      "measured": 40,
+      "passed": true
+    },
+    "G2-02": {
+      "id": "G2-02",
+      "description": "Split manifest",
+      "threshold": "present",
+      "measured": "\u2713",
+      "passed": true
+    },
+    "G2-03": {
+      "id": "G2-03",
+      "description": "Chronological splits",
+      "threshold": "no leakage",
+      "measured": "verified",
+      "passed": true
+    },
+    "G2-04": {
+      "id": "G2-04",
+      "description": "No set overlap",
+      "threshold": "0 overlap",
+      "measured": 0,
+      "passed": true
+    },
+    "G2-05": {
+      "id": "G2-05",
+      "description": "RF metric files",
+      "threshold": "40 valid",
+      "measured": 40,
+      "passed": true
+    },
+    "G2-06": {
+      "id": "G2-06",
+      "description": "NN metric files",
+      "threshold": "40 valid",
+      "measured": 40,
+      "passed": true
+    },
+    "G2-07": {
+      "id": "G2-07",
+      "description": "Null model metrics",
+      "threshold": "present",
+      "measured": "\u2713",
+      "passed": true
+    },
+    "G2-08": {
+      "id": "G2-08",
+      "description": "RF vs null @ 100%",
+      "threshold": "\u226510% improvement",
+      "measured": "0.1470 (17.2% improvement)",
+      "passed": true,
+      "detail": {
+        "rf_median_rmse": 0.14703504138696338,
+        "null_rmse": 0.17759303406425747,
+        "relative_improvement": 0.1721,
+        "original_absolute_threshold": 0.1,
+        "deviation": "DEV-006"
+      }
+    },
+    "G2-09": {
+      "id": "G2-09",
+      "description": "Baselines beat null",
+      "threshold": "RMSE < 0.178",
+      "measured": "RF:0.147 NN:0.159",
+      "passed": true,
+      "is_warning": true
+    },
+    "G2-10": {
+      "id": "G2-10",
+      "description": "Figures exist",
+      "threshold": "2 files",
+      "measured": 2,
+      "passed": true
+    },
+    "G2-11": {
+      "id": "G2-11",
+      "description": "No NaN in metrics",
+      "threshold": "0",
+      "measured": 0,
+      "passed": true
+    },
+    "G2-12": {
+      "id": "G2-12",
+      "description": "Deviations reviewed",
+      "threshold": "manual",
+      "measured": "\u2713",
+      "passed": true
+    },
+    "G2-13": {
+      "id": "G2-13",
+      "description": "pytest passes",
+      "threshold": "0 failures",
+      "measured": "0",
+      "passed": true
+    }
+  },
+  "baseline_summary": {
+    "null_rmse": 0.17759303406425747,
+    "rf_rmse_by_fraction": {
+      "100%": {
+        "median": 0.14703504138696338,
+        "q25": 0.144654180790424,
+        "q75": 0.1521052377895492
+      },
+      "50%": {
+        "median": 0.1549205866175472,
+        "q25": 0.14627652882903813,
+        "q75": 0.16860657032179163
+      },
+      "25%": {
+        "median": 0.15462702470028056,
+        "q25": 0.14716011525479172,
+        "q75": 0.1661424613897528
+      },
+      "10%": {
+        "median": 0.1444700836227591,
+        "q25": 0.13335635078766567,
+        "q75": 0.18099561096010425
+      }
+    },
+    "nn_rmse_by_fraction": {
+      "100%": {
+        "median": 0.15939646544835384,
+        "q25": 0.1564610258147856,
+        "q75": 0.1689546332761964
+      },
+      "50%": {
+        "median": 0.219479460875736,
+        "q25": 0.2047564628159205,
+        "q75": 0.2955890000481971
+      },
+      "25%": {
+        "median": 0.23614595116290715,
+        "q25": 0.19589338114474805,
+        "q75": 0.2650043614690659
+      },
+      "10%": {
+        "median": 0.3194729986714687,
+        "q25": 0.24166581321990097,
+        "q75": 0.4617597085714404
+      }
+    }
+  },
+  "pinn_targets": {
+    "best_baseline_at_n25": "rf",
+    "best_baseline_rmse_at_n25": 0.15462702470028056,
+    "strong_threshold": 0.1237,
+    "significant_threshold": 0.1314,
+    "moderate_threshold": 0.1392,
+    "inconclusive_boundary": 0.1392
+  },
+  "warnings": []
+}

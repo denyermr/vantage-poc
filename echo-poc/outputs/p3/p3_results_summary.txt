@@ -1,0 +1,40 @@
+====================================================================================================
+PHASE 3 — PINN RESULTS SUMMARY
+Generated: 2026-03-09T14:58:21.448787+00:00
+====================================================================================================
+
+Per-fraction RMSE summary (cm³/cm³):
+Fraction   N(approx)  PINN median    PINN IQR/2     RF median      NN median      Null      
+--------------------------------------------------------------------------------------
+100%       66         0.1596         0.0033         0.1470         0.1594         0.1776    
+50%        33         0.1765         0.0142         0.1549         0.2195         0.1776    
+25%        16         0.1672         0.0106         0.1546         0.2361         0.1776    
+10%        6          0.3123         0.0997         0.1445         0.3195         0.1776    
+
+Pre-registered comparison (N≈25):
+  RF RMSE at N≈25 (sealed):     0.1546
+  PINN RMSE at N≈25 (median):   0.1672
+  Improvement:                   -8.14%
+  Thresholds: Strong < 0.1237, Significant < 0.1314, Moderate < 0.1392
+
+Wilcoxon signed-rank tests (PINN vs RF):
+Fraction   W          p-value        sig α=0.05     sig Bonf       PINN<RF?  
+------------------------------------------------------------------------
+100%       0.0        0.001953       Yes            Yes            No        
+50%        3.0        0.009766       Yes            Yes            No        
+25%        17.0       0.322266       No             No             No        
+10%        1.0        0.003906       Yes            Yes            No        
+
+R² and mean bias (informational):
+Fraction   PINN R²        RF R²          PINN bias      RF bias       
+------------------------------------------------------------------
+100%       -2.9704        -2.3702        -0.1276        -0.1199       
+50%        -3.8581        -2.7418        -0.1231        -0.1265       
+25%        -3.3594        -2.7334        -0.1165        -0.1260       
+10%        -14.3143       -2.2548        -0.1745        -0.1204       
+
+Physics diagnostics:
+  100%: residual_ratio median=5.67 [q25=5.32, q75=7.68]
+  50%: residual_ratio median=6.26 [q25=4.33, q75=11.28]
+  25%: residual_ratio median=6.42 [q25=2.48, q75=10.85]
+  10%: residual_ratio median=3.31 [q25=1.94, q75=7.53]

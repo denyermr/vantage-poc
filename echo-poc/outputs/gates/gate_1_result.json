@@ -1,0 +1,81 @@
+{
+  "gate": "Gate 1 \u2014 Data Quality",
+  "passed": true,
+  "n_criteria": 10,
+  "n_passed": 10,
+  "n_failed": 0,
+  "criteria": [
+    {
+      "id": "G1-01",
+      "description": "Paired observations >= 100",
+      "threshold": 100,
+      "measured": 119,
+      "passed": true
+    },
+    {
+      "id": "G1-02",
+      "description": "VWC range within [0.10, 1.00] cm\u00b3/cm\u00b3",
+      "threshold": "[0.1, 1.0]",
+      "measured": "[0.2530, 0.8300]",
+      "passed": true
+    },
+    {
+      "id": "G1-03",
+      "description": "VV backscatter within [-20, -5] dB",
+      "threshold": "[-20.0, -5.0]",
+      "measured": "[-15.8666, -11.9178]",
+      "passed": true
+    },
+    {
+      "id": "G1-04",
+      "description": "Seasonal VWC signal: winter mean > summer mean",
+      "threshold": "winter > summer",
+      "measured": "winter=0.6988, summer=0.5002",
+      "passed": true
+    },
+    {
+      "id": "G1-05",
+      "description": "SAR-VWC signal: statistically significant (p<0.05) with coherent multivariate structure (DEV-003)",
+      "threshold": "p < 0.05 (reinterpreted from |r| >= 0.30 per DEV-003)",
+      "measured": "VV r=0.2897 (p=1.3944e-03); NDVI r=-0.3343; precip_7day r=0.2772",
+      "passed": "True"
+    },
+    {
+      "id": "G1-06",
+      "description": "No NaN in aligned dataset",
+      "threshold": 0,
+      "measured": 0,
+      "passed": true
+    },
+    {
+      "id": "G1-07",
+      "description": "Test indices file exists (data/splits/test_indices.json)",
+      "threshold": "file exists",
+      "measured": "/Users/matthewdenyer/Documents/Vantage/Science/PoC/vantage-poc/echo-poc/data/splits/test_indices.json",
+      "passed": true
+    },
+    {
+      "id": "G1-08",
+      "description": "DEVIATIONS.md reviewed (--confirm-deviations)",
+      "threshold": "--confirm-deviations flag provided",
+      "measured": "confirmed",
+      "passed": true
+    },
+    {
+      "id": "G1-09",
+      "description": "All 4 diagnostic figures exist in outputs/figures/",
+      "threshold": "0 missing",
+      "measured": "0 missing",
+      "passed": true
+    },
+    {
+      "id": "G1-10",
+      "description": "All 4 GEE extraction modules importable",
+      "threshold": "0 import failures",
+      "measured": "0 failures",
+      "passed": true
+    }
+  ],
+  "timestamp": "2026-03-09T12:28:15.189657",
+  "aligned_dataset": "/Users/matthewdenyer/Documents/Vantage/Science/PoC/vantage-poc/echo-poc/data/processed/aligned_dataset.csv"
+}

@@ -1,0 +1,1365 @@
+{
+  "gate": "G3 \u2014 Oh ks-validity across s = 1\u20135 cm",
+  "spec_reference": "SPEC.md \u00a77",
+  "s_range_cm": [
+    1.0,
+    5.0
+  ],
+  "s_grid_cm": [
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    5.0
+  ],
+  "incidence_grid_deg": [
+    29.0,
+    41.5,
+    46.0
+  ],
+  "m_v_range": [
+    0.0,
+    0.88
+  ],
+  "n_m_v_samples": 201,
+  "sigma_vv_bounds_db": [
+    -120.0,
+    10.0
+  ],
+  "sigma_vh_bounds_db": [
+    -150.0,
+    10.0
+  ],
+  "monotonic_wiggle_tolerance_db": 0.05,
+  "n_cells": 30,
+  "n_cells_passed": 30,
+  "n_cells_failed": 0,
+  "pass": true,
+  "aiem_substitution_required": false,
+  "cells": [
+    {
+      "dielectric": "Dobson",
+      "s_cm": 1.0,
+      "ks": 1.132804274559021,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.173602104187012,
+        -7.828676700592041
+      ],
+      "sigma_vh_db_range": [
+        -28.425594329833984,
+        -16.946441650390625
+      ],
+      "worst_adjacent_decrease_db": 0.0061798095703125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 1.0,
+      "ks": 1.132804274559021,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.427454948425293,
+        -9.048270225524902
+      ],
+      "sigma_vh_db_range": [
+        -28.679447174072266,
+        -18.166034698486328
+      ],
+      "worst_adjacent_decrease_db": 0.005299568176269531,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 1.0,
+      "ks": 1.132804274559021,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.603848457336426,
+        -9.653846740722656
+      ],
+      "sigma_vh_db_range": [
+        -28.85584259033203,
+        -18.771610260009766
+      ],
+      "worst_adjacent_decrease_db": 0.004918098449707031,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 2.0,
+      "ks": 2.265608549118042,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.87257194519043,
+        -7.527647018432617
+      ],
+      "sigma_vh_db_range": [
+        -26.911828994750977,
+        -15.432674407958984
+      ],
+      "worst_adjacent_decrease_db": 0.0061798095703125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 2.0,
+      "ks": 2.265608549118042,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.126424789428711,
+        -8.747241020202637
+      ],
+      "sigma_vh_db_range": [
+        -27.165681838989258,
+        -16.65226936340332
+      ],
+      "worst_adjacent_decrease_db": 0.005298614501953125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 2.0,
+      "ks": 2.265608549118042,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.30281925201416,
+        -9.352816581726074
+      ],
+      "sigma_vh_db_range": [
+        -27.34207534790039,
+        -17.257844924926758
+      ],
+      "worst_adjacent_decrease_db": 0.004918098449707031,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 3.0,
+      "ks": 3.3984127044677734,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.696481704711914,
+        -7.351555347442627
+      ],
+      "sigma_vh_db_range": [
+        -26.4075984954834,
+        -14.92844295501709
+      ],
+      "worst_adjacent_decrease_db": 0.0061798095703125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 3.0,
+      "ks": 3.3984127044677734,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.950332641601562,
+        -8.571148872375488
+      ],
+      "sigma_vh_db_range": [
+        -26.661449432373047,
+        -16.14803695678711
+      ],
+      "worst_adjacent_decrease_db": 0.005299568176269531,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 3.0,
+      "ks": 3.3984127044677734,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.126728057861328,
+        -9.176725387573242
+      ],
+      "sigma_vh_db_range": [
+        -26.837844848632812,
+        -16.753612518310547
+      ],
+      "worst_adjacent_decrease_db": 0.004918098449707031,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 4.0,
+      "ks": 4.531217098236084,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.571541786193848,
+        -7.226615905761719
+      ],
+      "sigma_vh_db_range": [
+        -26.182025909423828,
+        -14.702869415283203
+      ],
+      "worst_adjacent_decrease_db": 0.0061798095703125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 4.0,
+      "ks": 4.531217098236084,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.825393676757812,
+        -8.446210861206055
+      ],
+      "sigma_vh_db_range": [
+        -26.435876846313477,
+        -15.922464370727539
+      ],
+      "worst_adjacent_decrease_db": 0.005298614501953125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 4.0,
+      "ks": 4.531217098236084,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -15.001788139343262,
+        -9.051786422729492
+      ],
+      "sigma_vh_db_range": [
+        -26.61227035522461,
+        -16.528039932250977
+      ],
+      "worst_adjacent_decrease_db": 0.004918098449707031,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 5.0,
+      "ks": 5.6640214920043945,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.474632263183594,
+        -7.129706859588623
+      ],
+      "sigma_vh_db_range": [
+        -26.05318832397461,
+        -14.574033737182617
+      ],
+      "worst_adjacent_decrease_db": 0.0061798095703125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 5.0,
+      "ks": 5.6640214920043945,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.728484153747559,
+        -8.349300384521484
+      ],
+      "sigma_vh_db_range": [
+        -26.30704116821289,
+        -15.793627738952637
+      ],
+      "worst_adjacent_decrease_db": 0.005298614501953125,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 5.0,
+      "ks": 5.6640214920043945,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -14.904879570007324,
+        -8.954876899719238
+      ],
+      "sigma_vh_db_range": [
+        -26.483436584472656,
+        -16.39920425415039
+      ],
+      "worst_adjacent_decrease_db": 0.004918098449707031,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 1.0,
+      "ks": 1.132804274559021,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -55.7673454284668,
+        -22.29117202758789
+      ],
+      "sigma_vh_db_range": [
+        -89.88079833984375,
+        -39.389522552490234
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 1.0,
+      "ks": 1.132804274559021,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -54.57527542114258,
+        -21.867406845092773
+      ],
+      "sigma_vh_db_range": [
+        -88.68872833251953,
+        -38.96575927734375
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 1.0,
+      "ks": 1.132804274559021,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.99937438964844,
+        -21.716203689575195
+      ],
+      "sigma_vh_db_range": [
+        -88.11282348632812,
+        -38.814552307128906
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 2.0,
+      "ks": 2.265608549118042,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -55.46632385253906,
+        -21.990142822265625
+      ],
+      "sigma_vh_db_range": [
+        -88.36703491210938,
+        -37.875755310058594
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 2.0,
+      "ks": 2.265608549118042,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -54.274253845214844,
+        -21.566375732421875
+      ],
+      "sigma_vh_db_range": [
+        -87.17497253417969,
+        -37.451988220214844
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 2.0,
+      "ks": 2.265608549118042,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.6983528137207,
+        -21.41517448425293
+      ],
+      "sigma_vh_db_range": [
+        -86.59906768798828,
+        -37.30078887939453
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 3.0,
+      "ks": 3.3984127044677734,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -55.29024124145508,
+        -21.814050674438477
+      ],
+      "sigma_vh_db_range": [
+        -87.8628158569336,
+        -37.371524810791016
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 3.0,
+      "ks": 3.3984127044677734,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -54.098167419433594,
+        -21.39028549194336
+      ],
+      "sigma_vh_db_range": [
+        -86.67074584960938,
+        -36.94776153564453
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 3.0,
+      "ks": 3.3984127044677734,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.52226638793945,
+        -21.23908233642578
+      ],
+      "sigma_vh_db_range": [
+        -86.09484100341797,
+        -36.79655456542969
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 4.0,
+      "ks": 4.531217098236084,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -55.165306091308594,
+        -21.689111709594727
+      ],
+      "sigma_vh_db_range": [
+        -87.63724517822266,
+        -37.14595031738281
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 4.0,
+      "ks": 4.531217098236084,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.97323226928711,
+        -21.26534652709961
+      ],
+      "sigma_vh_db_range": [
+        -86.44517517089844,
+        -36.72218704223633
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 4.0,
+      "ks": 4.531217098236084,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.39733123779297,
+        -21.1141414642334
+      ],
+      "sigma_vh_db_range": [
+        -85.86927032470703,
+        -36.570980072021484
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 5.0,
+      "ks": 5.6640214920043945,
+      "theta_inc_deg": 29.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -55.068397521972656,
+        -21.592201232910156
+      ],
+      "sigma_vh_db_range": [
+        -87.50840759277344,
+        -37.017112731933594
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 5.0,
+      "ks": 5.6640214920043945,
+      "theta_inc_deg": 41.5,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.87632369995117,
+        -21.168437957763672
+      ],
+      "sigma_vh_db_range": [
+        -86.31633758544922,
+        -36.593353271484375
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 5.0,
+      "ks": 5.6640214920043945,
+      "theta_inc_deg": 46.0,
+      "pass": true,
+      "n_nan": {
+        "vv": 0,
+        "vh": 0
+      },
+      "n_inf": {
+        "vv": 0,
+        "vh": 0
+      },
+      "sigma_vv_db_range": [
+        -53.30042266845703,
+        -21.017234802246094
+      ],
+      "sigma_vh_db_range": [
+        -85.74043273925781,
+        -36.44214630126953
+      ],
+      "worst_adjacent_decrease_db": 0.0,
+      "monotonic_violation": false,
+      "vv_out_of_bounds": false,
+      "vh_out_of_bounds": false
+    }
+  ],
+  "failed_cells": [],
+  "moor_house_observational_envelope": [
+    {
+      "dielectric": "Dobson",
+      "s_cm": 1.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.04392147064209,
+        -7.901984214782715
+      ],
+      "sigma_vh_db_range": [
+        -20.422435760498047,
+        -17.06158447265625
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 1.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.952693939208984,
+        -9.111141204833984
+      ],
+      "sigma_vh_db_range": [
+        -21.331207275390625,
+        -18.270740509033203
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 1.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -11.422889709472656,
+        -9.712194442749023
+      ],
+      "sigma_vh_db_range": [
+        -21.801403045654297,
+        -18.871793746948242
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 2.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -9.742891311645508,
+        -7.600954055786133
+      ],
+      "sigma_vh_db_range": [
+        -18.908668518066406,
+        -15.547816276550293
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 2.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.651664733886719,
+        -8.810111045837402
+      ],
+      "sigma_vh_db_range": [
+        -19.817440032958984,
+        -16.756973266601562
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 2.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -11.121859550476074,
+        -9.411164283752441
+      ],
+      "sigma_vh_db_range": [
+        -20.287635803222656,
+        -17.3580265045166
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 3.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -9.566801071166992,
+        -7.424862861633301
+      ],
+      "sigma_vh_db_range": [
+        -18.404438018798828,
+        -15.043584823608398
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 3.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.475573539733887,
+        -8.634020805358887
+      ],
+      "sigma_vh_db_range": [
+        -19.313209533691406,
+        -16.252742767333984
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 3.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.945768356323242,
+        -9.23507308959961
+      ],
+      "sigma_vh_db_range": [
+        -19.783405303955078,
+        -16.853796005249023
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 4.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -9.441861152648926,
+        -7.299923896789551
+      ],
+      "sigma_vh_db_range": [
+        -18.178863525390625,
+        -14.818012237548828
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 4.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.35063362121582,
+        -8.50908088684082
+      ],
+      "sigma_vh_db_range": [
+        -19.087635040283203,
+        -16.02716827392578
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 4.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.820828437805176,
+        -9.11013412475586
+      ],
+      "sigma_vh_db_range": [
+        -19.557830810546875,
+        -16.628223419189453
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 5.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -9.344951629638672,
+        -7.203013896942139
+      ],
+      "sigma_vh_db_range": [
+        -18.05002784729004,
+        -14.689175605773926
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 5.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.253725051879883,
+        -8.412171363830566
+      ],
+      "sigma_vh_db_range": [
+        -18.95880126953125,
+        -15.898332595825195
+      ]
+    },
+    {
+      "dielectric": "Dobson",
+      "s_cm": 5.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -10.723919868469238,
+        -9.013224601745605
+      ],
+      "sigma_vh_db_range": [
+        -19.428997039794922,
+        -16.499385833740234
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 1.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -55.7673454284668,
+        -23.520862579345703
+      ],
+      "sigma_vh_db_range": [
+        -89.88079833984375,
+        -41.26832962036133
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 1.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -54.57527542114258,
+        -23.00960922241211
+      ],
+      "sigma_vh_db_range": [
+        -88.68872833251953,
+        -40.757076263427734
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 1.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.99937438964844,
+        -22.813472747802734
+      ],
+      "sigma_vh_db_range": [
+        -88.11282348632812,
+        -40.56093978881836
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 2.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -55.46632385253906,
+        -23.219831466674805
+      ],
+      "sigma_vh_db_range": [
+        -88.36703491210938,
+        -39.75456237792969
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 2.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -54.274253845214844,
+        -22.708580017089844
+      ],
+      "sigma_vh_db_range": [
+        -87.17497253417969,
+        -39.243309020996094
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 2.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.6983528137207,
+        -22.51244354248047
+      ],
+      "sigma_vh_db_range": [
+        -86.59906768798828,
+        -39.04717254638672
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 3.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -55.29024124145508,
+        -23.043739318847656
+      ],
+      "sigma_vh_db_range": [
+        -87.8628158569336,
+        -39.250328063964844
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 3.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -54.098167419433594,
+        -22.532489776611328
+      ],
+      "sigma_vh_db_range": [
+        -86.67074584960938,
+        -38.73908233642578
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 3.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.52226638793945,
+        -22.33635139465332
+      ],
+      "sigma_vh_db_range": [
+        -86.09484100341797,
+        -38.54294204711914
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 4.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -55.165306091308594,
+        -22.918800354003906
+      ],
+      "sigma_vh_db_range": [
+        -87.63724517822266,
+        -39.024757385253906
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 4.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.97323226928711,
+        -22.407550811767578
+      ],
+      "sigma_vh_db_range": [
+        -86.44517517089844,
+        -38.51350402832031
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 4.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.39733123779297,
+        -22.211414337158203
+      ],
+      "sigma_vh_db_range": [
+        -85.86927032470703,
+        -38.31736755371094
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 5.0,
+      "theta_inc_deg": 29.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -55.068397521972656,
+        -22.82189178466797
+      ],
+      "sigma_vh_db_range": [
+        -87.50840759277344,
+        -38.89591979980469
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 5.0,
+      "theta_inc_deg": 41.5,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.87632369995117,
+        -22.310640335083008
+      ],
+      "sigma_vh_db_range": [
+        -86.31633758544922,
+        -38.38467025756836
+      ]
+    },
+    {
+      "dielectric": "Mironov",
+      "s_cm": 5.0,
+      "theta_inc_deg": 46.0,
+      "moor_house_mv_range": [
+        0.25,
+        0.83
+      ],
+      "sigma_vv_db_range": [
+        -53.30042266845703,
+        -22.114503860473633
+      ],
+      "sigma_vh_db_range": [
+        -85.74043273925781,
+        -38.188533782958984
+      ]
+    }
+  ],
+  "generated_at": "2026-04-18T11:16:12.184531+00:00"
+}

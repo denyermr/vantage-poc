@@ -1,0 +1,45 @@
+{
+  "lambda_triple": {
+    "lambda1": 0.01,
+    "lambda2": 0.01,
+    "lambda3": 1.0
+  },
+  "n_batch": 10,
+  "physics_branch_mean_grad": 0.020059924601810053,
+  "correction_branch_mean_grad": 0.08804373230668716,
+  "wcm_params_mean_grad": 0.05892596393823624,
+  "physics_to_correction_ratio": 0.22784046150731624,
+  "correction_net_input_shape": [
+    10,
+    7
+  ],
+  "physics_outputs_in_correction_input": false,
+  "loss_components": {
+    "total": 0.23925860226154327,
+    "l_data": 0.11232519149780273,
+    "l_physics": 12.693341255187988,
+    "l_monotonic": 0.0,
+    "l_bounds": 0.0
+  },
+  "conclusion": "Physics branch active",
+  "description": "Physics branch receives meaningful gradient signal. Ratio = 0.2278 (> 0.01 threshold). Standard PINN description applies.",
+  "individual_param_grads": {
+    "A_raw": 0.08596280217170715,
+    "B_raw": 0.03188912570476532,
+    "physics_net.net.0.weight": 0.0009413045481778681,
+    "physics_net.net.0.bias": 0.0015102429315447807,
+    "physics_net.net.2.weight": 0.0014110911870375276,
+    "physics_net.net.2.bias": 0.006723608821630478,
+    "physics_net.net.4.weight": 0.006345934700220823,
+    "physics_net.net.4.bias": 0.10342736542224884,
+    "correction_net.net.0.weight": 0.0012747393921017647,
+    "correction_net.net.0.bias": 0.0018289926229044795,
+    "correction_net.net.3.weight": 0.0015546319773420691,
+    "correction_net.net.3.bias": 0.006238989531993866,
+    "correction_net.net.6.weight": 0.0024056932888925076,
+    "correction_net.net.6.bias": 0.025296850129961967,
+    "correction_net.net.8.weight": 0.03104882873594761,
+    "correction_net.net.8.bias": 0.634701132774353
+  },
+  "generated_at": "2026-03-09T14:48:14.199917+00:00"
+}

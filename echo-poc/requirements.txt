@@ -1,0 +1,29 @@
+# ECHO PoC — Pinned Python dependencies
+# Python 3.11 required
+
+# Data extraction
+earthengine-api==1.4.2              # GEE data extraction
+
+# Data processing
+pandas==2.2.3                       # Data manipulation
+geopandas==1.0.1                    # Spatial operations (ancillary/terrain)
+numpy==1.26.4                       # Numerics
+
+# Machine learning
+scikit-learn==1.4.2                 # Baseline A (Random Forest)
+torch==2.2.2                        # Baseline B (NN) and PINN — MPS on Apple Silicon
+scipy==1.12.0                       # Statistical tests (Wilcoxon)
+
+# Visualisation
+matplotlib==3.8.4                   # Figures
+seaborn==0.13.2                     # Figures
+
+# Validation
+pydantic==2.9.2                     # Fixture schema validation (Phase 4)
+
+# Testing
+pytest==8.3.3                       # Test framework
+pytest-cov==4.1.0                   # Coverage reporting
+
+# CDS API (ERA5 fallback — only if GEE ERA5 unavailable)
+# cdsapi==0.7.3                     # Uncomment if CDS API needed
