@@ -1,7 +1,7 @@
 {
   "gate": "G2 \u2014 MIMICS Implementation Gate (three-arm)",
-  "spec_reference": "SPEC.md \u00a74; DEV-1b-003 (anchor construction); DEV-1b-004 (E.1/E.2 dielectric-config amendment); DEV-1b-005 (Set D Phase 1c exemption); g2_anchor_spec.md v0.3",
-  "phase": "Phase E-1 (non-physics; DEV-1b-004 + DEV-1b-005 landed; P3 mechanism decomposition exposed; Phase E-2 physics promotion pending per DEV-1b-006)",
+  "spec_reference": "SPEC.md \u00a74; DEV-1b-003 (anchor construction); DEV-1b-004 (E.1/E.2 dielectric-config amendment); DEV-1b-005 (Set D Phase 1c exemption); DEV-1b-007 (Sets A/B/C dielectric-config amendment); g2_anchor_spec.md v0.4",
+  "phase": "Phase E-1b (non-physics; DEV-1b-004 + DEV-1b-005 + DEV-1b-007 landed; P3 mechanism decomposition exposed; Phase E-2 per-row physics promotion pending per-row residual characterisation in the checkpoint report)",
   "anchor_reads_source": "phase1b/refs/anchor_reads/anchor_reads_v1.json",
   "canonical_combinations_source": "phase1b/physics/reference_mimics/canonical_combinations.json",
   "arms": {
@@ -451,7 +451,7 @@
     },
     "published_table": {
       "arm": "published_table",
-      "description": "PyTorch mimics.py vs Toure 1994 (Sets A/B/C) and Ulaby & Long 2014 Table 11-1 (Set C2, informational, harness deferred to Phase E-2). Set D EXEMPT pending Phase 1c per DEV-1b-005. Anchor values from anchor_reads_v1.json / g2_anchor_spec.md v0.3.",
+      "description": "PyTorch mimics.py vs Toure 1994 (Sets A/B/C, evaluated under T94-consistent Dobson-mineral ground dielectric per DEV-1b-007) and Ulaby & Long 2014 Table 11-1 (Set C2, informational, harness deferred to Phase E-2). Set D EXEMPT pending Phase 1c per DEV-1b-005. Anchor values from anchor_reads_v1.json / g2_anchor_spec.md v0.4.",
       "tolerance_db": 0.5,
       "tolerance_db_C5": 2.0,
       "pass": false,
@@ -467,44 +467,60 @@
               "id": "A.1",
               "theta_deg": 20.0,
               "polarisation": "HH",
-              "sigma_torch_db": -20.790771484375,
+              "sigma_torch_db": -6.930896759033203,
+              "sigma_torch_vv_db": -6.930896759033203,
+              "sigma_torch_vh_db": -17.283323287963867,
               "sigma_anchor_db": -9.48,
-              "delta_db": 11.310771484375,
+              "delta_db": 2.5491032409667973,
               "pass": false,
-              "caveat": "HH channel not exposed by mimics.py v0.1; substituted VV as diagnostic. This is a known v0.1 limitation (SPEC \u00a74 'Outputs: \u03c3\u00b0_VV and \u03c3\u00b0_VH').",
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "ground_direct_attenuated",
+              "caveat": "HH channel not exposed by mimics.py v0.1; VV substituted as the HH proxy (VV is typically within ~1 dB of HH at C-band wheat; VH is cross-pol and systematically 5-8 dB below HH). Phase E-2 P5 deliverable exposes HH as a first-class channel.",
               "error": null
             },
             {
               "id": "A.2",
               "theta_deg": 30.0,
               "polarisation": "HH",
-              "sigma_torch_db": -20.634119033813477,
+              "sigma_torch_db": -8.481063842773438,
+              "sigma_torch_vv_db": -8.481063842773438,
+              "sigma_torch_vh_db": -17.679258346557617,
               "sigma_anchor_db": -10.44,
-              "delta_db": 10.194119033813477,
+              "delta_db": 1.958936157226562,
               "pass": false,
-              "caveat": "HH channel not exposed by mimics.py v0.1; substituted VV as diagnostic. This is a known v0.1 limitation (SPEC \u00a74 'Outputs: \u03c3\u00b0_VV and \u03c3\u00b0_VH').",
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "ground_direct_attenuated",
+              "caveat": "HH channel not exposed by mimics.py v0.1; VV substituted as the HH proxy (VV is typically within ~1 dB of HH at C-band wheat; VH is cross-pol and systematically 5-8 dB below HH). Phase E-2 P5 deliverable exposes HH as a first-class channel.",
               "error": null
             },
             {
               "id": "A.3",
               "theta_deg": 40.0,
               "polarisation": "HH",
-              "sigma_torch_db": -20.697324752807617,
+              "sigma_torch_db": -7.5872087478637695,
+              "sigma_torch_vv_db": -7.5872087478637695,
+              "sigma_torch_vh_db": -17.880264282226562,
               "sigma_anchor_db": -11.57,
-              "delta_db": 9.127324752807617,
+              "delta_db": 3.9827912521362308,
               "pass": false,
-              "caveat": "HH channel not exposed by mimics.py v0.1; substituted VV as diagnostic. This is a known v0.1 limitation (SPEC \u00a74 'Outputs: \u03c3\u00b0_VV and \u03c3\u00b0_VH').",
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "crown_ground",
+              "caveat": "HH channel not exposed by mimics.py v0.1; VV substituted as the HH proxy (VV is typically within ~1 dB of HH at C-band wheat; VH is cross-pol and systematically 5-8 dB below HH). Phase E-2 P5 deliverable exposes HH as a first-class channel.",
               "error": null
             },
             {
               "id": "A.4",
               "theta_deg": 50.0,
               "polarisation": "HH",
-              "sigma_torch_db": -21.228837966918945,
+              "sigma_torch_db": -6.162424087524414,
+              "sigma_torch_vv_db": -6.162424087524414,
+              "sigma_torch_vh_db": -19.626506805419922,
               "sigma_anchor_db": -12.7,
-              "delta_db": 8.528837966918946,
+              "delta_db": 6.537575912475585,
               "pass": false,
-              "caveat": "HH channel not exposed by mimics.py v0.1; substituted VV as diagnostic. This is a known v0.1 limitation (SPEC \u00a74 'Outputs: \u03c3\u00b0_VV and \u03c3\u00b0_VH').",
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "crown_direct",
+              "caveat": "HH channel not exposed by mimics.py v0.1; VV substituted as the HH proxy (VV is typically within ~1 dB of HH at C-band wheat; VH is cross-pol and systematically 5-8 dB below HH). Phase E-2 P5 deliverable exposes HH as a first-class channel.",
               "error": null
             }
           ]
@@ -520,10 +536,14 @@
               "id": "B.1",
               "theta_deg": 20.0,
               "polarisation": "VV",
-              "sigma_torch_db": -13.113687515258789,
+              "sigma_torch_db": -6.930896759033203,
+              "sigma_torch_vv_db": -6.930896759033203,
+              "sigma_torch_vh_db": -17.283323287963867,
               "sigma_anchor_db": -9.99,
-              "delta_db": 3.123687515258789,
+              "delta_db": 3.059103240966797,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "ground_direct_attenuated",
               "caveat": null,
               "error": null
             },
@@ -531,10 +551,14 @@
               "id": "B.2",
               "theta_deg": 30.0,
               "polarisation": "VV",
-              "sigma_torch_db": -14.082765579223633,
+              "sigma_torch_db": -8.481063842773438,
+              "sigma_torch_vv_db": -8.481063842773438,
+              "sigma_torch_vh_db": -17.679258346557617,
               "sigma_anchor_db": -10.39,
-              "delta_db": 3.6927655792236322,
+              "delta_db": 1.908936157226563,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "ground_direct_attenuated",
               "caveat": null,
               "error": null
             },
@@ -542,10 +566,14 @@
               "id": "B.3",
               "theta_deg": 40.0,
               "polarisation": "VV",
-              "sigma_torch_db": -12.57894515991211,
+              "sigma_torch_db": -7.5872087478637695,
+              "sigma_torch_vv_db": -7.5872087478637695,
+              "sigma_torch_vh_db": -17.880264282226562,
               "sigma_anchor_db": -11.12,
-              "delta_db": 1.4589451599121102,
+              "delta_db": 3.5327912521362297,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "crown_ground",
               "caveat": null,
               "error": null
             },
@@ -553,10 +581,14 @@
               "id": "B.4",
               "theta_deg": 50.0,
               "polarisation": "VV",
-              "sigma_torch_db": -8.052292823791504,
+              "sigma_torch_db": -6.162424087524414,
+              "sigma_torch_vv_db": -6.162424087524414,
+              "sigma_torch_vh_db": -19.626506805419922,
               "sigma_anchor_db": -14.13,
-              "delta_db": 6.077707176208497,
+              "delta_db": 7.967575912475587,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+              "dominant_mechanism": "crown_direct",
               "caveat": null,
               "error": null
             }
@@ -572,11 +604,12 @@
             {
               "id": "C.1",
               "mechanism": "Direct ground \u2666",
-              "sigma_torch_db": -64.63359069824219,
+              "sigma_torch_db": -17.917402267456055,
               "sigma_anchor_db": -11,
-              "delta_db": 53.63359069824219,
+              "delta_db": 6.917402267456055,
               "tolerance_db": 0.5,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
               "caveat": null
             },
             {
@@ -587,6 +620,7 @@
               "delta_db": 11.161995887756348,
               "tolerance_db": 0.5,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
               "caveat": null
             },
             {
@@ -598,11 +632,12 @@
             {
               "id": "C.4",
               "mechanism": "Ground-cover \u25a0",
-              "sigma_torch_db": -35.21013641357422,
+              "sigma_torch_db": -11.852041244506836,
               "sigma_anchor_db": -20,
-              "delta_db": 15.210136413574219,
+              "delta_db": 8.147958755493164,
               "tolerance_db": 0.5,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
               "caveat": null
             },
             {
@@ -614,11 +649,12 @@
             {
               "id": "C.6",
               "mechanism": "Total \u03c3\u00b0 o",
-              "sigma_torch_db": -8.827991485595703,
+              "sigma_torch_db": -6.73433256149292,
               "sigma_anchor_db": -10,
-              "delta_db": 1.1720085144042969,
+              "delta_db": 3.26566743850708,
               "tolerance_db": 0.5,
               "pass": false,
+              "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
               "caveat": null
             }
           ]
@@ -1041,5 +1077,5 @@
     }
   },
   "pass": false,
-  "generated_at": "2026-04-18T21:18:02.371746+00:00"
+  "generated_at": "2026-04-19T09:05:00.527385+00:00"
 }

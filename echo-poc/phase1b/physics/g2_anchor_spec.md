@@ -1,10 +1,10 @@
 # Phase 1b G2 Implementation Gate — Anchor Specification
 
 **Status:** Authoritative specification for the G2 equivalence check
-**Version:** v0.3 (Session E; DEV-1b-004 + DEV-1b-005 + DEV-1b-006 amendments; supersedes v0.2)
-**Source authority:** SPEC.md §4, DEV-1b-003, DEV-1b-004, DEV-1b-005, DEV-1b-006
+**Version:** v0.4 (Session E, Phase E-1b; DEV-1b-007 amendment; supersedes v0.3)
+**Source authority:** SPEC.md §4, DEV-1b-003, DEV-1b-004, DEV-1b-005, DEV-1b-006 (placeholder), DEV-1b-007
 **Changes post-sign-off:** Require a new deviation log entry
-**Provenance of refined values:** [`phase1b/refs/anchor_reads/anchor_reads_v1.json`](../refs/anchor_reads/anchor_reads_v1.json) and the annotated PNGs in the same directory. v0.1 contained "~" scaffolding estimates; v0.2 replaced those with values read directly from the source PDFs per DEV-1b-003. v0.3 (this version) does **not** change any v0.2 anchor value or tolerance — it adds dielectric-configuration specificity to Set E rows E.1 / E.2 (DEV-1b-004), marks Set D as EXEMPT pending Phase 1c (DEV-1b-005), and adds a new secondary anchor block Set C2 drawn from Ulaby & Long 2014 Table 11-1 (DEV-1b-006). All additions are **additive** to the pre-registration record, not subtractive.
+**Provenance of refined values:** [`phase1b/refs/anchor_reads/anchor_reads_v1.json`](../refs/anchor_reads/anchor_reads_v1.json) and the annotated PNGs in the same directory. v0.1 contained "~" scaffolding estimates; v0.2 replaced those with values read directly from the source PDFs per DEV-1b-003. v0.3 added dielectric-configuration specificity to Set E rows E.1 / E.2 (DEV-1b-004), marked Set D as EXEMPT pending Phase 1c (DEV-1b-005), and added a new secondary anchor block Set C2 drawn from Ulaby & Long 2014 Table 11-1. v0.4 (this version) does **not** change any anchor value or tolerance — it extends the v0.3 dielectric-configuration specificity to the published_table rows in Sets A, B, and C (DEV-1b-007), completing the anchor-set-wide resolution of the dielectric-configuration category error discovered at Phase E-1. All additions are **additive** to the pre-registration record, not subtractive.
 
 ---
 
@@ -42,10 +42,23 @@ Our primary operating regime is θ ≈ 41.5° (Moor House mean incidence angle, 
 
 ---
 
+## Shared dielectric configuration for Sets A / B / C (v0.4 addition, DEV-1b-007)
+
+All rows in Sets A (wheat C-band HH multiangle), B (wheat C-band VV multiangle), and C (wheat mechanism decomposition at θ=30° CHH) are evaluated against PyTorch MIMICS configured with a **Dobson 1985 mineral-soil** ground dielectric. This reflects T94's actual configuration — T94 §II.A inherits the soil dielectric from MIMICS [Ulaby et al. 1990 ref 19] which uses Dobson 1985, and T94 does not override (verified via text extraction of T94 §II.A, 2026-04-19).
+
+Specifically: `phase1b.physics.mimics.ground_epsilon_dobson_torch` is called with `eps_dry = DOBSON_EPS_DRY_MINERAL = 3.0`, `eps_water = DOBSON_EPS_WATER = 80.0`, `alpha = DOBSON_ALPHA_MINERAL = 0.65` (Dobson 1985's generic moderate-clay-fraction mineral loam). At T94's Set A / B / C wheat m_v = 0.17 g/cm³ this gives ε ≈ 28.0 with ∂ε/∂m_v > 0 (unclamped). For reference, evaluating these rows under the Phase 1b production peat-Mironov configuration (SPEC §6 primary) produces ε = 1.01 at the DEV-007 clamp floor — a category error, as the T94 wheat-field soil and the Moor House Sphagnum peat are different physical systems.
+
+**For the Moor House production path** (PINN-MIMICS trainer, inference, Phase 1b λ search, diagnostics): the SPEC §6 primary Mironov GRMDM with the DEV-007 ε ≥ 1.01 clamp is used — unchanged. The regression test in `tests/unit/test_mimics_torch.py::TestMoorHouseProductionPinning` (added in Phase E-1) pins the production call signature to `mimics_toure_single_crown(params, ground_dielectric_fn=None)`.
+
+The amendment makes previously-implicit configuration explicit per anchor; it does not re-read any anchor value, does not loosen any tolerance, and does not remove the DEV-007 clamp. See DEV-1b-007 for the full derivation.
+
+---
+
 ## Set A — Wheat C-band HH multiangle (primary bulk anchor)
 
 **Source:** T94 Fig. 2, bottom-left panel (labelled CHH), page 49.
 **Scenario:** Wheat, site #13, measurement date 18 July 1988.
+**Dielectric configuration:** See "Shared dielectric configuration for Sets A / B / C" block immediately above (DEV-1b-007).
 
 ### Canonical inputs (from T94 Fig. 2 caption, page 49, and T94 Table I, page 48)
 
@@ -90,6 +103,7 @@ All four rows (A.1–A.4) pass individually. Overall Set A mean absolute deviati
 
 **Source:** T94 Fig. 2, **bottom-right** panel (labelled CVV), page 49.
 **Scenario:** Same as Set A (wheat, site #13, 18 July 1988).
+**Dielectric configuration:** See "Shared dielectric configuration for Sets A / B / C" block in the Set A section (DEV-1b-007).
 
 **v0.2 correction:** v0.1 §Set B described this panel as "top-right" and flagged it as "labelled LVV … verify from PDF". This was an internal inconsistency in v0.1. Fig. 2 is a 2×2 grid: LHH top-left, LVV top-right, CHH bottom-left, **CVV bottom-right**. v0.2 uses the correct panel.
 
@@ -117,6 +131,7 @@ All four rows (B.1–B.4) pass individually. Overall Set B mean absolute deviati
 ## Set C — Wheat scattering-mechanism decomposition (structural anchor)
 
 **Source:** T94 Fig. 7, page 54, CHH panel (bottom-left). Four panels (LHH, LVV, CHH, CVV) each showing total σ° alongside its five component mechanisms (ground-cover-ground, cover-ground, ground-cover, direct cover, direct ground) as a function of incidence angle.
+**Dielectric configuration:** See "Shared dielectric configuration for Sets A / B / C" block in the Set A section (DEV-1b-007).
 
 **Why this set matters:** Bulk-total anchors (Sets A, B) can pass even when individual scattering mechanisms are miscomputed if the errors cancel. Set C tests each mechanism independently — this is the specific check against shared-misreading bugs in the core MIMICS radiative-transfer equations. T94 Fig. 7 for CHH (wheat) is the primary target because CHH is the most Phase-1b-relevant panel.
 
@@ -377,11 +392,19 @@ If any arm fails, the script exits non-zero and G2 fails. The honest-gates proto
 
 ## Change control
 
-- Changes to this document after §14 sign-off require a DEV log entry. v0.3 amendments are covered by DEV-1b-004 (dielectric-configuration specificity for E.1 / E.2), DEV-1b-005 (Set D Phase 1c exemption), and DEV-1b-006 (Set C2 secondary anchor registration + forthcoming v0.2 physics promotion).
+- Changes to this document after §14 sign-off require a DEV log entry. v0.3 amendments are covered by DEV-1b-004 (dielectric-configuration specificity for E.1 / E.2), DEV-1b-005 (Set D Phase 1c exemption), and DEV-1b-006 (Set C2 secondary anchor registration + forthcoming v0.2 physics promotion). v0.4 amendments are covered by DEV-1b-007 (dielectric-configuration specificity extended to Sets A / B / C).
 - Changes to the numerical anchor values post-sign-off require the entry to name which rows moved, by how much, and why. Loosening a tolerance to pass a failing test is an explicit red flag in the honest-gates protocol. **v0.3 does not change any anchor value or tolerance** — all changes are additive.
 - Adding anchor rows post-sign-off is permitted (strengthens the check); removing or re-reading rows post-sign-off is not. v0.3's Set C2 registration is a strengthening addition. v0.3's Set D EXEMPT marker is a deferral, not a removal: the four rows remain in the spec with their anchor values intact and reactivate as a Phase 1c entry gate per DEV-1b-005's re-instatement criteria.
 
 ---
+
+## v0.3 → v0.4 changelog (Session E Phase E-1b, 2026-04-19)
+
+v0.4 is additive to the pre-registration record. No anchor value or tolerance is modified.
+
+- **Sets A, B, C — shared dielectric-configuration block added (DEV-1b-007):** all published_table rows evaluated against PyTorch MIMICS configured with Dobson 1985 mineral-soil parameters (`DOBSON_EPS_DRY_MINERAL = 3.0`, `DOBSON_EPS_WATER = 80.0`, `DOBSON_ALPHA_MINERAL = 0.65`), matching T94's actual dielectric inheritance from MIMICS [Ulaby 1990] at §II.A. The Moor House production configuration (peat-Mironov, DEV-007 clamp) is unchanged; the existing `TestMoorHouseProductionPinning` regression test from Phase E-1 continues to pin it. Anchor values (A.1–A.4, B.1–B.4, C.1–C.6) and tolerances (±0.5 dB bulk; ±2.0 dB C.5) unchanged.
+- **v0.4 completes the Session E anchor-set-wide resolution of the dielectric-configuration category error** that Phase E-1 diagnostic probes surfaced: DEV-1b-004 (v0.3) addressed rows E.1 / E.2 (gradient arm), DEV-1b-007 (v0.4) addresses Sets A / B / C (published_table arm). Every gating anchor row in v0.4 now specifies its dielectric configuration explicitly. Previously-silent inheritance is now explicit.
+- **Set C2, Set D, Set E:** unchanged from v0.3. Set C2 remains `DEFERRED_PHASE_E2`; Set D remains `EXEMPT` per DEV-1b-005; Set E's v0.3 dielectric-configuration block for E.1 / E.2 remains in force for DEV-1b-004.
 
 ## v0.2 → v0.3 changelog (Session E, 2026-04-19)
 

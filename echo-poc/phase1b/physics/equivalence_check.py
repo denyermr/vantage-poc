@@ -272,23 +272,57 @@ def run_numpy_port_arm() -> dict:
 
 
 def _run_set_A_B(anchor_json: dict, set_key: str, pol: str) -> list[dict]:
-    """Run Set A or Set B: four σ° rows at theta in {20,30,40,50}, wheat CHH/CVV."""
+    """
+    Run Set A or Set B: four σ° rows at theta in {20,30,40,50}, wheat CHH/CVV.
+
+    DEV-1b-007 (g2_anchor_spec.md v0.4): Sets A / B are evaluated under
+    the Dobson-mineral ground dielectric (T94-consistent), not the
+    Moor House peat-Mironov production default. The dielectric is
+    injected via the harness-only `ground_dielectric_fn` kwarg; Moor
+    House production-path pinning is regression-tested in
+    `tests/unit/test_mimics_torch.py::TestMoorHouseProductionPinning`.
+    """
     rows_out = []
     for row in anchor_json[set_key]["rows"]:
         theta = float(row["theta_deg"])
         try:
             params = _params_from_t94_wheat(theta, pol)
+            # Per-row dominant-mechanism diagnostic (fed to the checkpoint
+            # report for Phase E-2 per-row scope authorisation).
             with torch.no_grad():
-                vv_db, vh_db = mimics_toure_single_crown(params)
-            sigma_torch = float(vv_db) if pol == "VV" else float(vh_db)
-            # NOTE: mimics.py returns (sigma_vv_db, sigma_vh_db).
-            # T94 CHH panel corresponds to sigma_HH, which mimics.py does
-            # not expose (v0.1 returns only VV and VH, per SPEC §4
-            # "Outputs: σ°_VV (dB) and σ°_VH (dB)"). For Set A (HH) we
-            # report the VV value with an HH-vs-VV caveat, and flag
-            # in the result that the comparison uses VV in lieu of HH.
-            # This is a known v0.1 limitation (SPEC §4 restricts outputs
-            # to VV and VH).
+                bd = mimics_toure_single_crown_breakdown_torch(
+                    params, ground_dielectric_fn=_t94_mineral_dobson,
+                )
+            # DEV-1b-007 / Phase E-1b proxy-choice correction.
+            # mimics.py v0.1 exposes (VV, VH) only. For Set A (pol=="HH")
+            # we must pick a proxy. VH is cross-pol and is typically
+            # 5-8 dB below HH at C-band wheat configurations; VV is
+            # co-pol and typically within ~1 dB of HH at these operating
+            # points. Use VV-as-HH as the Phase E-1b proxy; expose both
+            # sigma_torch_vv_db and sigma_torch_vh_db in the row dict
+            # for transparency. Session D used VH-as-HH by default; that
+            # was a more conservative numerical test but distorted the
+            # residual characterisation by the HH-VH cross-pol gap.
+            # Real HH will land in Phase E-2 via P5.
+            vv_val = float(bd["sigma_total_vv_db"])
+            vh_val = float(bd["sigma_total_vh_db"])
+            if pol == "VV":
+                sigma_torch = vv_val
+                mech_dict = bd["mechanisms_vv_db"]
+                caveat = None
+            else:  # pol == "HH", use VV as proxy
+                sigma_torch = vv_val
+                mech_dict = bd["mechanisms_vv_db"]
+                caveat = (
+                    "HH channel not exposed by mimics.py v0.1; VV "
+                    "substituted as the HH proxy (VV is typically within "
+                    "~1 dB of HH at C-band wheat; VH is cross-pol and "
+                    "systematically 5-8 dB below HH). Phase E-2 P5 "
+                    "deliverable exposes HH as a first-class channel."
+                )
+            dominant_mech = max(
+                mech_dict.items(), key=lambda kv: float(kv[1])
+            )[0]
             ref = row["refined_dB"]
             delta = _delta_db(sigma_torch, ref)
             rows_out.append({
@@ -296,14 +330,14 @@ def _run_set_A_B(anchor_json: dict, set_key: str, pol: str) -> list[dict]:
                 "theta_deg": theta,
                 "polarisation": pol,
                 "sigma_torch_db": sigma_torch,
+                "sigma_torch_vv_db": vv_val,
+                "sigma_torch_vh_db": vh_val,
                 "sigma_anchor_db": ref,
                 "delta_db": delta,
                 "pass": delta <= PUBLISHED_TABLE_TOL_DB,
-                "caveat": (
-                    "HH channel not exposed by mimics.py v0.1; substituted VV "
-                    "as diagnostic. This is a known v0.1 limitation (SPEC §4 "
-                    "'Outputs: σ°_VV and σ°_VH')."
-                ) if pol == "HH" else None,
+                "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
+                "dominant_mechanism": dominant_mech,
+                "caveat": caveat,
                 "error": None,
             })
         except Exception as exc:
@@ -318,12 +352,14 @@ def _run_set_C(anchor_json: dict) -> list[dict]:
     """
     Set C: five mechanism-decomposition values at θ=30° CHH wheat.
 
-    v0.3 / Phase E-1 change: calls the PyTorch
+    v0.3 / Phase E-1: calls the PyTorch
     `mimics_toure_single_crown_breakdown_torch` helper directly (P3
-    deliverable of Session E). Previously fell back to the numpy
-    reference because `mimics.py` did not expose mechanism decomposition.
-    The numpy_port arm continues to cover numpy↔PyTorch agreement, so
-    Set C now directly exercises the PyTorch implementation.
+    deliverable). numpy↔PyTorch agreement is covered by the numpy_port
+    arm; Set C directly exercises the PyTorch implementation.
+
+    v0.4 / Phase E-1b (DEV-1b-007): the breakdown call injects the
+    T94-consistent Dobson-mineral ground dielectric. Moor House
+    production-path pinning is regression-tested.
     """
     # θ=30° CHH wheat inputs (mirrors the Session D numpy-reference call
     # but using the PyTorch params dataclass).
@@ -337,7 +373,9 @@ def _run_set_C(anchor_json: dict) -> list[dict]:
     )
     try:
         with torch.no_grad():
-            bd = mimics_toure_single_crown_breakdown_torch(params)
+            bd = mimics_toure_single_crown_breakdown_torch(
+                params, ground_dielectric_fn=_t94_mineral_dobson,
+            )
     except Exception as exc:
         return [{
             "id": "Set C (all rows)", "pass": False,
@@ -397,6 +435,7 @@ def _run_set_C(anchor_json: dict) -> list[dict]:
             "delta_db": delta,
             "tolerance_db": tol,
             "pass": delta <= tol,
+            "dielectric_config": "T94-mineral-Dobson (DEV-1b-007)",
             "caveat": None,
         })
     return rows_out
@@ -524,11 +563,12 @@ def run_published_table_arm(anchor_json: dict) -> dict:
     return {
         "arm": "published_table",
         "description": (
-            "PyTorch mimics.py vs Toure 1994 (Sets A/B/C) and "
-            "Ulaby & Long 2014 Table 11-1 (Set C2, informational, "
-            "harness deferred to Phase E-2). Set D EXEMPT pending Phase 1c "
-            "per DEV-1b-005. Anchor values from anchor_reads_v1.json / "
-            "g2_anchor_spec.md v0.3."
+            "PyTorch mimics.py vs Toure 1994 (Sets A/B/C, evaluated under "
+            "T94-consistent Dobson-mineral ground dielectric per "
+            "DEV-1b-007) and Ulaby & Long 2014 Table 11-1 (Set C2, "
+            "informational, harness deferred to Phase E-2). Set D EXEMPT "
+            "pending Phase 1c per DEV-1b-005. Anchor values from "
+            "anchor_reads_v1.json / g2_anchor_spec.md v0.4."
         ),
         "tolerance_db": PUBLISHED_TABLE_TOL_DB,
         "tolerance_db_C5": C5_WIDENED_TOL_DB,
@@ -769,11 +809,13 @@ def run_g2() -> dict:
             "SPEC.md §4; DEV-1b-003 (anchor construction); "
             "DEV-1b-004 (E.1/E.2 dielectric-config amendment); "
             "DEV-1b-005 (Set D Phase 1c exemption); "
-            "g2_anchor_spec.md v0.3"
+            "DEV-1b-007 (Sets A/B/C dielectric-config amendment); "
+            "g2_anchor_spec.md v0.4"
         ),
-        "phase": "Phase E-1 (non-physics; DEV-1b-004 + DEV-1b-005 landed; "
-                 "P3 mechanism decomposition exposed; Phase E-2 physics "
-                 "promotion pending per DEV-1b-006)",
+        "phase": "Phase E-1b (non-physics; DEV-1b-004 + DEV-1b-005 + "
+                 "DEV-1b-007 landed; P3 mechanism decomposition exposed; "
+                 "Phase E-2 per-row physics promotion pending per-row "
+                 "residual characterisation in the checkpoint report)",
         "anchor_reads_source": str(ANCHOR_READS_JSON.relative_to(PROJECT_ROOT)),
         "canonical_combinations_source": str(CANONICAL_JSON.relative_to(PROJECT_ROOT)),
         "arms": {"numpy_port": arm1, "published_table": arm2, "gradient": arm3},
