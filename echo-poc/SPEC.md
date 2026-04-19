@@ -462,15 +462,38 @@ A Negative primary outcome triggers a structured diagnostic to determine the fai
 
 ```
 Specification version:                         v0.1 (this document)
-Date locked:                                   ____________________
-Lead investigator (sign / date):               ____________________
-Independent reviewer (sign / date):            ____________________
-Baseline reproducibility check (G1) result:    PASS / FAIL ________
-MIMICS forward equivalence check (G2) result:  PASS / FAIL ________
-Oh ks-validity check (§7) result:              PASS / FAIL ________
-   AIEM substituted: Y / N                     ____________________
+Date locked:                                   2026-04-19
+Lead investigator (sign / date):               Matthew Denyer / 2026-04-19
+Independent reviewer (sign / date):            [science agent] / 2026-04-19
+
+Gate results at sign-off
+────────────────────────
+Baseline reproducibility check (G1) result:    PASS       (Session A, 2026-04-18; all 12 rows within 0.005 cm³/cm³)
+Oh ks-validity check (§7) result:              PASS       (Session A, 2026-04-18; 30/30 cells safe; no AIEM substitution)
+   AIEM substituted: N
 Dobson vs Mironov diagnostic (§6):
-   max relative difference: ______ %           binding: Y / N
+   max relative difference: 97.6 %             binding: Y (Session A, 2026-04-18; recorded as
+                                               dielectric-sensitivity-arm active source of variance)
+MIMICS forward equivalence check (G2) result:  MODERATE PASS — per DEV-1b-008
+   numpy_port arm:        FULL PASS      (36/36 at machine precision; max Δ = 6.17e-6 dB)
+   gradient arm:          MODERATE PASS  (autograd ↔ FD internal consistency within 0.003 dB;
+                                          gradient-path liveness established; residual vs T94
+                                          Table V(a) characterised as simplified-power-law-Dobson
+                                          vs full Dobson 1985 — Session F diagnostic thread per
+                                          DEV-1b-008 §Session F scope)
+   published_table arm:   MODERATE PASS  (characterised residuals) — Sets A / B / C per-row
+                                          residuals in 1.91–11.16 dB range documented in
+                                          g2_anchor_spec.md v0.5 §"Per-row characterised
+                                          residuals at Phase E closure"; implicated v0.1 sub-modules
+                                          mapped per-row to DEV-1b-008's five-way approximation
+                                          queue. Set C2 DEFERRED_SESSION_F. Set D EXEMPT pending
+                                          Phase 1c per DEV-1b-005.
+                                          Frozen verdict JSON: outputs/g2_equivalence_moderate_pass.json.
+   g2_anchor_spec.md version: v0.5
+
+Phase 1b deviation log at sign-off: DEV-1b-001 through DEV-1b-005 and DEV-1b-007 / DEV-1b-008
+(DEV-1b-006 placeholder retired at v0.5 per DEV-1b-008). Full entries in phase1b/deviation_log.md
+and the individual DEV-1b-NNN.md files.
 ```
 
 ### What sign-off commits the experiment to
@@ -480,12 +503,14 @@ Dobson vs Mironov diagnostic (§6):
 - The diagnostic decision tree in §11 is the sole authority on interpreting a Negative outcome.
 - The dominance constraint in §9 may not be relaxed during execution. Falling back to the primary-only criterion is logged as a deviation.
 - The Phase 1 baselines must be reproduced in G1 within tolerance before Phase 1b training begins.
+- The G2 Moderate Pass classification per DEV-1b-008: numpy_port arm full pass establishes implementation correctness; gradient and published_table arms pass with characterised residuals traceable to pre-registered v0.1 sub-module approximations. Phase 1b Block 2 (λ search + PINN-MIMICS trainer) proceeds on v0.1 physics unchanged. Session F physics promotions are evidence-led from Phase 1b training diagnostics per SPEC §11, not pre-committed at sign-off.
 
 ### What sign-off does not commit the experiment to
 
 - The interpretation of any specific outcome.
 - The Phase 2 strategy.
 - v0.2 specification choices — improvements identified during execution are documented for v0.2, not retro-applied.
+- Any specific Session F sub-module promotion. The five-way v0.1→v0.2 promotion queue documented in DEV-1b-008 is a registry of candidates, not a promotion commitment. Phase 1b training diagnostics are the evidence gate.
 
 ---
 

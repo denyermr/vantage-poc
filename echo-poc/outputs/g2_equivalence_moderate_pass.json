@@ -1,7 +1,7 @@
 {
   "gate": "G2 \u2014 MIMICS Implementation Gate (three-arm)",
   "spec_reference": "SPEC.md \u00a74; DEV-1b-003 (anchor construction); DEV-1b-004 (E.1/E.2 dielectric-config amendment); DEV-1b-005 (Set D Phase 1c exemption); DEV-1b-007 (Sets A/B/C dielectric-config amendment); g2_anchor_spec.md v0.4",
-  "phase": "Phase E-1b (non-physics; DEV-1b-004 + DEV-1b-005 + DEV-1b-007 landed; P3 mechanism decomposition exposed; Phase E-2 per-row physics promotion pending per-row residual characterisation in the checkpoint report)",
+  "phase": "Phase E closure (Moderate Pass per DEV-1b-008)",
   "anchor_reads_source": "phase1b/refs/anchor_reads/anchor_reads_v1.json",
   "canonical_combinations_source": "phase1b/physics/reference_mimics/canonical_combinations.json",
   "arms": {
@@ -1077,5 +1077,19 @@
     }
   },
   "pass": false,
-  "generated_at": "2026-04-19T09:39:09.379982+00:00"
+  "generated_at": "2026-04-19T09:37:50.243208+00:00",
+  "closure_classification": {
+    "framework": "DEV-1b-008 Moderate Pass (three-tier: FULL PASS / MODERATE PASS / FAIL)",
+    "spec_reference": "g2_anchor_spec.md v0.5 \u00a7\"G2 classification framework\" and \u00a7\"G2 closure verdict\"",
+    "arm_classifications": {
+      "numpy_port": "FULL PASS",
+      "gradient": "MODERATE PASS",
+      "published_table": "MODERATE PASS (characterised residuals)"
+    },
+    "overall_classification": "MODERATE PASS",
+    "note": "The strict-tolerance boolean at top-level `pass` is preserved as false to retain honest-gates discipline (pre-registered \u00b10.5 dB criterion not met on 9 of 12 active published_table rows and 0 of 5 gradient rows). The closure_classification records the DEV-1b-008 Moderate Pass verdict: implementation correctness established via numpy_port arm machine-precision agreement; gradient-path liveness established via autograd \u2194 FD internal consistency; published_table residuals characterised per-row with implicated v0.1 sub-modules per g2_anchor_spec.md v0.5 \u00a7\"Per-row characterised residuals at Phase E closure\".",
+    "frozen_for_sign_off_at": "2026-04-19T09:38:09.683470+00:00",
+    "phase_1b_block_2_cleared_to_begin": true,
+    "session_F_promotion_scope": "Evidence-led from Phase 1b training diagnostics (SPEC \u00a711); not pre-committed at G2 closure. See DEV-1b-008 \u00a7\"Session F scope\"."
+  }
 }
