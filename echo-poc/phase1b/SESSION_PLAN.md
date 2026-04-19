@@ -29,30 +29,28 @@ the gate dependencies in `CLAUDE_3.md` and `SPEC.md` §13.
   - [x] [U-4](decisions/U-4-ndwi-mg-mapping.md) / DEV-1b-002 — NDWI → m_g prior withdrawn ([`DEV-1b-002.md`](DEV-1b-002.md))
 - [x] SPEC.md v0.1 installed (sign-off-ready, pending gates)
 
-### Block 1 — Pre-training gates (in progress)
+### Block 1 — Pre-training gates (complete at Phase E closure)
 
-Four gates must pass before SPEC §14 can be signed. G1 is done. G2–G4
-are the focus of Block 1.
+All four gates passed; SPEC §14 signed 2026-04-19. Block 1 closed.
 
 | Gate | Artefact | Status |
 |---|---|---|
-| G1 — Phase 1 baseline reproducibility (SPEC §2) | [`phase1/run_baselines.py`](../phase1/run_baselines.py) | ✅ Passed |
-| G4 — Dobson vs Mironov dielectric diagnostic (SPEC §6, §11 Diag C) | [`implementation_gate/dielectric_diagnostic.py`](implementation_gate/dielectric_diagnostic.py) | ✅ Passed (binding = YES, max \|Δε\|/ε = 97.6%) |
-| G3 — Oh ks-validity across s = 1–5 cm (SPEC §7) | [`implementation_gate/ks_validity_check.py`](implementation_gate/ks_validity_check.py) | ✅ Passed (30/30 cells; no AIEM substitution) |
-| G2 — MIMICS forward equivalence (SPEC §4) | `implementation_gate/equivalence_check.py` + physics + reference | ⏳ pending (sessions B–E) |
+| G1 — Phase 1 baseline reproducibility (SPEC §2) | [`phase1/run_baselines.py`](../phase1/run_baselines.py) | ✅ Passed (Session A, 2026-04-18) |
+| G4 — Dobson vs Mironov dielectric diagnostic (SPEC §6, §11 Diag C) | [`implementation_gate/dielectric_diagnostic.py`](implementation_gate/dielectric_diagnostic.py) | ✅ Passed (binding = YES, max \|Δε\|/ε = 97.6%; Session A, 2026-04-18) |
+| G3 — Oh ks-validity across s = 1–5 cm (SPEC §7) | [`implementation_gate/ks_validity_check.py`](implementation_gate/ks_validity_check.py) | ✅ Passed (30/30 cells; no AIEM substitution; Session A, 2026-04-18) |
+| G2 — MIMICS forward equivalence (SPEC §4) | [`physics/equivalence_check.py`](physics/equivalence_check.py) + v0.1 physics stack + anchor spec v0.5 | ✅ **Moderate Pass** per [`DEV-1b-008`](DEV-1b-008.md) (Session E closure, 2026-04-19); numpy_port FULL PASS at machine precision; gradient + published_table MODERATE PASS with characterised residuals traceable to pre-registered v0.1 sub-module approximations. Frozen verdict JSON at [`../outputs/g2_equivalence_moderate_pass.json`](../outputs/g2_equivalence_moderate_pass.json). |
 
-The ordering is G4 → G3 → G2 rather than numeric because G4 and G3 are
-self-contained and small; G2 is a multi-session software build. Closing
-G4 and G3 first moves us from 1/4 to 3/4 gates passed with clean
-artefacts, before we open the longer G2 work stream.
+SPEC §14 sign-off block completed 2026-04-19 with the three-arm verdict recorded. See [`DEV-1b-008.md`](DEV-1b-008.md) for the full Phase E closure derivation.
 
-### Block 2 — λ search and training infrastructure
+### Block 2 — λ search and training infrastructure (cleared to begin)
 
-After sign-off (G1–G4 passed, SPEC §14 signed), we build:
+After the Phase E closure (G1–G4 all passed or Moderate Pass signed, SPEC §14 signed 2026-04-19), we build:
 
 - PyTorch composite loss (`L = L_data + λ₁·L_physics + λ₂·L_monotonic + λ₃·L_bounds`; **no L_prior**, per DEV-1b-001 and DEV-1b-002)
 - PINN-MIMICS trainer using the shared PhysicsNet + CorrectionNet backbone
 - λ search over the 64-combination grid `(λ₁, λ₂, λ₃) ∈ {0.01, 0.1, 0.5, 1.0}³`, with the SPEC §9 stricter dominance criterion
+
+**Block 2 is the scope of Session F.** See the Session F handoff at the bottom of this document.
 
 ### Block 3 — Execution, diagnostics, reporting
 
@@ -64,9 +62,19 @@ in the same format as `poc_results.md`.
 
 ---
 
-## Active session block — Block 1, sessions A and onward
+## Active session block — Block 2, Session F (next)
 
-### Session A (current) — G4 and G3
+**Block 1 closed 2026-04-19 with Phase E closure (SPEC §14 signed; G2 Moderate Pass per DEV-1b-008).** The active work has moved to Block 2 — λ search + PINN-MIMICS trainer on v0.1 physics unchanged.
+
+See the Session F handoff section at the bottom of this document for the full scope, reading list, and go/no-go criteria for the next session.
+
+---
+
+## Block 1 session history (archived)
+
+All Block 1 sessions are complete. Logs retained below for traceability; each log also lives at the end of its corresponding commit message.
+
+### Session A — G4 and G3
 
 **Goal.** Close out both self-contained gates in a single session.
 
@@ -91,7 +99,7 @@ in the same format as `poc_results.md`.
 - Writing `phase1b/physics/mironov.py` as a new module — for the dielectric diagnostic we reuse the existing `phase1/physics/dielectric.py` classes (`DobsonDielectric`, `MironovDielectric`) which are already correct per SPEC §6. Introducing a Phase 1b copy would double-maintain a frozen artefact without scientific benefit.
 - Any changes to the aligned dataset or Phase 1 code (Tier 1/2 — not touched).
 
-### Sessions B–E (upcoming) — G2
+### Sessions B–E — G2 (all complete)
 
 Scope for G2 is substantial enough that it gets its own breakdown.
 Each session's goal is a reviewable deliverable.
@@ -585,3 +593,341 @@ Reading before starting Session E:
   pre-registered as candidate promotions.
 - [`decisions/U-1-g2-anchor-construction.md`](decisions/U-1-g2-anchor-construction.md)
   for the three-arm structure and Session D handoff.
+
+### 2026-04-19 — Session E Phase E-1 (non-physics deliverables)
+
+Planned (per Decision Memo 1 + Decision Memo 2 "Option a — staged"):
+- Prerequisite 1: verify T94 §II.A dielectric choice (re-read) to
+  branch DEV-1b-004 implementation path.
+- Phase E-1 non-physics items: `ground_epsilon_dobson_torch`;
+  `ground_dielectric_fn` override kwarg; P3 PyTorch mechanism
+  decomposition (`mimics_toure_single_crown_breakdown_torch`);
+  DEV-1b-004 + DEV-1b-005 drafts; `g2_anchor_spec.md` → v0.3
+  (E.1/E.2 dielectric block + Set D EXEMPT + Set C2 registration);
+  harness updates; unit tests; diagnostic checkpoint 1 G2 run.
+- Pause at commit boundary. Go/no-go on Phase E-2 per checkpoint
+  criteria (numpy_port PASS; E.1/E.2 PASS under Dobson; extinction-
+  saturation hypothesis confirmed at Set A θ=30°).
+
+Shipped:
+- **Prerequisite 1 resolved:** T94 uses Dobson 1985 soil dielectric
+  (inherited from MIMICS [Ulaby 1990 ref 19]; verified via text
+  extraction of T94 §II.A, 2026-04-19). DEV-1b-004 takes the clean
+  "use existing Dobson torch function" branch — but the torch version
+  did not exist; added as `ground_epsilon_dobson_torch` with
+  peat-Moor-House defaults bit-identical to the frozen Phase 1
+  `DobsonDielectric`, plus T94-consistent mineral-soil kwargs.
+- [`phase1b/physics/mimics.py`](physics/mimics.py) extended:
+  `ground_epsilon_dobson_torch`, `ground_dielectric_fn` kwarg on the
+  forward + breakdown functions, `mimics_toure_single_crown_breakdown_torch`
+  (P3). Forward and breakdown share a new `_forward_internal` helper
+  so numpy_port agreement on totals implies agreement on every
+  mechanism. Moor House production path bit-identical to pre-refactor.
+- [`phase1b/DEV-1b-004.md`](DEV-1b-004.md) — gradient-arm
+  dielectric-configuration amendment for E.1 / E.2.
+- [`phase1b/DEV-1b-005.md`](DEV-1b-005.md) — Set D EXEMPT pending
+  Phase 1c trunk-layer build. Re-instatement criteria specified.
+- [`phase1b/physics/g2_anchor_spec.md`](physics/g2_anchor_spec.md)
+  v0.2 → v0.3 (E.1/E.2 dielectric-configuration block; Set D EXEMPT
+  marker; Set C2 Table 11-1 24-row registration marked
+  DEFERRED_PHASE_E2).
+- [`phase1b/physics/equivalence_check.py`](physics/equivalence_check.py)
+  updated: Dobson-mineral for E.1/E.2; Set D returns status EXEMPT;
+  Set C2 returns DEFERRED_PHASE_E2; Set C uses the PyTorch breakdown
+  (no more numpy fallback); arm pass predicate excludes EXEMPT and
+  DEFERRED rows.
+- [`phase1b/deviation_log.md`](deviation_log.md) rows added for
+  DEV-1b-003, DEV-1b-004, DEV-1b-005.
+- 11 new unit tests in
+  [`tests/unit/test_mimics_torch.py`](../tests/unit/test_mimics_torch.py):
+  `TestDobsonTorch` (peat defaults parity with frozen; mineral kwargs
+  unclamped at T94 wheat m_v=0.2; clamp preserved; gradient non-zero),
+  `TestTorchBreakdown` (sum = total; key contract; numpy-reference
+  agreement within 0.5 dB), `TestMoorHouseProductionPinning`
+  (production path pinned to `ground_dielectric_fn=None` → Mironov;
+  no module-level state leaks), `TestSetDExemptMessage` (`use_trunk_layer=True`
+  NotImplementedError cross-references DEV-1b-005 / Phase 1c).
+  **Full unit suite: 234 / 234 pass, zero regressions** (up from 223
+  at Session D close).
+- [`phase1b/SESSION_E1_CHECKPOINT.md`](SESSION_E1_CHECKPOINT.md) — Phase
+  E-1 checkpoint report with go/no-go verdict and the material finding
+  (mechanism-decomposition probe at Set A θ=30° showed the Sets A/B/C
+  binding approximation is NOT canopy extinction saturation — two-way
+  extinction is only 8.68 dB vs the 30 dB criterion — but the SAME
+  dielectric-configuration category error DEV-1b-004 addresses for the
+  gradient arm, propagating into the published_table arm via the
+  peat-Mironov clamp at T94's wheat m_v=0.17 g/cm³).
+
+Phase E-1 commits pushed to origin/main as `0a26fc9` (code baseline)
+and `afc44f3` (E-1 audit docs); repo-local git identity configured;
+publisher PDFs (Toure 1994, McDonald 1990, Ulaby & Long 2014 Ch 11)
+added to `.gitignore` as copyrighted (obtained via OU Library, not
+redistributed). Tag `phase1b-session-e1` on `0a26fc9`.
+
+Go/no-go verdict: **NO-GO** on Memo 2's P2-extinction hypothesis.
+Phase E-1 checkpoint recommendation was to escalate the material
+finding to the science agent before proceeding to any physics
+promotion.
+
+Handoff to Phase E-1b: science-agent scope decision awaited.
+
+### 2026-04-19 — Session E Phase E-1b (published_table dielectric amendment)
+
+Planned (per Phase E re-scope decision "Option α — broaden
+DEV-1b-004 to Sets A / B / C"):
+- E.1/E.2 Υ²-attenuation diagnostic to determine whether T94 Table V(a)'s
+  1.21/1.16 dB sensitivities are pre- or post-canopy-attenuation.
+- Draft DEV-1b-007: published_table arm dielectric-configuration
+  amendment for Sets A / B / C.
+- Update `g2_anchor_spec.md` → v0.4.
+- Wire Dobson-mineral callable into `_run_set_A_B` and `_run_set_C`
+  in the harness; expose per-row dominant mechanism for Phase E-2
+  scope authorisation.
+- Re-run G2 end-to-end; write Phase E-1b checkpoint report with
+  per-row residual characterisation.
+- Pause at commit boundary. Go/no-go on Phase E-2 per > 3 dB
+  residual threshold.
+
+Shipped:
+- **Υ²-attenuation diagnostic:** at T94 Table IV(a) wheat L-band
+  reference (θ=30°, m_v=0.2 g/cm³), τ²_v = 0.99921 → two-way canopy
+  loss = 0.003 dB. Canopy is effectively transparent at this
+  operating point; pre-/post-attenuation distinction moot. Our frame
+  = T94's frame. Residual ~7× shortfall (0.17 vs 1.21 dB) is REAL
+  and traces to simplified power-law Dobson (α=0.65) vs T94's full
+  Dobson 1985 four-component mixing model. **Logged as Session F
+  Dobson-fidelity diagnostic thread.**
+- [`phase1b/DEV-1b-007.md`](DEV-1b-007.md) — published_table arm
+  dielectric-configuration amendment for Sets A / B / C. Companion
+  proxy-choice correction: Set A HH proxy switched from VH (cross-pol,
+  systematically 5-8 dB below HH) to VV (co-pol, typically within
+  ~1 dB of HH at C-band wheat); both sigma_torch_vv_db and
+  sigma_torch_vh_db exposed in result JSON. Real HH as first-class
+  channel deferred to Session F (P5 equivalent).
+- [`phase1b/physics/g2_anchor_spec.md`](physics/g2_anchor_spec.md)
+  v0.3 → v0.4 — shared dielectric-configuration block for Sets A/B/C
+  (T94-Dobson-mineral).
+- [`phase1b/physics/equivalence_check.py`](physics/equivalence_check.py)
+  — `_run_set_A_B` and `_run_set_C` pass `_t94_mineral_dobson`
+  callable; per-row `dominant_mechanism` field added to result JSON;
+  Set A HH proxy corrected to VV.
+- [`phase1b/deviation_log.md`](deviation_log.md) — DEV-1b-007
+  summary row.
+- [`phase1b/SESSION_E1B_CHECKPOINT.md`](SESSION_E1B_CHECKPOINT.md)
+  — per-row residual characterisation for all 12 active Sets A/B/C
+  rows + gradient arm + five-item Phase E-2 promotion map.
+- Full unit suite: 234 / 234 pass, zero regressions.
+
+Phase E-1b G2 verdict:
+- numpy_port: PASS 36/36 (unchanged; refactor is bit-identical).
+- gradient: FAIL (mechanism unblocked — autograd ↔ FD internal
+  consistency 0.003 dB; residual ~7× shortfall = Session F thread).
+- published_table: FAIL — residuals substantially reduced vs Phase
+  E-1, but per-row classification: 3 rows 1–3 dB (ground-implicated,
+  Oh-vs-PO suspected); 0 rows 1–3 dB canopy-implicated; **9 of 12
+  active rows > 3 dB** → Escalate per Phase E re-scope decision.
+
+Secondary finding surfaced but NOT resolved in Phase E-1b: Oh 1992
+(SPEC §7 primary for Moor House) vs T94's physical-optics surface
+scattering at T94's wheat site (ks ≈ 0.65) — structurally analogous
+to the DEV-1b-004 / DEV-1b-007 dielectric finding. Proposed as
+either a Phase E-2 DEV-1b-008 Oh-vs-PO harness amendment, OR a
+Session F diagnostic thread. Awaiting science-agent decision.
+
+Commit `212ca2d` pushed; tag `phase1b-session-e1b` on that commit.
+
+Handoff to Phase E-2: science-agent scope decision awaited.
+
+### 2026-04-19 — Session E closure (Phase E-2 reframed as Moderate Pass)
+
+Phase E re-scope decision: **Framing 2 accepted — "Moderate Pass
+— Characterised Residuals"**. Memo 2's original P2-extinction
+hypothesis retired. DEV-1b-008 (different content than the Memo 2
+DEV-1b-006 placeholder) reframes the G2 pre-registration to
+distinguish implementation-correctness testing (numpy_port FULL
+PASS) from cross-configuration equivalence testing (the ±0.5 dB
+tolerance implicitly required matching T94's sub-module choices at
+five distinct layers). Classification tier borrowed from Phase 1
+honest-gates language already committed across White / Yellow /
+Green / Pitch Deck.
+
+Planned (Phase E closure, 7 steps per the re-scope decision):
+1. Draft DEV-1b-008 (Phase E closure: G2 cross-configuration
+   equivalence reframing).
+2. Update `g2_anchor_spec.md` → v0.5 (Moderate Pass framework +
+   per-row characterised residuals).
+3. Update SPEC.md §14 sign-off block.
+4. Run and freeze G2 diagnostic as
+   `outputs/g2_equivalence_moderate_pass.json`.
+5. Update `deviation_log.md` with DEV-1b-008 summary row.
+6. Commit Phase E closure deliverables.
+7. Tag `phase1b-session-e2-moderate-pass` and push.
+
+Shipped (all 7 steps):
+- [`phase1b/DEV-1b-008.md`](DEV-1b-008.md) — Phase E closure DEV
+  entry. Five-way inherited-approximation map documented:
+  (a) simplified power-law Dobson vs full Dobson 1985;
+  (b) Oh 1992 vs physical-optics surface scattering;
+  (c) Rayleigh + sinc² vs Ulaby-Moore-Fung finite-cylinder form factor;
+  (d) real-only UEL vs dual-dispersion UEL;
+  (e) √σ°_oh vs literal Fresnel Γ.
+  Session F scope framed as evidence-led from Phase 1b training
+  diagnostics per SPEC §11. DEV-1b-006 placeholder retired.
+- [`phase1b/physics/g2_anchor_spec.md`](physics/g2_anchor_spec.md)
+  v0.4 → v0.5 — three-tier Moderate Pass framework added; per-row
+  characterised residuals table added for Sets A / B / C / E with
+  Δ dB + dominant mechanism + implicated v0.1 sub-module; Set C2
+  re-scoped from DEFERRED_PHASE_E2 → DEFERRED_SESSION_F.
+- [`../SPEC.md`](../SPEC.md) §14 — sign-off block completed
+  2026-04-19 with the three-arm Moderate Pass verdict recorded.
+- [`../outputs/g2_equivalence_moderate_pass.json`](../outputs/g2_equivalence_moderate_pass.json)
+  — frozen Phase E closure verdict JSON with `closure_classification`
+  metadata wrapper. Raw strict-tolerance boolean at top-level `pass`
+  preserved as false (honest-gates discipline); Moderate Pass verdict
+  layered as classification metadata, not a retroactive tolerance
+  relaxation.
+- [`phase1b/deviation_log.md`](deviation_log.md) — DEV-1b-008 summary
+  row; DEV-1b-006 retirement recorded.
+- Full unit suite: 234 / 234 pass, zero regressions.
+
+**Gate status at SPEC §14 sign-off (2026-04-19):**
+- G1: PASS
+- G2: **MODERATE PASS** per DEV-1b-008
+- G3: PASS
+- G4: PASS, binding = YES (recorded)
+
+Commit `2331cd4` pushed; tag `phase1b-session-e2-moderate-pass` on
+that commit. Cross-document consistency follow-up (White / Yellow /
+Green / Pitch Deck corpus audit for "three-arm within 0.5 dB"
+language) flagged in DEV-1b-008 § "Cross-document consistency
+follow-up"; user handles separately.
+
+Block 1 closed; Block 2 (λ search + PINN-MIMICS trainer) cleared
+to begin. **Handoff to Session F below.**
+
+---
+
+## Session F handoff (Block 2 — λ search + PINN-MIMICS trainer)
+
+### Context at Session F start
+
+Phase 1b Block 1 is closed. G1, G3, G4 all passed; G2 Moderate Pass
+per DEV-1b-008. SPEC §14 signed 2026-04-19. Session F is the first
+session of Block 2.
+
+**Physics stack at Session F start: v0.1, unchanged.** No Session-F
+promotion is pre-committed. Session F physics promotions (if any) are
+**evidence-led from Phase 1b training diagnostics per SPEC §11**, not
+speculatively chosen from DEV-1b-008's five-way approximation queue.
+
+### Session F scope (Block 2 deliverables)
+
+Per SPEC §8, §9, and CLAUDE_3.md's Block 2 description:
+
+1. **PyTorch composite loss** implementing
+   `L = L_data + λ₁·L_physics + λ₂·L_monotonic + λ₃·L_bounds`
+   (no `L_prior` per DEV-1b-001 and DEV-1b-002). `L_physics` is the
+   dual-polarisation term `MSE(σ°_VV_pred, VV_obs) + MSE(σ°_VH_pred, VH_obs)`
+   per SPEC §8; a single shared λ₁ applied to both polarisations.
+2. **PINN-MIMICS trainer** using the shared PhysicsNet + CorrectionNet
+   backbone from Phase 1, with the v0.1 MIMICS forward
+   (`phase1b/physics/mimics.py`) in the PhysicsNet graph. Moor House
+   production path (`ground_dielectric_fn=None` → Mironov with DEV-007
+   clamp) — regression-pinned in `tests/unit/test_mimics_torch.py::TestMoorHouseProductionPinning`.
+3. **λ hyperparameter search** over the 64-combination grid
+   `(λ₁, λ₂, λ₃) ∈ {0.01, 0.1, 0.5, 1.0}³` per SPEC §9. Use the
+   stricter dominance criterion (primary: L_data largest single term;
+   secondary: L_physics > 10% of total loss, new in Phase 1b). Fallback
+   procedure per SPEC §9: if no combination satisfies both criteria,
+   select the dominance-compliant combination with the lowest median
+   validation loss, satisfy the primary criterion only, and log as a
+   deviation. If no combination satisfies even the primary criterion,
+   halt the experiment — do NOT fall back to the Phase 1 procedure.
+4. **Seeds:** `SEED = 42 + config_idx`, identical seeds across the
+   baselines re-run at Session A and PINN-MIMICS. Evaluation set is a
+   stratified 20% held-out validation split within the training pool —
+   **NEVER the sealed test set**.
+
+### What Session F must NOT do
+
+- **Do not touch the sealed test set** (`echo-poc/data/splits/test_indices.json`).
+  It is used only for the final evaluation after the 4×10 factorial runs.
+- **Do not modify the v0.1 physics stack** without a new DEV entry.
+  `reference_toure.py` and `mimics.py` forward physics must stay as
+  signed off at Phase E closure. Any physics promotion requires a
+  DEV-1b-NNN entry documenting the evidence gate (from training
+  diagnostics).
+- **Do not speculatively promote** any of DEV-1b-008's five-way
+  approximations before training-diagnostic evidence implicates it. The
+  promotion queue is a registry of candidates, not a scope commitment.
+- **Do not touch Tier 1** (`phase1/`, `data/raw/`, `data/processed/`,
+  `data/splits/`, frozen `shared/` modules) — CLAUDE_3.md §Frozen-tier.
+
+### Reading before starting Session F
+
+Required, in order:
+
+1. [`../CLAUDE_3.md`](../CLAUDE_3.md) — tier conventions, frozen-vs-active
+   hierarchy, gate protocol, deviation discipline.
+2. [`../SPEC.md`](../SPEC.md) — §8 (composite loss, L_physics
+   dual-pol), §9 (λ search + dominance), §10 (success criteria), §11
+   (diagnostic plan — **this is the Session F scope-authorisation
+   evidence source**), §12 (risk register, R1–R6), §14 (signed sign-off
+   block at Phase E closure).
+3. This SESSION_PLAN, specifically the "Session E closure" log entry
+   above and the handoff in this section.
+4. [`DEV-1b-008.md`](DEV-1b-008.md) — the Phase E closure document and
+   the authoritative statement that Session F promotions are evidence-
+   led, not speculative.
+5. [`physics/g2_anchor_spec.md`](physics/g2_anchor_spec.md) v0.5 — per-row
+   characterised residuals table with implicated v0.1 sub-modules.
+   Useful reference when training diagnostics implicate a specific
+   mechanism.
+6. [`SESSION_E1B_CHECKPOINT.md`](SESSION_E1B_CHECKPOINT.md) — Phase E-1b
+   per-row residual characterisation and the full five-item Phase E-2
+   promotion map (retired as a speculative pre-commit but preserved as
+   a diagnostic reference).
+7. Phase 1 results for backbone architecture: [`../outputs/write-up/poc_results.md`](../outputs/write-up/poc_results.md).
+8. [`../shared/pinn_backbone.py`](../shared/pinn_backbone.py) and
+   [`../phase1/pinn_trainer.py`](../phase1/pinn_trainer.py) for the
+   reference PhysicsNet + CorrectionNet implementation to adapt.
+
+### Session F starting checkpoint
+
+At session start, confirm:
+
+- `git log` shows `phase1b-session-e2-moderate-pass` as the most recent
+  tag on `origin/main`.
+- `python phase1b/physics/equivalence_check.py` exits with
+  `[PASS] numpy_port 36/36`, `[FAIL] published_table ... Set D EXEMPT
+  ... Set C2 DEFERRED`, `[FAIL] gradient 0/5`. (Overall exits non-zero;
+  that is intended per Moderate Pass honest-gates discipline — the
+  Moderate Pass verdict is recorded in `outputs/g2_equivalence_moderate_pass.json`
+  via the `closure_classification` metadata wrapper, not via the raw
+  strict-tolerance boolean.)
+- `pytest tests/unit/` exits 0 with 234 passed.
+- `SPEC.md §14` shows `Lead investigator sign / date: Matthew Denyer / 2026-04-19`.
+
+### Session F done-when
+
+- Block 2 composite loss + PINN-MIMICS trainer implemented.
+- λ search over the 64-combination grid executed; selected combination
+  meets the SPEC §9 dominance constraints or fallback documented in a
+  new DEV entry.
+- SPEC §11 Phase 4 diagnostics (residual analysis, forward fit, parameter
+  sensitivity, residual ratio, cross-pol forward fit, parameter
+  correlation matrix, Dobson-vs-Mironov sensitivity arm, NDWI ↔ m_g
+  correlation) have a scaffolding path ready to execute on the 4×10
+  factorial outputs.
+- Unit tests for the new composite-loss and trainer code; full suite
+  remains at 234+ passing, zero regressions.
+- Session log entry appended to this SESSION_PLAN at session close.
+
+### Session F out-of-scope
+
+- The 4×10 factorial execution itself. That is Block 3.
+- Any Session F physics promotion that is NOT evidence-gated by
+  specific training diagnostics per SPEC §11. Speculative promotion is
+  explicitly rejected at Phase E closure.
+- Cross-document corpus audit (White / Yellow / Green / Pitch Deck) —
+  user handles separately.

@@ -1,11 +1,63 @@
 # PROGRESS.md — ECHO PoC Build State
 
-**Updated:** 2026-03-09  
+**Updated:** 2026-04-19
 **Rule:** This file is the first thing read after CLAUDE.md at every session start. It is the single source of truth for what is done, what is in progress, and what comes next.
+
+> **IMPORTANT:** This PROGRESS.md tracks the **original Phase 1 (ECHO WCM PoC)** build, which is complete and frozen. The active project since April 2026 is **Phase 1b (PINN-MIMICS)**, whose authoritative tracker lives at [`echo-poc/phase1b/SESSION_PLAN.md`](echo-poc/phase1b/SESSION_PLAN.md). Every new session should read that file in full after `CLAUDE_3.md` (Phase 1b engineering constitution at [`echo-poc/CLAUDE_3.md`](echo-poc/CLAUDE_3.md)), then the Phase 1b SPEC at [`echo-poc/SPEC.md`](echo-poc/SPEC.md). The section immediately below is a rolling summary of Phase 1b state; the original Phase 1 log follows below it, retained for traceability.
 
 ---
 
-## Current Status
+## Phase 1b status (active project)
+
+```
+Block 0 — Foundations         [✓] COMPLETE (2026-04-17)
+Block 1 — Pre-training gates  [✓] COMPLETE (2026-04-19, Phase E closure — SPEC §14 signed)
+Block 2 — λ search + trainer  [ ] NOT STARTED — scope of Session F
+Block 3 — Execution + diag    [ ] NOT STARTED
+```
+
+**Active phase:** Phase 1b Block 2 (Session F is the next session).
+**Next task:** Build the PyTorch composite loss + PINN-MIMICS trainer + λ search on v0.1 physics (unchanged at Phase E closure). See [`echo-poc/phase1b/SESSION_PLAN.md`](echo-poc/phase1b/SESSION_PLAN.md) §"Session F handoff" for the full scope, reading order, and go/no-go criteria.
+**Blockers:** None.
+**Start-here doc:** [`echo-poc/phase1b/SESSION_F_START_HERE.md`](echo-poc/phase1b/SESSION_F_START_HERE.md).
+
+### Phase 1b gate status (at SPEC §14 sign-off, 2026-04-19)
+
+| Gate | Status | Result file |
+|---|---|---|
+| G1 — Baseline reproducibility | ✅ PASS | `echo-poc/phase1b/implementation_gate/results/g1_baseline_result.json` |
+| G2 — MIMICS forward equivalence | ✅ **MODERATE PASS** per DEV-1b-008 | `echo-poc/outputs/g2_equivalence_moderate_pass.json` |
+| G3 — Oh ks-validity | ✅ PASS (30/30 cells; no AIEM) | `echo-poc/phase1b/implementation_gate/results/g3_ks.json` |
+| G4 — Dobson vs Mironov | ✅ PASS, binding = YES (97.6 % max rel \|Δε\|/ε) | `echo-poc/phase1b/implementation_gate/results/g4_dielectric.json` |
+
+### Phase 1b deviation log at Phase E closure
+
+Active DEV entries (full documents in `echo-poc/phase1b/DEV-1b-NNN.md`; summary in `echo-poc/phase1b/deviation_log.md`):
+
+- **DEV-1b-001** — NDVI → LAI → N_l prior withdrawn pre-sign-off (2026-04-17).
+- **DEV-1b-002** — NDWI → m_g prior withdrawn pre-sign-off (2026-04-18); NDWI retained as diagnostic-only covariate.
+- **DEV-1b-003** — G2 anchor construction via Toure 1994 + McDonald 1990 PDFs + three-arm structure (2026-04-18).
+- **DEV-1b-004** — Gradient arm E.1 / E.2 dielectric-configuration amendment (T94 Dobson mineral-soil; 2026-04-19).
+- **DEV-1b-005** — Set D (M90 walnut L-band) EXEMPT pending Phase 1c trunk-layer build (2026-04-19).
+- **DEV-1b-006** — *Retired placeholder* at `g2_anchor_spec.md` v0.5 per DEV-1b-008.
+- **DEV-1b-007** — Published_table arm Sets A / B / C dielectric-configuration amendment + Set A VV-as-HH proxy correction (2026-04-19).
+- **DEV-1b-008** — Phase E closure: G2 Moderate Pass classification framework + five-way v0.1→v0.2 sub-module promotion queue registered (2026-04-19).
+
+### Git tags (at `origin/main`, repo `denyermr/vantage-poc`)
+
+```
+phase1b-session-e2-moderate-pass  @ 2331cd4  — Phase E closure; SPEC §14 signed; Block 2 cleared
+phase1b-session-e1b               @ 212ca2d  — DEV-1b-007 (published_table dielectric amendment)
+phase1b-session-e1                @ 0a26fc9  — Phase E-1 code baseline
+```
+
+---
+
+## Phase 1 status (original WCM PoC — frozen reference)
+
+The section below is preserved verbatim from 2026-03-09. Phase 1 is complete; Phase 1b re-uses frozen Phase 1 artefacts (baselines, data, splits, shared backbone) under the Tier 1 conventions in `echo-poc/CLAUDE_3.md`. **Do not modify Phase 1 artefacts** — see CLAUDE_3.md §Frozen-tier.
+
+### Original Phase 1 Current Status (2026-03-09 snapshot)
 
 ```
 Phase 1 — Data Acquisition        [✓] COMPLETE — Gate 1 passed (with deviations DEV-003/004/005)
@@ -15,9 +67,9 @@ Phase 4 — Diagnostics             [✓] COMPLETE — All 4 diagnostics run, fi
 Phase 5 — Results Paper            [✓] COMPLETE — poc_results.md drafted
 ```
 
-**Active phase:** All phases complete
-**Next task:** Human review of results paper, then Carbon13 materials
-**Blockers:** None
+**Phase 1 active phase (at freeze):** All phases complete.
+**Phase 1 next task:** Human review of results paper, then Carbon13 materials.
+**Phase 1 blockers:** None.
 
 ---
 
