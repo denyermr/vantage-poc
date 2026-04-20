@@ -89,6 +89,8 @@ def train_pinn_mimics_single_rep(
     y_val: np.ndarray,
     vv_db_train_raw: np.ndarray,
     vv_db_val_raw: np.ndarray,
+    vh_db_train_raw: np.ndarray,
+    vh_db_val_raw: np.ndarray,
     theta_train_deg: np.ndarray,
     theta_val_deg: np.ndarray,
     lambda_physics: float,
@@ -145,11 +147,15 @@ def train_pinn_mimics_single_rep(
     y_val_t = torch.tensor(y_val, dtype=torch.float32, device=device)
     vv_train_t = torch.tensor(vv_db_train_raw, dtype=torch.float32, device=device)
     vv_val_t = torch.tensor(vv_db_val_raw, dtype=torch.float32, device=device)
+    vh_train_t = torch.tensor(vh_db_train_raw, dtype=torch.float32, device=device)
+    vh_val_t = torch.tensor(vh_db_val_raw, dtype=torch.float32, device=device)
     theta_train_t = torch.tensor(theta_train_deg, dtype=torch.float32, device=device)
     theta_val_t = torch.tensor(theta_val_deg, dtype=torch.float32, device=device)
 
     bs = min(batch_size, len(X_train))
-    train_ds = TensorDataset(X_train_t, y_train_t, vv_train_t, theta_train_t)
+    train_ds = TensorDataset(
+        X_train_t, y_train_t, vv_train_t, vh_train_t, theta_train_t,
+    )
 
     history: List[Dict[str, float]] = []
     best_val_loss = float("inf")
@@ -163,11 +169,11 @@ def train_pinn_mimics_single_rep(
         g.manual_seed(seed + epoch)
         loader = DataLoader(train_ds, batch_size=bs, shuffle=True, generator=g)
 
-        for X_b, y_b, vv_b, theta_b in loader:
+        for X_b, y_b, vv_b, vh_b, theta_b in loader:
             optimizer.zero_grad()
             out = model(X_b, theta_b, vv_b)
             loss_dict = compute_pinn_mimics_loss(
-                out, y_b, vv_b,
+                out, y_b, vv_b, vh_b,
                 lambda_physics=lambda_physics,
                 lambda_monotonic=lambda_monotonic,
                 lambda_bounds=lambda_bounds,
@@ -180,7 +186,7 @@ def train_pinn_mimics_single_rep(
         with torch.no_grad():
             val_out = model(X_val_t, theta_val_t, vv_val_t)
             val_loss = compute_pinn_mimics_loss(
-                val_out, y_val_t, vv_val_t,
+                val_out, y_val_t, vv_val_t, vh_val_t,
                 lambda_physics=lambda_physics,
                 lambda_monotonic=lambda_monotonic,
                 lambda_bounds=lambda_bounds,
@@ -197,6 +203,8 @@ def train_pinn_mimics_single_rep(
             "val_weighted_l_monotonic": val_loss["weighted_l_monotonic"].item(),
             "val_weighted_l_bounds": val_loss["weighted_l_bounds"].item(),
             "val_l_physics_unweighted": val_loss["l_physics"].item(),
+            "val_l_physics_vv": val_loss["l_physics_vv"].item(),
+            "val_l_physics_vh": val_loss["l_physics_vh"].item(),
             "N_b": float(model.N_b.item()),
             "N_l": float(model.N_l.item()),
             "sigma_orient_deg": float(model.sigma_orient_deg.item()),
@@ -443,17 +451,21 @@ def run_lambda_search_f2(
         # MIMICS uses degrees; prepare_pinn_data gives radians, so re-extract
         # the raw degree column. The raw feature vector retains the degree
         # values (config.FEATURE_COLUMNS includes 'incidence_angle_mean').
+        # Also extract raw vh_db for the SPEC §8 joint VV+VH L_physics term
+        # (DEV-1b-010); prepare_pinn_data pre-DEV-1b-010 only exposed vv_db.
         import pandas as pd
         df = pd.read_csv(aligned_dataset_path)
         theta_col = config.FEATURE_COLUMNS.index("incidence_angle_mean")
-        theta_train_deg = df[config.FEATURE_COLUMNS].values[
-            cfg["train_indices"]
-        ][:, theta_col].astype(np.float32)
-        theta_val_deg = df[config.FEATURE_COLUMNS].values[
-            cfg["val_indices"]
-        ][:, theta_col].astype(np.float32)
+        vh_col = config.FEATURE_COLUMNS.index("vh_db")
+        feat_vals = df[config.FEATURE_COLUMNS].values
+        theta_train_deg = feat_vals[cfg["train_indices"]][:, theta_col].astype(np.float32)
+        theta_val_deg = feat_vals[cfg["val_indices"]][:, theta_col].astype(np.float32)
+        vh_db_train_raw = feat_vals[cfg["train_indices"]][:, vh_col].astype(np.float32)
+        vh_db_val_raw = feat_vals[cfg["val_indices"]][:, vh_col].astype(np.float32)
         data["theta_train_deg"] = theta_train_deg
         data["theta_val_deg"] = theta_val_deg
+        data["vh_db_train_raw"] = vh_db_train_raw
+        data["vh_db_val_raw"] = vh_db_val_raw
         config_data.append(data)
 
     combos: List[tuple] = list(itertools.product(LAMBDA_GRID, LAMBDA_GRID, LAMBDA_GRID))
@@ -519,6 +531,8 @@ def run_lambda_search_f2(
                 y_val=data["y_val"],
                 vv_db_train_raw=data["vv_db_train_raw"],
                 vv_db_val_raw=data["vv_db_val_raw"],
+                vh_db_train_raw=data["vh_db_train_raw"],
+                vh_db_val_raw=data["vh_db_val_raw"],
                 theta_train_deg=data["theta_train_deg"],
                 theta_val_deg=data["theta_val_deg"],
                 lambda_physics=lp,
@@ -839,8 +853,12 @@ def _run_smoke_test() -> None:
     import pandas as pd
     df = pd.read_csv(config.DATA_PROCESSED / "aligned_dataset.csv")
     theta_col = config.FEATURE_COLUMNS.index("incidence_angle_mean")
-    theta_train_deg = df[config.FEATURE_COLUMNS].values[data["config"]["train_indices"]][:, theta_col].astype(np.float32)
-    theta_val_deg = df[config.FEATURE_COLUMNS].values[data["config"]["val_indices"]][:, theta_col].astype(np.float32)
+    vh_col = config.FEATURE_COLUMNS.index("vh_db")
+    feat_vals = df[config.FEATURE_COLUMNS].values
+    theta_train_deg = feat_vals[data["config"]["train_indices"]][:, theta_col].astype(np.float32)
+    theta_val_deg = feat_vals[data["config"]["val_indices"]][:, theta_col].astype(np.float32)
+    vh_db_train_raw = feat_vals[data["config"]["train_indices"]][:, vh_col].astype(np.float32)
+    vh_db_val_raw = feat_vals[data["config"]["val_indices"]][:, vh_col].astype(np.float32)
 
     t0 = time.time()
     result = train_pinn_mimics_single_rep(
@@ -850,6 +868,8 @@ def _run_smoke_test() -> None:
         y_val=data["y_val"],
         vv_db_train_raw=data["vv_db_train_raw"],
         vv_db_val_raw=data["vv_db_val_raw"],
+        vh_db_train_raw=vh_db_train_raw,
+        vh_db_val_raw=vh_db_val_raw,
         theta_train_deg=theta_train_deg,
         theta_val_deg=theta_val_deg,
         lambda_physics=LAMBDA_GRID[0],

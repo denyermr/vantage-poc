@@ -30,13 +30,13 @@ Ground dielectric:
     injection point is intentionally not exposed here per the v0.1
     physics freeze (DEV-1b-008).
 
-Composite loss (SPEC §8):
+Composite loss (SPEC §8, joint VV+VH per DEV-1b-010):
     L = L_data + λ₁·L_physics + λ₂·L_monotonic + λ₃·L_bounds
 
     L_data      = MSE(m_v_final, m_v_observed)
-    L_physics   = MSE(σ°_VV_MIMICS, VV_observed)      (co-pol only, VH is
-                                                       evaluated post-hoc
-                                                       as Secondary 3)
+    L_physics   = MSE(σ°_VV_MIMICS, VV_observed) + MSE(σ°_VH_MIMICS, VH_observed)
+                  (joint VV+VH, single shared λ₁ across both pol terms;
+                   "the central change" of Phase 1b from Phase 1 per SPEC §3 Δ-row)
     L_monotonic = mean(ReLU(−dε_ground/dm_v))         (finite-diff probe)
     L_bounds    = mean(ReLU(−m_v_final) + ReLU(m_v_final − PEAT_THETA_SAT))
 
@@ -269,6 +269,7 @@ def compute_pinn_mimics_loss(
     outputs: Dict[str, torch.Tensor],
     m_v_observed: torch.Tensor,
     vv_db_observed: torch.Tensor,
+    vh_db_observed: torch.Tensor,
     lambda_physics: float,
     lambda_monotonic: float,
     lambda_bounds: float,
@@ -278,13 +279,28 @@ def compute_pinn_mimics_loss(
 
         L = L_data + λ_physics · L_physics + λ_mono · L_monotonic + λ_bounds · L_bounds
 
+        L_physics = MSE(σ°_VV_pred, VV_obs) + MSE(σ°_VH_pred, VH_obs)
+                  — joint VV+VH per SPEC §8 (signed 2026-04-19).
+                    A single shared λ_physics weights both pol terms
+                    per SPEC §8 "single shared λ₁ is used across both
+                    polarisation terms; per-pol separate λs are explicitly
+                    out of scope for v0.1."
+
     The L_data coefficient is fixed at 1.0 per SPEC §8; it is NOT a search
     axis. The three λ's are the Phase 1b λ-search axes per SPEC §9.
+
+    DEV-1b-010 (2026-04-20) established joint VV+VH as the binding
+    formulation after an F-3 entry-check cross-reference caught a VV-only
+    implementation divergence from SPEC §8. Regression-tested in
+    `tests/unit/test_pinn_mimics_loss_joint.py`. Any revert to VV-only
+    would fail those tests and require a new DEV entry.
 
     Args:
         outputs:             Output dict from `PinnMimics.forward()`.
         m_v_observed:        Ground-truth VWC (N,) in cm³/cm³.
         vv_db_observed:      Observed VV backscatter (N,) in dB, unnormalised.
+        vh_db_observed:      Observed VH backscatter (N,) in dB, unnormalised.
+                             Required per SPEC §8 joint VV+VH formulation.
         lambda_physics:      Weight for L_physics (SPEC §9 λ₁).
         lambda_monotonic:    Weight for L_monotonic (SPEC §9 λ₂).
         lambda_bounds:       Weight for L_bounds (SPEC §9 λ₃).
@@ -293,26 +309,35 @@ def compute_pinn_mimics_loss(
         dict with keys (all scalar tensors):
             total:                     L.
             l_data:                    MSE(m_v_final, m_v_observed).
-            l_physics:                 MSE(σ°_VV_MIMICS, VV_observed).
+            l_physics:                 MSE(σ°_VV, VV_obs) + MSE(σ°_VH, VH_obs).
+            l_physics_vv:              MSE(σ°_VV, VV_obs) — diagnostic breakdown.
+            l_physics_vh:              MSE(σ°_VH, VH_obs) — diagnostic breakdown.
             l_monotonic:               mean(ReLU(−dε/dm_v)).
             l_bounds:                  mean(ReLU(−m_v) + ReLU(m_v − θ_sat)).
-            weighted_l_physics:        λ_physics · L_physics.
+            weighted_l_physics:        λ_physics · L_physics (joint VV+VH sum).
             weighted_l_monotonic:      λ_monotonic · L_monotonic.
             weighted_l_bounds:         λ_bounds · L_bounds.
 
     Reference:
-        SPEC.md §8.
+        SPEC.md §8 (joint VV+VH composite loss — "the central change").
+        DEV-1b-010 (implementation-vs-SPEC §8 divergence resolution).
     """
     m_v_final = outputs["m_v_final"]
     m_v_physics = outputs["m_v_physics"]
     sigma_vv_db = outputs["sigma_vv_db"]
+    sigma_vh_db = outputs["sigma_vh_db"]
     epsilon_base = outputs["epsilon_ground"]
 
     # L_data
     l_data = torch.nn.functional.mse_loss(m_v_final, m_v_observed)
 
-    # L_physics — VV co-pol only (VH is Secondary 3 post-hoc)
-    l_physics = torch.nn.functional.mse_loss(sigma_vv_db, vv_db_observed)
+    # L_physics — joint VV+VH per SPEC §8 (DEV-1b-010).
+    # Single shared λ_physics weights the sum of the two per-pol MSE terms.
+    # VV and VH contributions retained separately in the return dict for
+    # diagnostic transparency (D-1 / D-3 / Secondary 1 / Secondary 3).
+    l_physics_vv = torch.nn.functional.mse_loss(sigma_vv_db, vv_db_observed)
+    l_physics_vh = torch.nn.functional.mse_loss(sigma_vh_db, vh_db_observed)
+    l_physics = l_physics_vv + l_physics_vh
 
     # L_monotonic — dε/dm_v > 0 via finite-difference probe on Mironov.
     # Detach the anchor so the probe does not create second-order gradients.
@@ -338,6 +363,8 @@ def compute_pinn_mimics_loss(
         "total": total,
         "l_data": l_data,
         "l_physics": l_physics,
+        "l_physics_vv": l_physics_vv,
+        "l_physics_vh": l_physics_vh,
         "l_monotonic": l_monotonic,
         "l_bounds": l_bounds,
         "weighted_l_physics": weighted_l_physics,
