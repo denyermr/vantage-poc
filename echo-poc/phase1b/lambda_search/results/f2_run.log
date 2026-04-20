@@ -1,0 +1,72 @@
+2026-04-19 18:44:15  __main__                      INFO      Loading 10 × 100%% training configs...
+2026-04-19 18:50:08  __main__                      INFO      F-2 [1/64] λ=(0.01,0.01,0.01) med_val=0.0362 prim=8/10 sec=10/10 phys_frac=0.450 dt=353.6s
+2026-04-19 18:56:15  __main__                      INFO      F-2 [2/64] λ=(0.01,0.01,0.10) med_val=0.0353 prim=9/10 sec=10/10 phys_frac=0.435 dt=366.7s
+2026-04-19 19:10:15  __main__                      INFO      F-2 [3/64] λ=(0.01,0.01,0.50) med_val=0.0354 prim=7/10 sec=10/10 phys_frac=0.432 dt=840.6s
+2026-04-20 07:09:49  __main__                      INFO      F-2 [4/64] λ=(0.01,0.01,1.00) med_val=0.0357 prim=9/10 sec=10/10 phys_frac=0.437 dt=43173.6s
+2026-04-20 08:56:27  __main__                      INFO      Loading 10 × 100%% training configs...
+2026-04-20 08:56:27  __main__                      INFO      F-2 [1/64] λ=(0.01,0.01,0.01) RESUMED from disk med_val=0.0362 prim=8/10 sec=10/10 phys_frac=0.450
+2026-04-20 08:56:27  __main__                      INFO      F-2 [2/64] λ=(0.01,0.01,0.10) RESUMED from disk med_val=0.0353 prim=9/10 sec=10/10 phys_frac=0.435
+2026-04-20 08:56:27  __main__                      INFO      F-2 [3/64] λ=(0.01,0.01,0.50) RESUMED from disk med_val=0.0354 prim=7/10 sec=10/10 phys_frac=0.432
+2026-04-20 08:56:27  __main__                      INFO      F-2 [4/64] λ=(0.01,0.01,1.00) RESUMED from disk med_val=0.0357 prim=9/10 sec=10/10 phys_frac=0.437
+2026-04-20 09:02:22  __main__                      INFO      F-2 [5/64] λ=(0.01,0.10,0.01) med_val=0.0362 prim=8/10 sec=10/10 phys_frac=0.450 dt=355.2s
+2026-04-20 09:08:17  __main__                      INFO      F-2 [6/64] λ=(0.01,0.10,0.10) med_val=0.0353 prim=9/10 sec=10/10 phys_frac=0.435 dt=354.8s
+2026-04-20 09:14:25  __main__                      INFO      F-2 [7/64] λ=(0.01,0.10,0.50) med_val=0.0354 prim=7/10 sec=10/10 phys_frac=0.432 dt=367.7s
+2026-04-20 09:20:24  __main__                      INFO      F-2 [8/64] λ=(0.01,0.10,1.00) med_val=0.0357 prim=9/10 sec=10/10 phys_frac=0.437 dt=358.8s
+2026-04-20 09:26:10  __main__                      INFO      F-2 [9/64] λ=(0.01,0.50,0.01) med_val=0.0362 prim=8/10 sec=10/10 phys_frac=0.450 dt=345.6s
+2026-04-20 09:32:11  __main__                      INFO      F-2 [10/64] λ=(0.01,0.50,0.10) med_val=0.0353 prim=9/10 sec=10/10 phys_frac=0.435 dt=361.3s
+2026-04-20 09:38:20  __main__                      INFO      F-2 [11/64] λ=(0.01,0.50,0.50) med_val=0.0354 prim=7/10 sec=10/10 phys_frac=0.432 dt=369.1s
+2026-04-20 09:43:43  __main__                      INFO      F-2 [12/64] λ=(0.01,0.50,1.00) med_val=0.0357 prim=9/10 sec=10/10 phys_frac=0.437 dt=323.0s
+2026-04-20 09:48:51  __main__                      INFO      F-2 [13/64] λ=(0.01,1.00,0.01) med_val=0.0362 prim=8/10 sec=10/10 phys_frac=0.450 dt=307.5s
+2026-04-20 09:54:10  __main__                      INFO      F-2 [14/64] λ=(0.01,1.00,0.10) med_val=0.0353 prim=9/10 sec=10/10 phys_frac=0.435 dt=319.8s
+2026-04-20 09:59:32  __main__                      INFO      F-2 [15/64] λ=(0.01,1.00,0.50) med_val=0.0354 prim=7/10 sec=10/10 phys_frac=0.432 dt=321.2s
+2026-04-20 10:04:43  __main__                      INFO      F-2 [16/64] λ=(0.01,1.00,1.00) med_val=0.0357 prim=9/10 sec=10/10 phys_frac=0.437 dt=311.4s
+2026-04-20 10:11:17  __main__                      INFO      F-2 [17/64] λ=(0.10,0.01,0.01) med_val=0.1337 prim=0/10 sec=10/10 phys_frac=0.835 dt=394.1s
+2026-04-20 10:17:52  __main__                      INFO      F-2 [18/64] λ=(0.10,0.01,0.10) med_val=0.1333 prim=0/10 sec=10/10 phys_frac=0.835 dt=395.2s
+2026-04-20 10:24:29  __main__                      INFO      F-2 [19/64] λ=(0.10,0.01,0.50) med_val=0.1332 prim=0/10 sec=10/10 phys_frac=0.836 dt=396.8s
+2026-04-20 10:31:04  __main__                      INFO      F-2 [20/64] λ=(0.10,0.01,1.00) med_val=0.1335 prim=0/10 sec=10/10 phys_frac=0.832 dt=394.2s
+2026-04-20 10:38:00  __main__                      INFO      F-2 [21/64] λ=(0.10,0.10,0.01) med_val=0.1337 prim=0/10 sec=10/10 phys_frac=0.835 dt=416.1s
+2026-04-20 10:44:33  __main__                      INFO      F-2 [22/64] λ=(0.10,0.10,0.10) med_val=0.1333 prim=0/10 sec=10/10 phys_frac=0.835 dt=393.5s
+2026-04-20 10:51:08  __main__                      INFO      F-2 [23/64] λ=(0.10,0.10,0.50) med_val=0.1332 prim=0/10 sec=10/10 phys_frac=0.836 dt=394.9s
+2026-04-20 10:57:45  __main__                      INFO      F-2 [24/64] λ=(0.10,0.10,1.00) med_val=0.1335 prim=0/10 sec=10/10 phys_frac=0.832 dt=396.5s
+2026-04-20 11:04:18  __main__                      INFO      F-2 [25/64] λ=(0.10,0.50,0.01) med_val=0.1337 prim=0/10 sec=10/10 phys_frac=0.835 dt=393.4s
+2026-04-20 11:10:54  __main__                      INFO      F-2 [26/64] λ=(0.10,0.50,0.10) med_val=0.1333 prim=0/10 sec=10/10 phys_frac=0.835 dt=395.6s
+2026-04-20 11:17:30  __main__                      INFO      F-2 [27/64] λ=(0.10,0.50,0.50) med_val=0.1332 prim=0/10 sec=10/10 phys_frac=0.836 dt=396.1s
+2026-04-20 11:24:04  __main__                      INFO      F-2 [28/64] λ=(0.10,0.50,1.00) med_val=0.1335 prim=0/10 sec=10/10 phys_frac=0.832 dt=393.8s
+2026-04-20 11:30:37  __main__                      INFO      F-2 [29/64] λ=(0.10,1.00,0.01) med_val=0.1337 prim=0/10 sec=10/10 phys_frac=0.835 dt=393.0s
+2026-04-20 11:37:11  __main__                      INFO      F-2 [30/64] λ=(0.10,1.00,0.10) med_val=0.1333 prim=0/10 sec=10/10 phys_frac=0.835 dt=394.5s
+2026-04-20 11:43:44  __main__                      INFO      F-2 [31/64] λ=(0.10,1.00,0.50) med_val=0.1332 prim=0/10 sec=10/10 phys_frac=0.836 dt=392.8s
+2026-04-20 11:50:19  __main__                      INFO      F-2 [32/64] λ=(0.10,1.00,1.00) med_val=0.1335 prim=0/10 sec=10/10 phys_frac=0.832 dt=394.4s
+2026-04-20 11:56:54  __main__                      INFO      F-2 [33/64] λ=(0.50,0.01,0.01) med_val=0.5827 prim=0/10 sec=10/10 phys_frac=0.961 dt=395.6s
+2026-04-20 12:03:28  __main__                      INFO      F-2 [34/64] λ=(0.50,0.01,0.10) med_val=0.5824 prim=0/10 sec=10/10 phys_frac=0.961 dt=393.3s
+2026-04-20 12:10:02  __main__                      INFO      F-2 [35/64] λ=(0.50,0.01,0.50) med_val=0.5825 prim=0/10 sec=10/10 phys_frac=0.962 dt=394.6s
+2026-04-20 12:16:41  __main__                      INFO      F-2 [36/64] λ=(0.50,0.01,1.00) med_val=0.5823 prim=0/10 sec=10/10 phys_frac=0.961 dt=398.6s
+2026-04-20 12:23:17  __main__                      INFO      F-2 [37/64] λ=(0.50,0.10,0.01) med_val=0.5827 prim=0/10 sec=10/10 phys_frac=0.961 dt=396.4s
+2026-04-20 12:29:55  __main__                      INFO      F-2 [38/64] λ=(0.50,0.10,0.10) med_val=0.5824 prim=0/10 sec=10/10 phys_frac=0.961 dt=397.0s
+2026-04-20 12:36:32  __main__                      INFO      F-2 [39/64] λ=(0.50,0.10,0.50) med_val=0.5825 prim=0/10 sec=10/10 phys_frac=0.962 dt=397.3s
+2026-04-20 12:43:11  __main__                      INFO      F-2 [40/64] λ=(0.50,0.10,1.00) med_val=0.5823 prim=0/10 sec=10/10 phys_frac=0.961 dt=399.0s
+2026-04-20 12:49:47  __main__                      INFO      F-2 [41/64] λ=(0.50,0.50,0.01) med_val=0.5827 prim=0/10 sec=10/10 phys_frac=0.961 dt=395.9s
+2026-04-20 12:56:26  __main__                      INFO      F-2 [42/64] λ=(0.50,0.50,0.10) med_val=0.5824 prim=0/10 sec=10/10 phys_frac=0.961 dt=399.1s
+2026-04-20 13:03:15  __main__                      INFO      F-2 [43/64] λ=(0.50,0.50,0.50) med_val=0.5825 prim=0/10 sec=10/10 phys_frac=0.962 dt=409.2s
+2026-04-20 13:10:09  __main__                      INFO      F-2 [44/64] λ=(0.50,0.50,1.00) med_val=0.5823 prim=0/10 sec=10/10 phys_frac=0.961 dt=413.2s
+2026-04-20 13:17:00  __main__                      INFO      F-2 [45/64] λ=(0.50,1.00,0.01) med_val=0.5827 prim=0/10 sec=10/10 phys_frac=0.961 dt=411.5s
+2026-04-20 13:23:54  __main__                      INFO      F-2 [46/64] λ=(0.50,1.00,0.10) med_val=0.5824 prim=0/10 sec=10/10 phys_frac=0.961 dt=413.6s
+2026-04-20 13:30:31  __main__                      INFO      F-2 [47/64] λ=(0.50,1.00,0.50) med_val=0.5825 prim=0/10 sec=10/10 phys_frac=0.962 dt=397.7s
+2026-04-20 13:37:11  __main__                      INFO      F-2 [48/64] λ=(0.50,1.00,1.00) med_val=0.5823 prim=0/10 sec=10/10 phys_frac=0.961 dt=399.5s
+2026-04-20 13:43:52  __main__                      INFO      F-2 [49/64] λ=(1.00,0.01,0.01) med_val=1.1419 prim=0/10 sec=10/10 phys_frac=0.980 dt=401.1s
+2026-04-20 13:50:58  __main__                      INFO      F-2 [50/64] λ=(1.00,0.01,0.10) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=426.1s
+2026-04-20 13:58:12  __main__                      INFO      F-2 [51/64] λ=(1.00,0.01,0.50) med_val=1.1417 prim=0/10 sec=10/10 phys_frac=0.980 dt=433.3s
+2026-04-20 14:05:04  __main__                      INFO      F-2 [52/64] λ=(1.00,0.01,1.00) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=412.0s
+2026-04-20 14:11:47  __main__                      INFO      F-2 [53/64] λ=(1.00,0.10,0.01) med_val=1.1419 prim=0/10 sec=10/10 phys_frac=0.980 dt=403.3s
+2026-04-20 14:18:33  __main__                      INFO      F-2 [54/64] λ=(1.00,0.10,0.10) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=405.9s
+2026-04-20 14:25:24  __main__                      INFO      F-2 [55/64] λ=(1.00,0.10,0.50) med_val=1.1417 prim=0/10 sec=10/10 phys_frac=0.980 dt=411.4s
+2026-04-20 14:32:14  __main__                      INFO      F-2 [56/64] λ=(1.00,0.10,1.00) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=409.8s
+2026-04-20 14:39:02  __main__                      INFO      F-2 [57/64] λ=(1.00,0.50,0.01) med_val=1.1419 prim=0/10 sec=10/10 phys_frac=0.980 dt=407.7s
+2026-04-20 14:45:48  __main__                      INFO      F-2 [58/64] λ=(1.00,0.50,0.10) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=405.6s
+2026-04-20 14:52:34  __main__                      INFO      F-2 [59/64] λ=(1.00,0.50,0.50) med_val=1.1417 prim=0/10 sec=10/10 phys_frac=0.980 dt=405.8s
+2026-04-20 14:59:23  __main__                      INFO      F-2 [60/64] λ=(1.00,0.50,1.00) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=409.5s
+2026-04-20 15:06:02  __main__                      INFO      F-2 [61/64] λ=(1.00,1.00,0.01) med_val=1.1419 prim=0/10 sec=10/10 phys_frac=0.980 dt=398.3s
+2026-04-20 15:12:39  __main__                      INFO      F-2 [62/64] λ=(1.00,1.00,0.10) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=397.4s
+2026-04-20 15:19:16  __main__                      INFO      F-2 [63/64] λ=(1.00,1.00,0.50) med_val=1.1417 prim=0/10 sec=10/10 phys_frac=0.980 dt=396.4s
+2026-04-20 15:25:54  __main__                      INFO      F-2 [64/64] λ=(1.00,1.00,1.00) med_val=1.1416 prim=0/10 sec=10/10 phys_frac=0.980 dt=398.8s
+2026-04-20 15:25:54  __main__                      INFO      F-2 λ search complete in 389.5 min. Tier=HALT. Output: /Users/matthewdenyer/Documents/Vantage/Science/PoC/vantage-poc/echo-poc/phase1b/lambda_search/results/lambda_search_f2_result.json
+2026-04-20 15:25:54  __main__                      WARNING   F-2 HALT: no combination satisfies the primary dominance constraint. Phase 1 fallback is NOT retained per SPEC §9. F-3 authorisation required from the science agent with a re-scoping decision.

@@ -931,3 +931,73 @@ At session start, confirm:
   explicitly rejected at Phase E closure.
 - Cross-document corpus audit (White / Yellow / Green / Pitch Deck) —
   user handles separately.
+
+---
+
+## Session F log (Block 2 — λ search + PINN-MIMICS trainer)
+
+### F-1 — Pre-register success criteria (closed 2026-04-19)
+
+**Goal.** Lock the Phase 1b outcome categories, pre-registered success
+criteria, and Phase 4 diagnostic thresholds before any training is run.
+
+Shipped:
+- [`SUCCESS_CRITERIA.md`](SUCCESS_CRITERIA.md) v1.0 (locked 2026-04-19,
+  mirrors SPEC §9 and §10 verbatim).
+- Dual-reading pre-mitigation: F-2 λ-search result JSON schema records
+  both aggregation readings per combination (`primary_dominance_all_reps`
+  and `primary_dominance_mean_across_reps`, secondary equivalents), so
+  any ambiguity in the SPEC §9 "averaged over all 10 reps" phrasing
+  surfaces at F-2 close rather than being silently committed.
+- Commit `cea7ec9`; unit suite 244 / 244 passed.
+
+### F-2 — λ hyperparameter search (closed 2026-04-20)
+
+**Goal.** Execute SPEC §9 λ search over 4³ = 64 combinations × 10 reps
+at the 100 % training fraction; classify per the three-tier fallback;
+select λ for F-3.
+
+Executed: 64 / 64 combinations, 10 reps each, 389.5 min wall clock on
+Apple Silicon MPS under `caffeinate`. Zero non-finite aborts. All
+per-rep histories persisted.
+
+Adjudication at close: implementation-vs-pre-registration-text
+divergence surfaced when tier classification under the strict
+all-reps-AND reading (inherited from Phase 1) produced HALT while the
+verbatim-text cross-rep mean reading produced FULL_DOMINANCE. The
+science agent adjudicated: the verbatim pre-registered text binds
+([`DEV-1b-009`](DEV-1b-009.md)). The mean-across-reps reading is the
+binding aggregation rule for F-2 tier classification and for future
+Phase 1b cross-rep aggregations (D-1 through D-4 in SUCCESS_CRITERIA.md §6).
+
+Shipped:
+- [`DEV-1b-009.md`](DEV-1b-009.md) — Deviation entry resolving the
+  interpretation of SPEC §9 "averaged over all 10 reps". Siblings
+  DEV-1b-008 (same pattern of implementation-vs-pre-registration-text
+  divergence).
+- [`lambda_search/run_f2.py`](lambda_search/run_f2.py) — tier-
+  classification block amended to drive on the mean-across-reps
+  reading. Dual-reading record-keeping unchanged.
+- [`lambda_search/results/lambda_search_f2_result.json`](lambda_search/results/lambda_search_f2_result.json)
+  — regenerated under the binding reading. Tier 1 **FULL_DOMINANCE**,
+  selected combo_idx=1, λ = (0.01, 0.01, 0.10), median_val_loss =
+  0.03531, mean_physics_fraction = 0.435.
+- [`SESSION_F2_CHECKPOINT.md`](SESSION_F2_CHECKPOINT.md) — dual-reading
+  checkpoint report with §3 structure (aggregation rule, strict
+  reading, binding mean reading, selected λ, F-3 trajectory).
+- [`../tests/unit/test_f2_dominance_reading.py`](../tests/unit/test_f2_dominance_reading.py)
+  — 5 regression tests pinning the DEV-1b-009 adjudication.
+- [`SESSION_F3_START_HERE.md`](SESSION_F3_START_HERE.md) — F-3 entry
+  point for the fresh session.
+
+**Gate status at F-2 close:**
+- G1: PASS. G2: MODERATE PASS (DEV-1b-008). G3: PASS. G4: PASS.
+- F-2 λ search: Tier 1 **FULL_DOMINANCE** under the DEV-1b-009-binding
+  mean-across-reps reading; Tier 3 HALT under the strict all-reps-AND
+  reading (recorded for transparency).
+- Unit suite: 249 / 249 passed (+5 from F-2).
+
+F-2 closed. Block 3 (F-3 main 120-run experiment + Phase 4
+diagnostics + Phase 1b results document) authorised to begin in a
+fresh session; entry point at
+[`SESSION_F3_START_HERE.md`](SESSION_F3_START_HERE.md).

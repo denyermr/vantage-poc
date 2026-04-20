@@ -43,6 +43,16 @@ echo-poc/outputs/write-up/
 # Keep gate results trackable but not required
 # echo-poc/outputs/gates/
 
+# Phase 1b λ-search per-rep training histories. The main result JSON
+# (`lambda_search_f2_result.json`) captures all decision-relevant data
+# (per-rep final-window means, dominance flags, val losses, physics
+# fractions). The per-epoch full training trajectories in
+# per_rep_histories/ are diagnostic-only (~150 MB) and regeneratable by
+# re-running F-2; excluded from git to keep repo size bounded. The
+# directory remains on disk locally as the F-2 resume / re-classification
+# source artefact.
+echo-poc/phase1b/lambda_search/results/per_rep_histories/
+
 # Node modules
 node_modules/
 .next/
