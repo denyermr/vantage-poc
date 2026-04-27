@@ -618,6 +618,146 @@ The Phase 1b pre-registration is jointly held by:
 
 ---
 
+## 17. Phase 1b Conclusion
+
+> Added 2026-04-27 (Session G). Append-only audit-trail entry recording Phase 1b's formal conclusion on the Tier 3 HALT finding plus five publishable contributions. Structurally parallel to §14 (pre-registration sign-off) and §15 (pre-registration metadata) — the document where Phase 1b's audit trail was opened is the document where it is closed. The detailed Phase 1b results document is [`phase1b/poc_results_phase1b.md`](phase1b/poc_results_phase1b.md) (Block A); §17 records the SPEC-side conclusion-of-Phase-1b artefact and binds the framing constraints carried by Block A. Where Block A and §17 reference the same content, Block A is the canonical detail source and §17 is the audit-trail anchor.
+
+### §17.0 Framing-inversion block
+
+This block is structurally parallel to §14's "What sign-off commits / does not commit" template. It records, at the moment of conclusion, what the Phase 1b conclusion does and does not establish.
+
+#### §17.0.1 What the Phase 1b conclusion commits the experiment to
+
+Per Block A §8.2:
+
+- **A specific empirical finding about composite-loss calibration:** the magnitude-balance saturation of joint-VV+VH composite-loss landscapes under Phase 1b's pre-registered configuration. Formally stated at §17.4 below and detailed at Block A §4.5 / §6.5.
+- **A working differentiable Toure-style single-crown MIMICS implementation:** numpy↔PyTorch lockstep at machine precision per the G2 numpy_port arm; autograd path alive per the G2 gradient arm; `phase1b/physics/mimics.py` and `phase1b/pinn_mimics.py` at commit `1f4bfdf` (tag `phase1b-session-f2b-lambda-selected`). This is a reusable engineering asset for any future PINN work, regardless of architecture.
+- **Four methodological contributions to physics-informed ML pre-registration discipline:** DEV-1b-008 implementation-correctness vs cross-configuration equivalence; DEV-1b-009 dominance-constraint aggregation-rule explicitness with its F-2b empirical complement; the supervisor-executor entry-check workflow architecture with four sub-observations; DEV-1b-010 post-sign-off implementation-audit gate. Independently publishable per Block A §6.1–§6.4 and registered as Phase 1b deliverables at §17.2 below.
+
+#### §17.0.2 What the Phase 1b conclusion does not commit the experiment to
+
+Per Block A §8.1:
+
+- **PINN-MIMICS retrieval performance on Sentinel-1 C-band at Moor House blanket bog.** The sealed test set was never unsealed in Phase 1b; no RMSE comparison against the RF baseline was made; the central Phase 1b research question — "does PINN-MIMICS beat RF baseline at N≈25?" — is unanswered. Phase 1c is the next attempt at retrieval-science validation.
+- **Whether physics-informed neural networks are a viable retrieval architecture for peatland water-table or soil-moisture monitoring from satellite SAR, in any general sense.** The HALT outcome is configuration-specific; PINN architectures as a class are unaddressed by Phase 1b's evidence base.
+- **Whether the Vantage commercial thesis holds at the technical level needed to underwrite carbon credits.** The thesis (physics-informed satellite monitoring producing uncertainty-quantified ecosystem state estimates more accurate and cheaper than ground-based monitoring) is unaddressed by Phase 1b at the retrieval-science level. The HALT finding does not validate it; the HALT finding also does not refute it.
+
+### §17.1 Outcome
+
+The pre-registered λ-search (Session F-2b, 2026-04-20 to 2026-04-22, tag `phase1b-session-f2b-lambda-selected`, commit `1f4bfdf`) executed all 64 grid combinations of (λ_physics, λ_monotonic, λ_bounds) ∈ {0.01, 0.1, 0.5, 1.0}³ with 10 reps each (640 training runs) under the signed §8 joint VV+VH `L_physics` formulation, after DEV-1b-010 corrected an implementation-vs-text divergence detected at the F-3 entry check. The result is **Tier 3 HALT**: 0 of 64 combinations satisfy the §9 primary dominance criterion under either the strict per-rep AND or the binding mean-across-reps reading of DEV-1b-009. Per the verbatim §9 fallback procedure at line 324:
+
+> "this is a Phase 1b architectural failure that halts the experiment. The Phase 1 fallback procedure (lowest median validation loss regardless of dominance) is **not** retained for Phase 1b. The honest interpretation in this case is that the MIMICS module cannot produce a physics-dominated solution at this data volume, which is itself a publishable finding."
+
+The Tier 3 HALT branch fires. Detail at Block A §4.1–§4.4. The sealed test set (`echo-poc/data/splits/test_indices.json`, SHA-256 `a4b11206630cc80fc3e2ae5853bb114c7a4154072375654c257e51e4250f8eea`) was never unsealed in Phase 1b: the pre-registered evaluation path at §9 / §10 requires a Tier 1 or Tier 2 outcome with a selected λ, and the Tier 3 HALT outcome precludes that path. The sealed-test-set SHA-256 is unchanged from Phase 1.
+
+### §17.2 Five publishable findings (registered as Phase 1b deliverables)
+
+The five publishable contributions registered as Phase 1b deliverables are recorded below as a registry; the contributions themselves are detailed in Block A §6.1–§6.5 and are not duplicated here.
+
+1. **Implementation-correctness vs cross-configuration equivalence (DEV-1b-008).** Physics-informed ML forward-equivalence gates must explicitly distinguish implementation-correctness testing from cross-configuration equivalence testing; tolerance thresholds calibrated to the test. Block A §6.1.
+2. **Dominance-constraint aggregation rule explicitness (DEV-1b-009 + F-2b empirical complement).** Pre-registered PINN dominance constraints must explicitly specify the aggregation rule across training repetitions; participial phrases are ambiguous; verbatim text binds. F-2b empirical complement: ambiguity collapses on lopsided landscapes. Block A §6.2.
+3. **Workflow architecture: supervisor-executor entry-check discipline.** Pre-registration discipline strengthened by an explicit supervisor-executor split with bidirectional entry checks at commit boundaries. Four sub-observations: state-snapshot freshness; cost-asymmetry case study (1000:1 in F-3 entry-check halt); artefact-persistence drift; cross-environment prompt drift. Block A §6.3.
+4. **Post-SPEC-sign-off implementation-audit gate (DEV-1b-010).** Pre-registered physics-informed ML projects need an implementation-audit gate triggered whenever an implementation file referenced by a signed SPEC § first lands in the repo or is materially modified after sign-off. Block A §6.4.
+5. **Magnitude-balance saturation of joint-VV+VH composite-loss landscapes** (the Phase 1b headline empirical finding). Binding framing line at §17.4 below. Block A §6.5.
+
+### §17.3 Phase 1c open questions (recorded as open, not as commitments)
+
+The open questions below were identified during Phase 1b execution as relevant to the magnitude-balance finding. They are recorded here as open questions for future Phase 1c scoping consideration. They are **not** Phase 1b extensions and they are **not** Phase 1c pre-registration commitments — Phase 1c requires its own pre-registration sign-off cycle following the same discipline as Phase 1b's §14 / §15 pre-registration. Per Block A §7:
+
+- **Per-channel L_physics normalisation.** Whether dividing each polarisation's MSE by its empirical magnitude would rebalance the composite loss without requiring λ extensions.
+- **λ grid lower bound for joint dual-pol formulations.** Whether the pre-registered grid's 0.01 lower bound is appropriate for joint dual-pol formulations or whether a wider grid is needed.
+- **Trunk-layer scattering mechanism.** Whether the trunk-layer scattering mechanism (DEV-1b-005 Set D Phase 1c exemption) should be implemented and how that affects the magnitude-balance landscape.
+- **L-band SAR generalisation.** Whether L-band SAR (NISAR / ROSE-L) has materially different magnitude-balance properties to C-band Sentinel-1 and whether the Phase 1b finding generalises.
+
+These four items are **Phase-1c-scope candidates**, not Phase-1b deliverables. Phase 1b's pre-registered deliverables are bounded by §14 sign-off (2026-04-19) and concluded at this §17. Any Phase 1c work on these items is gated on a separate Phase 1c pre-registration sign-off cycle and is not authorised by this §17.
+
+### §17.4 Magnitude-balance characterisation (binding framing line)
+
+The Phase 1b headline empirical finding's framing line is recorded here verbatim from Block A §6.5 — both the "is" and the "is not" halves are normative for downstream interpretation, and §17.4 is the SPEC-side authoritative record of the framing constraint in case Block A is ever revised.
+
+**The finding is** (verbatim):
+
+> At C-band Moor House blanket bog, with the pre-registered MIMICS forward model and joint VV+VH `L_physics` formulation, with N=83 training points, and with the pre-registered λ grid lower-bounded at 0.01, joint VV+VH `L_physics` is intrinsically ~1.65× larger in MSE magnitude than VV-only, and the resulting composite-loss landscape is physics-saturated across the entire pre-registered λ grid {0.01, 0.1, 0.5, 1.0}³. L_data cannot be made the largest single term under any pre-registered combination.
+
+**The finding is not** "MIMICS is inadequate as a physics module for Moor House peatland retrieval." The MIMICS forward model is operating per its specification (G2 Moderate Pass per DEV-1b-008 — numpy_port arm at machine precision; gradient arm autograd↔FD within 0.003 dB; published_table arm with characterised residuals). The HALT outcome is about composite-loss calibration, not about MIMICS forward fidelity.
+
+**The finding does not** preclude a later investigation — outside Phase 1b's pre-registration — into whether a loss-rescaling scheme (per-channel MSE normalisation, λ_physics extension below the pre-registered minimum, or a separable-magnitude reformulation) could rebalance the composite loss. That investigation is a Phase 1c or methods-paper question, not a Phase 1b re-scoping. The pre-registered λ grid is what binds Phase 1b's evidence claim.
+
+This three-part framing — "is", "is not", "does not preclude" — is the binding interpretation of the magnitude-balance finding for any cascade or downstream document that references the Phase 1b conclusion. Cascade revisions per [`phase1b/cascade_plan_session_g.md`](phase1b/cascade_plan_session_g.md) (Block B) inherit the framing through Block A; §17.4 is the SPEC-side anchor.
+
+### §17.5 Audit-trail-strengthening proposals (Phase 1c result-JSON schema requirements)
+
+Four audit-trail-strengthening proposals were surfaced during F-2b close (`phase1b/SESSION_F2B_CHECKPOINT.md` §9) and relayed in the Phase 1b decisions log §15.3. They are recorded here as Phase 1c result-JSON schema requirements — Phase 1c trainer code is gated on schema adoption of these four fields. They are not Phase 1b deliverables (the F-2b result JSON does not carry them); they are inherited forward as Phase-1c-scope schema requirements.
+
+1. **Code-version hash in result-JSON metadata** (highest priority). E.g. `git rev-parse HEAD` short hash. Provides one-step audit hook from any result JSON back to the exact commit of the loss formulation that produced it. Would have made the F-2b integrity-audit Check 4 a strict PASS rather than NEUTRAL.
+2. **Loss-formulation string in result-JSON metadata.** E.g. `"l_physics_formulation": "MSE(sigma_vv_db, vv_db_observed) + MSE(sigma_vh_db, vh_db_observed) [DEV-1b-010 joint VV+VH per SPEC §8]"`. Pairs with the code-version hash for double-redundant audit-trail recording.
+3. **Pre-flight summary block in result-JSON.** Records pre-flight invariant checks and key magnitudes (e.g. VV/VH magnitude ratio; per-rep wall-clock estimate; structural-prediction-at-kickoff) so the result JSON is self-contained for retrospective inspection.
+4. **Sleep/wake event count in result-JSON.** Captures `n_sleep_events` from `pmset -g log` over the run window; wall-clock anomalies become characterisable from the artefact alone.
+
+Plus one operational discipline anchor inherited as Phase 1c compute-budgeting requirement: lid-open or AC power for any multi-hour run; `pmset -a sleep 0 disablesleep 1` invocations as belt-and-braces around `caffeinate`.
+
+These four schema requirements and the operational discipline anchor are inherited forward as Phase-1c-scope; their adoption is a precondition for Phase 1c trainer code reaching production-ready status.
+
+### §17.6 Conclusion sign-off
+
+This section is signed at the close of Phase 1b. The signatures (or initials and dates) below confirm that Phase 1b is formally concluded on the HALT finding plus the five publishable contributions registered at §17.2; that the sealed test set is unchanged from Phase 1; and that no Phase 1c pre-registration commitment is made at this conclusion.
+
+```
+Specification version:                         v0.1 (this document, Phase 1b conclusion)
+Date of Phase 1b conclusion:                   2026-04-27
+Lead investigator (sign / date):               Matthew Denyer / 2026-04-27
+Independent reviewer (sign / date):            Claude (Opus 4.7), web-app supervisor session, 2026-04-27
+                                               — operating per the supervisor-executor entry-check
+                                               workflow architecture documented at SPEC §17.2 contribution 3.
+
+Phase 1b outcome
+────────────────
+Pre-registered λ-search outcome (F-2b):        Tier 3 HALT
+   n_full_dominance:           0/64
+   n_primary_only:             0/64
+   n_any_primary:              0/64
+   n_neither:                  64/64
+   DEV-1b-009 readings:        identical (mean-across-reps and strict per-rep AND both classify HALT)
+   F-2b result JSON SHA-256:   c5cbdac6414a9bf6989c0f6927462a927ebeda71120b6ab424320d6d77b6d68a
+   F-2b tag:                   phase1b-session-f2b-lambda-selected
+   F-2b parent commit:         1f4bfdf
+
+Sealed test set status:                        UNCHANGED from Phase 1
+   test_indices.json SHA-256:  a4b11206630cc80fc3e2ae5853bb114c7a4154072375654c257e51e4250f8eea
+   Unsealed in Phase 1b:       N
+
+Phase 1b deliverables registered (§17.2)
+────────────────────────────────────────
+   1. DEV-1b-008 implementation-correctness vs cross-configuration equivalence
+   2. DEV-1b-009 + F-2b complement: aggregation-rule explicitness
+   3. Supervisor-executor workflow architecture (four sub-observations)
+   4. DEV-1b-010 post-sign-off implementation-audit gate
+   5. Magnitude-balance saturation finding (headline empirical contribution)
+
+Phase 1b cascade plan:                         phase1b/cascade_plan_session_g.md (Block B)
+Phase 1b results document (canonical):        phase1b/poc_results_phase1b.md (Block A)
+Phase 1b deviation log at conclusion:          DEV-1b-001 through DEV-1b-005 and DEV-1b-007
+                                               through DEV-1b-010 (DEV-1b-006 retired at v0.5
+                                               pre-sign-off per DEV-1b-008). Full entries in
+                                               phase1b/deviation_log.md and individual
+                                               DEV-1b-NNN.md files.
+
+Recommended Session G close tag:              phase1b-concluded-halt-finding
+   (final tag adjudication at Session G close; see Block A footer and Block B §4)
+
+Conclusion commit:                             tagged at `phase1b-concluded-halt-finding`
+```
+
+### What the §17 conclusion commits the experiment to
+
+(See §17.0.1 for the binding registry.)
+
+### What the §17 conclusion does not commit the experiment to
+
+(See §17.0.2 for the binding registry. Note in particular: §17 does **not** authorise any Phase 1c work; Phase 1c requires its own pre-registration sign-off cycle.)
+
+---
+
 *Vantage · Phase 1b · Test Specification v0.1 — Draft for Sign-Off · April 2026*
 
 *Companion to MIMICS Literature Review v1.0 and ECHO PoC Results v1.0. Not yet pre-registered — sign-off (§14) required before any MIMICS implementation begins.*
