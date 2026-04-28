@@ -56,7 +56,7 @@ from __future__ import annotations
 
 import logging
 import math
-from typing import Dict
+from typing import Dict, Union
 
 import torch
 import torch.nn as nn
@@ -370,4 +370,216 @@ def compute_pinn_mimics_loss(
         "weighted_l_physics": weighted_l_physics,
         "weighted_l_monotonic": weighted_l_monotonic,
         "weighted_l_bounds": weighted_l_bounds,
+    }
+
+
+# ─── Phase 1c-Lean per-channel normalised composite (SPEC §18.4.1 v0.3) ──────
+
+
+def compute_init_sigma_normalisers(
+    model: "PinnMimics",
+    X_train: torch.Tensor,
+    theta_inc_deg_train: torch.Tensor,
+    vv_db_train: torch.Tensor,
+    vh_db_train: torch.Tensor,
+) -> Dict[str, float]:
+    """
+    Compute σ_VV and σ_VH at training initialisation per SPEC §18.4.1 (v0.3).
+
+    σ_VV / σ_VH are the standard deviations of the unweighted per-sample
+    physics losses (squared backscatter errors in dB²) over the training set's
+    first forward pass at randomly-initialised network weights:
+
+        ε_vv[i] = (σ°_VV_pred[i] − VV_obs[i])²
+        σ_VV   = std_pop(ε_vv)            (population std, ddof=0)
+
+    Population std (`unbiased=False`) is used so the Arm 3 invariant
+    `std(ε_vv / σ_VV) == 1` is exact (a sample-std σ would leave a residual
+    factor of √(n / (n−1)) on the normalised series).
+
+    Per-batch normalisation is explicitly out of scope (SPEC §18.4.1): σ values
+    are computed once here and treated as constants for the duration of
+    training. They are saved to the model checkpoint and reproduced verbatim
+    in the pre-flight summary block (SPEC §18.11 schema item 3).
+
+    Args:
+        model:                Initialised `PinnMimics` instance (any random seed).
+        X_train:              Normalised feature matrix (N, n_features).
+        theta_inc_deg_train:  Per-sample incidence angles (N,) in degrees.
+        vv_db_train:          Observed VV backscatter (N,) in dB, unnormalised.
+        vh_db_train:          Observed VH backscatter (N,) in dB, unnormalised.
+
+    Returns:
+        Dict with keys `sigma_vv`, `sigma_vh` — Python floats. Both are
+        guaranteed nonzero finite floats (the function raises ValueError
+        otherwise; a zero σ would corrupt the divisor in the normalised
+        composite and is treated as a hard implementation-gate failure).
+
+    Reference:
+        SPEC.md §18.4.1 (per-channel normalisation specification, v0.3)
+        SPEC.md §18.6.1 Arm 3 (scale-sanity invariant)
+    """
+    was_training = model.training
+    model.eval()
+    try:
+        with torch.no_grad():
+            outputs = model(X_train, theta_inc_deg_train, vv_db_train)
+            sq_err_vv = (outputs["sigma_vv_db"] - vv_db_train) ** 2
+            sq_err_vh = (outputs["sigma_vh_db"] - vh_db_train) ** 2
+            sigma_vv = sq_err_vv.std(unbiased=False).item()
+            sigma_vh = sq_err_vh.std(unbiased=False).item()
+    finally:
+        if was_training:
+            model.train()
+
+    if not (math.isfinite(sigma_vv) and sigma_vv > 0.0):
+        raise ValueError(
+            f"σ_VV must be a positive finite float; got {sigma_vv!r}. "
+            "SPEC §18.4.1 forbids σ-floor / clamp; a zero-or-NaN σ_VV at init "
+            "is a hard G2-Lean implementation gate failure."
+        )
+    if not (math.isfinite(sigma_vh) and sigma_vh > 0.0):
+        raise ValueError(
+            f"σ_VH must be a positive finite float; got {sigma_vh!r}. "
+            "SPEC §18.4.1 forbids σ-floor / clamp; a zero-or-NaN σ_VH at init "
+            "is a hard G2-Lean implementation gate failure."
+        )
+
+    return {"sigma_vv": sigma_vv, "sigma_vh": sigma_vh}
+
+
+def compute_pinn_mimics_loss_normalised(
+    outputs: Dict[str, torch.Tensor],
+    m_v_observed: torch.Tensor,
+    vv_db_observed: torch.Tensor,
+    vh_db_observed: torch.Tensor,
+    lambda_vv: Union[float, torch.Tensor],
+    lambda_vh: Union[float, torch.Tensor],
+    lambda_monotonic: Union[float, torch.Tensor],
+    lambda_bounds: Union[float, torch.Tensor],
+    sigma_vv: Union[float, torch.Tensor],
+    sigma_vh: Union[float, torch.Tensor],
+) -> Dict[str, torch.Tensor]:
+    """
+    Phase 1c-Lean per-channel normalised composite loss (SPEC §18.4.1 v0.3).
+
+        L = L_data
+            + λ_VV · (L_phys_VV / σ_VV)
+            + λ_VH · (L_phys_VH / σ_VH)
+            + λ_monotonic · L_monotonic
+            + λ_bounds   · L_bounds
+
+    Sibling to `compute_pinn_mimics_loss` (Phase 1b F-2b joint VV+VH formulation).
+    The original is left byte-for-byte unchanged so F-2b is reproducible exactly.
+
+    The five-term composite reuses every Phase 1b per-term computation
+    verbatim (L_data MSE on m_v, per-pol MSE on σ° in dB, L_monotonic
+    finite-difference probe on Mironov ε, L_bounds [0, θ_sat] hinge); the
+    only intervention is per-channel σ-normalisation of the two physics
+    terms with separate λ_VV / λ_VH weights. λ_data ≡ 1.0 is fixed; only
+    λ_VV and λ_VH are tuned in the Phase 1c-Lean 6×6=36 grid (§18.4.2).
+    λ_monotonic and λ_bounds are fixed at 0.01 each per §18.4.1, but are
+    accepted as arguments here so the function remains general for the
+    G2-Lean Arm 2 finite-difference gradient check.
+
+    σ_VV and σ_VH are computed once at training initialisation by
+    `compute_init_sigma_normalisers` and treated as constants in the
+    composite. Per-batch re-normalisation is explicitly out of scope
+    (SPEC §18.4.1): a moving-target normaliser conflates the magnitude-
+    balance question with optimiser dynamics.
+
+    Args:
+        outputs:           Output dict from `PinnMimics.forward()`.
+        m_v_observed:      Ground-truth VWC (N,) in cm³/cm³.
+        vv_db_observed:    Observed VV backscatter (N,) in dB, unnormalised.
+        vh_db_observed:    Observed VH backscatter (N,) in dB, unnormalised.
+        lambda_vv:         Weight on the σ-normalised VV physics term (§18.4.2).
+        lambda_vh:         Weight on the σ-normalised VH physics term (§18.4.2).
+        lambda_monotonic:  Weight on L_monotonic (fixed at 0.01 in production
+                           Phase 1c-Lean per §18.4.1).
+        lambda_bounds:     Weight on L_bounds (fixed at 0.01 in production
+                           Phase 1c-Lean per §18.4.1).
+        sigma_vv:          Per-channel σ for VV (positive scalar).
+        sigma_vh:          Per-channel σ for VH (positive scalar).
+
+    Returns:
+        Dict of scalar tensors. The unnormalised `l_physics_vv`, `l_physics_vh`,
+        `l_physics`, `l_data`, `l_monotonic`, `l_bounds` are echoed verbatim
+        from the Phase 1b loss for diagnostic continuity (§18.9 amplitude-
+        residual ratio depends on the unnormalised forms). Phase 1c-Lean
+        additions: `l_physics_vv_normalised`, `l_physics_vh_normalised`,
+        `weighted_l_physics_vv_normalised`, `weighted_l_physics_vh_normalised`,
+        `weighted_l_physics_normalised` (their sum), and the σ values echoed
+        for result-JSON logging (§18.11 item 6).
+
+    Reference:
+        SPEC.md §18.4.1 (per-channel normalisation, v0.3)
+        SPEC.md §18.6.1 (G2-Lean three-arm equivalence gate)
+        SPEC.md §18.11 (result-JSON schema items 3 and 6)
+    """
+    m_v_final = outputs["m_v_final"]
+    m_v_physics = outputs["m_v_physics"]
+    sigma_vv_db = outputs["sigma_vv_db"]
+    sigma_vh_db = outputs["sigma_vh_db"]
+    epsilon_base = outputs["epsilon_ground"]
+
+    # L_data — unchanged from Phase 1b.
+    l_data = torch.nn.functional.mse_loss(m_v_final, m_v_observed)
+
+    # L_physics_VV / L_physics_VH — unchanged per-pol MSE from Phase 1b.
+    # Joint sum retained as `l_physics` for diagnostic continuity with
+    # Phase 1b §18.9 amplitude-residual ratio reporting.
+    l_physics_vv = torch.nn.functional.mse_loss(sigma_vv_db, vv_db_observed)
+    l_physics_vh = torch.nn.functional.mse_loss(sigma_vh_db, vh_db_observed)
+    l_physics = l_physics_vv + l_physics_vh
+
+    # Per-channel σ-normalised physics terms (the v0.3 single intervention).
+    l_physics_vv_normalised = l_physics_vv / sigma_vv
+    l_physics_vh_normalised = l_physics_vh / sigma_vh
+
+    # L_monotonic — finite-difference Mironov probe; unchanged from Phase 1b.
+    perturbation = 1.0e-3
+    m_v_probe = m_v_physics.detach() + perturbation
+    eps_probe = ground_epsilon_mironov_torch(m_v_probe)
+    eps_base_detached = epsilon_base.detach()
+    d_eps = (eps_probe - eps_base_detached) / perturbation
+    l_monotonic = torch.relu(-d_eps).mean()
+
+    # L_bounds — unchanged from Phase 1b.
+    l_bounds = (
+        torch.relu(-m_v_final) + torch.relu(m_v_final - PEAT_THETA_SAT)
+    ).mean()
+
+    weighted_l_physics_vv_normalised = lambda_vv * l_physics_vv_normalised
+    weighted_l_physics_vh_normalised = lambda_vh * l_physics_vh_normalised
+    weighted_l_physics_normalised = (
+        weighted_l_physics_vv_normalised + weighted_l_physics_vh_normalised
+    )
+    weighted_l_monotonic = lambda_monotonic * l_monotonic
+    weighted_l_bounds = lambda_bounds * l_bounds
+
+    total = (
+        l_data
+        + weighted_l_physics_normalised
+        + weighted_l_monotonic
+        + weighted_l_bounds
+    )
+
+    return {
+        "total": total,
+        "l_data": l_data,
+        "l_physics": l_physics,
+        "l_physics_vv": l_physics_vv,
+        "l_physics_vh": l_physics_vh,
+        "l_physics_vv_normalised": l_physics_vv_normalised,
+        "l_physics_vh_normalised": l_physics_vh_normalised,
+        "l_monotonic": l_monotonic,
+        "l_bounds": l_bounds,
+        "weighted_l_physics_vv_normalised": weighted_l_physics_vv_normalised,
+        "weighted_l_physics_vh_normalised": weighted_l_physics_vh_normalised,
+        "weighted_l_physics_normalised": weighted_l_physics_normalised,
+        "weighted_l_monotonic": weighted_l_monotonic,
+        "weighted_l_bounds": weighted_l_bounds,
+        "sigma_vv": torch.as_tensor(sigma_vv, dtype=l_data.dtype),
+        "sigma_vh": torch.as_tensor(sigma_vh, dtype=l_data.dtype),
     }

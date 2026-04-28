@@ -1,0 +1,115 @@
+{
+  "arm": "autograd_finite_difference",
+  "spec_version": "v0.3",
+  "loss_formulation": "v0.3_five_term_per_channel_normalised",
+  "param_grad": {
+    "n_params_tested": 8,
+    "max_rel_diff": 6.019950057054183e-09,
+    "tolerance_rel": 0.001,
+    "pass": true,
+    "rows": [
+      {
+        "param_name": "physics_net.net.2.weight",
+        "flat_idx": 82,
+        "autograd": -0.000154757000726383,
+        "fd_central": -0.00015475700165801243,
+        "abs_diff": 9.316294209606862e-13,
+        "rel_diff": 6.019950057054183e-09
+      },
+      {
+        "param_name": "physics_net.net.2.weight",
+        "flat_idx": 94,
+        "autograd": 0.0,
+        "fd_central": 0.0,
+        "abs_diff": 0.0,
+        "rel_diff": 0.0
+      },
+      {
+        "param_name": "correction_net.net.3.weight",
+        "flat_idx": 390,
+        "autograd": -0.0011926584088502456,
+        "fd_central": -0.00119265840953231,
+        "abs_diff": 6.820644309762924e-13,
+        "rel_diff": 5.71885818709615e-10
+      },
+      {
+        "param_name": "correction_net.net.3.weight",
+        "flat_idx": 413,
+        "autograd": -0.00020938066306911023,
+        "fd_central": -0.00020938066280784537,
+        "abs_diff": 2.612648595731737e-13,
+        "rel_diff": 1.247798415305133e-09
+      },
+      {
+        "param_name": "correction_net.net.3.weight",
+        "flat_idx": 1261,
+        "autograd": 0.003388982919457506,
+        "fd_central": 0.0033889829192945693,
+        "abs_diff": 1.6293650456633557e-13,
+        "rel_diff": 4.807829028315603e-11
+      },
+      {
+        "param_name": "correction_net.net.3.weight",
+        "flat_idx": 1433,
+        "autograd": -0.00022394415353175253,
+        "fd_central": -0.00022394415349902272,
+        "abs_diff": 3.272981386782947e-14,
+        "rel_diff": 1.4615167822717366e-10
+      },
+      {
+        "param_name": "correction_net.net.3.weight",
+        "flat_idx": 1730,
+        "autograd": 0.0,
+        "fd_central": 0.0,
+        "abs_diff": 0.0,
+        "rel_diff": 0.0
+      },
+      {
+        "param_name": "correction_net.net.3.bias",
+        "flat_idx": 18,
+        "autograd": -0.0016190641052110718,
+        "fd_central": -0.0016190641050073393,
+        "abs_diff": 2.0373243023175114e-13,
+        "rel_diff": 1.2583345500405079e-10
+      }
+    ]
+  },
+  "lambda_grad": {
+    "n_lambdas_tested": 2,
+    "max_rel_diff": 1.4455819933877201e-11,
+    "tolerance_rel": 0.001,
+    "pass": true,
+    "lambdas_differentiated": [
+      "lambda_vv",
+      "lambda_vh"
+    ],
+    "lambdas_fixed": [
+      "lambda_data",
+      "lambda_monotonic",
+      "lambda_bounds"
+    ],
+    "rows": [
+      {
+        "lambda": "lambda_vv",
+        "autograd": 0.7575673591435513,
+        "fd_central": 0.75756735914978,
+        "rel_diff": 8.221954338218829e-12
+      },
+      {
+        "lambda": "lambda_vh",
+        "autograd": 0.8679370302618882,
+        "fd_central": 0.8679370302744349,
+        "rel_diff": 1.4455819933877201e-11
+      }
+    ]
+  },
+  "fixture_seed": 42,
+  "fd_step_param": 1e-05,
+  "fd_step_lambda": 1e-06,
+  "tolerance_rationale": "0.003 dB equivalent per SPEC \u00a718.6.1; in loss-space \u2248 7e-4; operational tolerance 1e-3",
+  "code_version_hash": "92f56a779d488a52015787de0d22450e5afb7ac5",
+  "timestamp_utc": "2026-04-28T12:57:11.397727+00:00",
+  "pass": true,
+  "init_sigma_vv": 15.543662861045739,
+  "init_sigma_vh": 3.48323686073725
+}

@@ -1,0 +1,20 @@
+{
+  "arm": "scale_sanity",
+  "spec_version": "v0.3",
+  "n_train": 83,
+  "sigma_vv": 6.303897380828857,
+  "sigma_vh": 4.636704921722412,
+  "std_normalised_l_phys_vv": 1.0,
+  "std_normalised_l_phys_vh": 1.0,
+  "tolerance_abs": 1e-06,
+  "pass_vv": true,
+  "pass_vh": true,
+  "fixture_seed": 42,
+  "data_source": "/Users/matthewdenyer/Documents/Vantage/Science/PoC/vantage-poc/echo-poc/data/processed/aligned_dataset.csv",
+  "config_path": "/Users/matthewdenyer/Documents/Vantage/Science/PoC/vantage-poc/echo-poc/data/splits/configs/config_000.json",
+  "config_idx": 0,
+  "pool_indices_source": "config_000.json train_indices (66) \u222a val_indices (17) = 83",
+  "code_version_hash": "92f56a779d488a52015787de0d22450e5afb7ac5",
+  "timestamp_utc": "2026-04-28T12:55:11.322714+00:00",
+  "pass": true
+}

@@ -1,0 +1,18 @@
+{
+  "arm": "cross_framework_consistency",
+  "spec_version": "v0.3",
+  "loss_formulation": "v0.3_five_term_per_channel_normalised",
+  "n_fixture_rows": 64,
+  "max_abs_diff": 0.0,
+  "max_rel_diff": 0.0,
+  "tolerance_abs": 1e-12,
+  "pass": true,
+  "fixture_seed": 42,
+  "fixed_coefficients": {
+    "lambda_data": 1.0,
+    "lambda_monotonic": 0.01,
+    "lambda_bounds": 0.01
+  },
+  "code_version_hash": "92f56a779d488a52015787de0d22450e5afb7ac5",
+  "timestamp_utc": "2026-04-28T12:52:47.610181+00:00"
+}
