@@ -1,0 +1,83 @@
+{
+  "lock_id": "phase1c_lean_g3_lean_lock_v0_3_3",
+  "spec_version": "v0.3.3",
+  "spec_section": "SPEC.md \u00a718.6.2",
+  "block": "Block C-prime",
+  "predecessor_tag": "phase1c-lean-g2-lean-passed",
+  "amendment_tags": [
+    "phase1c-lean-spec-v0_3_1",
+    "phase1c-lean-spec-v0_3_2",
+    "phase1c-lean-spec-v0_3_3"
+  ],
+  "dev_entries": [
+    "DEV-1c-lean-001 (sealed-set used-once acknowledgement)",
+    "DEV-1c-lean-002 (per-channel normalisation implementation choice)",
+    "DEV-1c-lean-003 (founder-only sign-off, scientific co-supervisor TBC)",
+    "DEV-1c-lean-004 (v0.2 \u2192 v0.3 SPEC scope correction)",
+    "DEV-1c-lean-005 (v0.3 \u2192 v0.3.1 loss-formulation string canonicalisation)",
+    "DEV-1c-lean-006 (v0.3.1 \u2192 v0.3.2 seed convention + phantom-citation cleanup)",
+    "DEV-1c-lean-007 (v0.3.2 \u2192 v0.3.3 null-methodology specification)"
+  ],
+  "locked_items": {
+    "lambda_grid": {
+      "summary": "6\u00d76 = 36 cells \u00d7 3 reps = 108 runs; seeds [42, 149]; config_idx = 18 * lambda_vv_idx + 3 * lambda_vh_idx + rep_idx",
+      "n_total_runs": 108,
+      "first_entry": {
+        "cell_idx": 0,
+        "lambda_vv_idx": 0,
+        "lambda_vh_idx": 0,
+        "rep_idx": 0,
+        "lambda_vv": 0.0001,
+        "lambda_vh": 0.0001,
+        "config_idx": 0,
+        "seed": 42
+      },
+      "last_entry": {
+        "cell_idx": 35,
+        "lambda_vv_idx": 5,
+        "lambda_vh_idx": 5,
+        "rep_idx": 2,
+        "lambda_vv": 10.0,
+        "lambda_vh": 10.0,
+        "config_idx": 107,
+        "seed": 149
+      },
+      "source_path": "phase1c-lean/g3_lean/lambda_grid.json",
+      "source_sha256": "5218d0d6bdedb3b9328000bf8723f86c925ffa705469a5dba3eec6627d9bfbca"
+    },
+    "baselines": {
+      "summary": "RF 5-fold CV RMSE = 0.1270; seasonal-climatological null 5-fold CV RMSE = 0.1005",
+      "rf_rmse": 0.12695962903800143,
+      "null_rmse": 0.10046309727040317,
+      "phase1_sealed_test_references": {
+        "rf": 0.147,
+        "null": 0.178
+      },
+      "comparison_disposition": "informational only (training-pool-vs-sealed-test variability gap; not gate criteria at G3-Lean per SPEC \u00a718.6.2 v0.3.3)",
+      "source_path": "phase1c-lean/g3_lean/baselines_locked.json",
+      "source_sha256": "78d08419c012d2e26076443e27ecd39d32c38cb489ac229f9a3b722e548fff97"
+    },
+    "sealed_set": {
+      "summary": "n=36, 2023-07-25..2024-12-10; sha256 860241fc423bc8b5...",
+      "n_observations": 36,
+      "date_range": [
+        "2023-07-25",
+        "2024-12-10"
+      ],
+      "slice_sha256": "860241fc423bc8b5816c9fe8a68fcabf2f7b7c205b3464a26b5bf9054c32b18f",
+      "loaded_at_g3_lean": false,
+      "source_path": "phase1c-lean/g3_lean/sealed_set_definition.json",
+      "source_sha256": "c3fb922c55f64d28a9a613123e76093e4039f9c5f07846e210487631eb3d3823"
+    },
+    "preflight_schema": {
+      "summary": "per-run schema; loss_formulation constant = \"v0.3_five_term_per_channel_normalised\"; 6 \u00a718.11 audit items",
+      "schema_id": "phase1c_lean_per_run_result_schema_v1",
+      "n_items": 6,
+      "source_path": "phase1c-lean/g3_lean/preflight_schema.json",
+      "source_sha256": "c51976624fe3106398a32ae6f1dbb92137927f612d88047af504e334aae4e2e8"
+    }
+  },
+  "code_version_hash": "d74881f",
+  "generated_at_utc": "2026-04-28T16:34:06.761776+00:00",
+  "post_lock_policy": "After lock, no element of the four locked items is modified before Block D-prime sweep close. Any required change halts and routes through a SPEC amendment cycle (DEV-1c-lean-NNN)."
+}

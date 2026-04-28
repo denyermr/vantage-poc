@@ -1,0 +1,1118 @@
+{
+  "spec_version": "v0.3.3",
+  "spec_section": "SPEC.md \u00a718.4.2 (grid) + \u00a718.6.2 (seed convention, locked at v0.3.2 amendment)",
+  "lambda_vv_values": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "lambda_vh_values": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "n_cells": 36,
+  "n_reps_per_cell": 3,
+  "n_total_runs": 108,
+  "seed_base": 42,
+  "config_idx_formula": "config_idx = 18 * lambda_vv_idx + 3 * lambda_vh_idx + rep_idx",
+  "seed_formula": "seed = 42 + config_idx",
+  "config_idx_range": [
+    0,
+    107
+  ],
+  "seed_range": [
+    42,
+    149
+  ],
+  "enumeration_order": "lambda_vv outer, lambda_vh middle, rep_idx inner",
+  "generated_at_utc": "2026-04-28T16:32:26.604565+00:00",
+  "entries": [
+    {
+      "cell_idx": 0,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 0,
+      "rep_idx": 0,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.0001,
+      "config_idx": 0,
+      "seed": 42
+    },
+    {
+      "cell_idx": 0,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 0,
+      "rep_idx": 1,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.0001,
+      "config_idx": 1,
+      "seed": 43
+    },
+    {
+      "cell_idx": 0,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 0,
+      "rep_idx": 2,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.0001,
+      "config_idx": 2,
+      "seed": 44
+    },
+    {
+      "cell_idx": 1,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 1,
+      "rep_idx": 0,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.001,
+      "config_idx": 3,
+      "seed": 45
+    },
+    {
+      "cell_idx": 1,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 1,
+      "rep_idx": 1,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.001,
+      "config_idx": 4,
+      "seed": 46
+    },
+    {
+      "cell_idx": 1,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 1,
+      "rep_idx": 2,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.001,
+      "config_idx": 5,
+      "seed": 47
+    },
+    {
+      "cell_idx": 2,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 2,
+      "rep_idx": 0,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.01,
+      "config_idx": 6,
+      "seed": 48
+    },
+    {
+      "cell_idx": 2,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 2,
+      "rep_idx": 1,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.01,
+      "config_idx": 7,
+      "seed": 49
+    },
+    {
+      "cell_idx": 2,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 2,
+      "rep_idx": 2,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.01,
+      "config_idx": 8,
+      "seed": 50
+    },
+    {
+      "cell_idx": 3,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 3,
+      "rep_idx": 0,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.1,
+      "config_idx": 9,
+      "seed": 51
+    },
+    {
+      "cell_idx": 3,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 3,
+      "rep_idx": 1,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.1,
+      "config_idx": 10,
+      "seed": 52
+    },
+    {
+      "cell_idx": 3,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 3,
+      "rep_idx": 2,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 0.1,
+      "config_idx": 11,
+      "seed": 53
+    },
+    {
+      "cell_idx": 4,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 4,
+      "rep_idx": 0,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 1.0,
+      "config_idx": 12,
+      "seed": 54
+    },
+    {
+      "cell_idx": 4,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 4,
+      "rep_idx": 1,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 1.0,
+      "config_idx": 13,
+      "seed": 55
+    },
+    {
+      "cell_idx": 4,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 4,
+      "rep_idx": 2,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 1.0,
+      "config_idx": 14,
+      "seed": 56
+    },
+    {
+      "cell_idx": 5,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 5,
+      "rep_idx": 0,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 10.0,
+      "config_idx": 15,
+      "seed": 57
+    },
+    {
+      "cell_idx": 5,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 5,
+      "rep_idx": 1,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 10.0,
+      "config_idx": 16,
+      "seed": 58
+    },
+    {
+      "cell_idx": 5,
+      "lambda_vv_idx": 0,
+      "lambda_vh_idx": 5,
+      "rep_idx": 2,
+      "lambda_vv": 0.0001,
+      "lambda_vh": 10.0,
+      "config_idx": 17,
+      "seed": 59
+    },
+    {
+      "cell_idx": 6,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 0,
+      "rep_idx": 0,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.0001,
+      "config_idx": 18,
+      "seed": 60
+    },
+    {
+      "cell_idx": 6,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 0,
+      "rep_idx": 1,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.0001,
+      "config_idx": 19,
+      "seed": 61
+    },
+    {
+      "cell_idx": 6,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 0,
+      "rep_idx": 2,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.0001,
+      "config_idx": 20,
+      "seed": 62
+    },
+    {
+      "cell_idx": 7,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 1,
+      "rep_idx": 0,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.001,
+      "config_idx": 21,
+      "seed": 63
+    },
+    {
+      "cell_idx": 7,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 1,
+      "rep_idx": 1,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.001,
+      "config_idx": 22,
+      "seed": 64
+    },
+    {
+      "cell_idx": 7,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 1,
+      "rep_idx": 2,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.001,
+      "config_idx": 23,
+      "seed": 65
+    },
+    {
+      "cell_idx": 8,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 2,
+      "rep_idx": 0,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.01,
+      "config_idx": 24,
+      "seed": 66
+    },
+    {
+      "cell_idx": 8,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 2,
+      "rep_idx": 1,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.01,
+      "config_idx": 25,
+      "seed": 67
+    },
+    {
+      "cell_idx": 8,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 2,
+      "rep_idx": 2,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.01,
+      "config_idx": 26,
+      "seed": 68
+    },
+    {
+      "cell_idx": 9,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 3,
+      "rep_idx": 0,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.1,
+      "config_idx": 27,
+      "seed": 69
+    },
+    {
+      "cell_idx": 9,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 3,
+      "rep_idx": 1,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.1,
+      "config_idx": 28,
+      "seed": 70
+    },
+    {
+      "cell_idx": 9,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 3,
+      "rep_idx": 2,
+      "lambda_vv": 0.001,
+      "lambda_vh": 0.1,
+      "config_idx": 29,
+      "seed": 71
+    },
+    {
+      "cell_idx": 10,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 4,
+      "rep_idx": 0,
+      "lambda_vv": 0.001,
+      "lambda_vh": 1.0,
+      "config_idx": 30,
+      "seed": 72
+    },
+    {
+      "cell_idx": 10,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 4,
+      "rep_idx": 1,
+      "lambda_vv": 0.001,
+      "lambda_vh": 1.0,
+      "config_idx": 31,
+      "seed": 73
+    },
+    {
+      "cell_idx": 10,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 4,
+      "rep_idx": 2,
+      "lambda_vv": 0.001,
+      "lambda_vh": 1.0,
+      "config_idx": 32,
+      "seed": 74
+    },
+    {
+      "cell_idx": 11,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 5,
+      "rep_idx": 0,
+      "lambda_vv": 0.001,
+      "lambda_vh": 10.0,
+      "config_idx": 33,
+      "seed": 75
+    },
+    {
+      "cell_idx": 11,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 5,
+      "rep_idx": 1,
+      "lambda_vv": 0.001,
+      "lambda_vh": 10.0,
+      "config_idx": 34,
+      "seed": 76
+    },
+    {
+      "cell_idx": 11,
+      "lambda_vv_idx": 1,
+      "lambda_vh_idx": 5,
+      "rep_idx": 2,
+      "lambda_vv": 0.001,
+      "lambda_vh": 10.0,
+      "config_idx": 35,
+      "seed": 77
+    },
+    {
+      "cell_idx": 12,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 0,
+      "rep_idx": 0,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.0001,
+      "config_idx": 36,
+      "seed": 78
+    },
+    {
+      "cell_idx": 12,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 0,
+      "rep_idx": 1,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.0001,
+      "config_idx": 37,
+      "seed": 79
+    },
+    {
+      "cell_idx": 12,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 0,
+      "rep_idx": 2,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.0001,
+      "config_idx": 38,
+      "seed": 80
+    },
+    {
+      "cell_idx": 13,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 1,
+      "rep_idx": 0,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.001,
+      "config_idx": 39,
+      "seed": 81
+    },
+    {
+      "cell_idx": 13,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 1,
+      "rep_idx": 1,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.001,
+      "config_idx": 40,
+      "seed": 82
+    },
+    {
+      "cell_idx": 13,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 1,
+      "rep_idx": 2,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.001,
+      "config_idx": 41,
+      "seed": 83
+    },
+    {
+      "cell_idx": 14,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 2,
+      "rep_idx": 0,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.01,
+      "config_idx": 42,
+      "seed": 84
+    },
+    {
+      "cell_idx": 14,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 2,
+      "rep_idx": 1,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.01,
+      "config_idx": 43,
+      "seed": 85
+    },
+    {
+      "cell_idx": 14,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 2,
+      "rep_idx": 2,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.01,
+      "config_idx": 44,
+      "seed": 86
+    },
+    {
+      "cell_idx": 15,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 3,
+      "rep_idx": 0,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.1,
+      "config_idx": 45,
+      "seed": 87
+    },
+    {
+      "cell_idx": 15,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 3,
+      "rep_idx": 1,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.1,
+      "config_idx": 46,
+      "seed": 88
+    },
+    {
+      "cell_idx": 15,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 3,
+      "rep_idx": 2,
+      "lambda_vv": 0.01,
+      "lambda_vh": 0.1,
+      "config_idx": 47,
+      "seed": 89
+    },
+    {
+      "cell_idx": 16,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 4,
+      "rep_idx": 0,
+      "lambda_vv": 0.01,
+      "lambda_vh": 1.0,
+      "config_idx": 48,
+      "seed": 90
+    },
+    {
+      "cell_idx": 16,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 4,
+      "rep_idx": 1,
+      "lambda_vv": 0.01,
+      "lambda_vh": 1.0,
+      "config_idx": 49,
+      "seed": 91
+    },
+    {
+      "cell_idx": 16,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 4,
+      "rep_idx": 2,
+      "lambda_vv": 0.01,
+      "lambda_vh": 1.0,
+      "config_idx": 50,
+      "seed": 92
+    },
+    {
+      "cell_idx": 17,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 5,
+      "rep_idx": 0,
+      "lambda_vv": 0.01,
+      "lambda_vh": 10.0,
+      "config_idx": 51,
+      "seed": 93
+    },
+    {
+      "cell_idx": 17,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 5,
+      "rep_idx": 1,
+      "lambda_vv": 0.01,
+      "lambda_vh": 10.0,
+      "config_idx": 52,
+      "seed": 94
+    },
+    {
+      "cell_idx": 17,
+      "lambda_vv_idx": 2,
+      "lambda_vh_idx": 5,
+      "rep_idx": 2,
+      "lambda_vv": 0.01,
+      "lambda_vh": 10.0,
+      "config_idx": 53,
+      "seed": 95
+    },
+    {
+      "cell_idx": 18,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 0,
+      "rep_idx": 0,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.0001,
+      "config_idx": 54,
+      "seed": 96
+    },
+    {
+      "cell_idx": 18,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 0,
+      "rep_idx": 1,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.0001,
+      "config_idx": 55,
+      "seed": 97
+    },
+    {
+      "cell_idx": 18,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 0,
+      "rep_idx": 2,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.0001,
+      "config_idx": 56,
+      "seed": 98
+    },
+    {
+      "cell_idx": 19,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 1,
+      "rep_idx": 0,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.001,
+      "config_idx": 57,
+      "seed": 99
+    },
+    {
+      "cell_idx": 19,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 1,
+      "rep_idx": 1,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.001,
+      "config_idx": 58,
+      "seed": 100
+    },
+    {
+      "cell_idx": 19,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 1,
+      "rep_idx": 2,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.001,
+      "config_idx": 59,
+      "seed": 101
+    },
+    {
+      "cell_idx": 20,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 2,
+      "rep_idx": 0,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.01,
+      "config_idx": 60,
+      "seed": 102
+    },
+    {
+      "cell_idx": 20,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 2,
+      "rep_idx": 1,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.01,
+      "config_idx": 61,
+      "seed": 103
+    },
+    {
+      "cell_idx": 20,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 2,
+      "rep_idx": 2,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.01,
+      "config_idx": 62,
+      "seed": 104
+    },
+    {
+      "cell_idx": 21,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 3,
+      "rep_idx": 0,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.1,
+      "config_idx": 63,
+      "seed": 105
+    },
+    {
+      "cell_idx": 21,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 3,
+      "rep_idx": 1,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.1,
+      "config_idx": 64,
+      "seed": 106
+    },
+    {
+      "cell_idx": 21,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 3,
+      "rep_idx": 2,
+      "lambda_vv": 0.1,
+      "lambda_vh": 0.1,
+      "config_idx": 65,
+      "seed": 107
+    },
+    {
+      "cell_idx": 22,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 4,
+      "rep_idx": 0,
+      "lambda_vv": 0.1,
+      "lambda_vh": 1.0,
+      "config_idx": 66,
+      "seed": 108
+    },
+    {
+      "cell_idx": 22,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 4,
+      "rep_idx": 1,
+      "lambda_vv": 0.1,
+      "lambda_vh": 1.0,
+      "config_idx": 67,
+      "seed": 109
+    },
+    {
+      "cell_idx": 22,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 4,
+      "rep_idx": 2,
+      "lambda_vv": 0.1,
+      "lambda_vh": 1.0,
+      "config_idx": 68,
+      "seed": 110
+    },
+    {
+      "cell_idx": 23,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 5,
+      "rep_idx": 0,
+      "lambda_vv": 0.1,
+      "lambda_vh": 10.0,
+      "config_idx": 69,
+      "seed": 111
+    },
+    {
+      "cell_idx": 23,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 5,
+      "rep_idx": 1,
+      "lambda_vv": 0.1,
+      "lambda_vh": 10.0,
+      "config_idx": 70,
+      "seed": 112
+    },
+    {
+      "cell_idx": 23,
+      "lambda_vv_idx": 3,
+      "lambda_vh_idx": 5,
+      "rep_idx": 2,
+      "lambda_vv": 0.1,
+      "lambda_vh": 10.0,
+      "config_idx": 71,
+      "seed": 113
+    },
+    {
+      "cell_idx": 24,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 0,
+      "rep_idx": 0,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.0001,
+      "config_idx": 72,
+      "seed": 114
+    },
+    {
+      "cell_idx": 24,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 0,
+      "rep_idx": 1,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.0001,
+      "config_idx": 73,
+      "seed": 115
+    },
+    {
+      "cell_idx": 24,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 0,
+      "rep_idx": 2,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.0001,
+      "config_idx": 74,
+      "seed": 116
+    },
+    {
+      "cell_idx": 25,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 1,
+      "rep_idx": 0,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.001,
+      "config_idx": 75,
+      "seed": 117
+    },
+    {
+      "cell_idx": 25,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 1,
+      "rep_idx": 1,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.001,
+      "config_idx": 76,
+      "seed": 118
+    },
+    {
+      "cell_idx": 25,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 1,
+      "rep_idx": 2,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.001,
+      "config_idx": 77,
+      "seed": 119
+    },
+    {
+      "cell_idx": 26,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 2,
+      "rep_idx": 0,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.01,
+      "config_idx": 78,
+      "seed": 120
+    },
+    {
+      "cell_idx": 26,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 2,
+      "rep_idx": 1,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.01,
+      "config_idx": 79,
+      "seed": 121
+    },
+    {
+      "cell_idx": 26,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 2,
+      "rep_idx": 2,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.01,
+      "config_idx": 80,
+      "seed": 122
+    },
+    {
+      "cell_idx": 27,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 3,
+      "rep_idx": 0,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.1,
+      "config_idx": 81,
+      "seed": 123
+    },
+    {
+      "cell_idx": 27,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 3,
+      "rep_idx": 1,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.1,
+      "config_idx": 82,
+      "seed": 124
+    },
+    {
+      "cell_idx": 27,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 3,
+      "rep_idx": 2,
+      "lambda_vv": 1.0,
+      "lambda_vh": 0.1,
+      "config_idx": 83,
+      "seed": 125
+    },
+    {
+      "cell_idx": 28,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 4,
+      "rep_idx": 0,
+      "lambda_vv": 1.0,
+      "lambda_vh": 1.0,
+      "config_idx": 84,
+      "seed": 126
+    },
+    {
+      "cell_idx": 28,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 4,
+      "rep_idx": 1,
+      "lambda_vv": 1.0,
+      "lambda_vh": 1.0,
+      "config_idx": 85,
+      "seed": 127
+    },
+    {
+      "cell_idx": 28,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 4,
+      "rep_idx": 2,
+      "lambda_vv": 1.0,
+      "lambda_vh": 1.0,
+      "config_idx": 86,
+      "seed": 128
+    },
+    {
+      "cell_idx": 29,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 5,
+      "rep_idx": 0,
+      "lambda_vv": 1.0,
+      "lambda_vh": 10.0,
+      "config_idx": 87,
+      "seed": 129
+    },
+    {
+      "cell_idx": 29,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 5,
+      "rep_idx": 1,
+      "lambda_vv": 1.0,
+      "lambda_vh": 10.0,
+      "config_idx": 88,
+      "seed": 130
+    },
+    {
+      "cell_idx": 29,
+      "lambda_vv_idx": 4,
+      "lambda_vh_idx": 5,
+      "rep_idx": 2,
+      "lambda_vv": 1.0,
+      "lambda_vh": 10.0,
+      "config_idx": 89,
+      "seed": 131
+    },
+    {
+      "cell_idx": 30,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 0,
+      "rep_idx": 0,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.0001,
+      "config_idx": 90,
+      "seed": 132
+    },
+    {
+      "cell_idx": 30,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 0,
+      "rep_idx": 1,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.0001,
+      "config_idx": 91,
+      "seed": 133
+    },
+    {
+      "cell_idx": 30,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 0,
+      "rep_idx": 2,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.0001,
+      "config_idx": 92,
+      "seed": 134
+    },
+    {
+      "cell_idx": 31,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 1,
+      "rep_idx": 0,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.001,
+      "config_idx": 93,
+      "seed": 135
+    },
+    {
+      "cell_idx": 31,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 1,
+      "rep_idx": 1,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.001,
+      "config_idx": 94,
+      "seed": 136
+    },
+    {
+      "cell_idx": 31,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 1,
+      "rep_idx": 2,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.001,
+      "config_idx": 95,
+      "seed": 137
+    },
+    {
+      "cell_idx": 32,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 2,
+      "rep_idx": 0,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.01,
+      "config_idx": 96,
+      "seed": 138
+    },
+    {
+      "cell_idx": 32,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 2,
+      "rep_idx": 1,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.01,
+      "config_idx": 97,
+      "seed": 139
+    },
+    {
+      "cell_idx": 32,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 2,
+      "rep_idx": 2,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.01,
+      "config_idx": 98,
+      "seed": 140
+    },
+    {
+      "cell_idx": 33,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 3,
+      "rep_idx": 0,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.1,
+      "config_idx": 99,
+      "seed": 141
+    },
+    {
+      "cell_idx": 33,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 3,
+      "rep_idx": 1,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.1,
+      "config_idx": 100,
+      "seed": 142
+    },
+    {
+      "cell_idx": 33,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 3,
+      "rep_idx": 2,
+      "lambda_vv": 10.0,
+      "lambda_vh": 0.1,
+      "config_idx": 101,
+      "seed": 143
+    },
+    {
+      "cell_idx": 34,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 4,
+      "rep_idx": 0,
+      "lambda_vv": 10.0,
+      "lambda_vh": 1.0,
+      "config_idx": 102,
+      "seed": 144
+    },
+    {
+      "cell_idx": 34,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 4,
+      "rep_idx": 1,
+      "lambda_vv": 10.0,
+      "lambda_vh": 1.0,
+      "config_idx": 103,
+      "seed": 145
+    },
+    {
+      "cell_idx": 34,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 4,
+      "rep_idx": 2,
+      "lambda_vv": 10.0,
+      "lambda_vh": 1.0,
+      "config_idx": 104,
+      "seed": 146
+    },
+    {
+      "cell_idx": 35,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 5,
+      "rep_idx": 0,
+      "lambda_vv": 10.0,
+      "lambda_vh": 10.0,
+      "config_idx": 105,
+      "seed": 147
+    },
+    {
+      "cell_idx": 35,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 5,
+      "rep_idx": 1,
+      "lambda_vv": 10.0,
+      "lambda_vh": 10.0,
+      "config_idx": 106,
+      "seed": 148
+    },
+    {
+      "cell_idx": 35,
+      "lambda_vv_idx": 5,
+      "lambda_vh_idx": 5,
+      "rep_idx": 2,
+      "lambda_vv": 10.0,
+      "lambda_vh": 10.0,
+      "config_idx": 107,
+      "seed": 149
+    }
+  ]
+}

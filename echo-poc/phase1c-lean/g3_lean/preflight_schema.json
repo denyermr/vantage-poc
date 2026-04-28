@@ -1,0 +1,105 @@
+{
+  "schema_id": "phase1c_lean_per_run_result_schema_v1",
+  "spec_version": "v0.3.3",
+  "spec_section": "SPEC.md §17.5 + §18.11",
+  "description": "Per-run JSON schema for Block D-prime sweep result files. Every Phase 1c-Lean trainer run emits one JSON document conforming to this schema, recording the six §18.11 audit-trail items.",
+  "items": {
+    "code_version_hash": {
+      "spec_reference": "SPEC §17.5 item 1 / §18.11 item 1",
+      "type": "string",
+      "description": "Output of `git rev-parse --short HEAD` at trainer-launch time. Provides one-step audit hook from any result JSON back to the exact commit of the loss formulation that produced it.",
+      "required": true,
+      "example": "d74881f"
+    },
+    "loss_formulation": {
+      "spec_reference": "SPEC §17.5 item 2 / §18.11 item 2 (canonicalised v0.3 → v0.3.1, DEV-1c-lean-005)",
+      "type": "string",
+      "constant_value": "v0.3_five_term_per_channel_normalised",
+      "description": "Canonical Phase 1c-Lean loss-formulation identifier. Locked at SPEC v0.3.1 (Block C-prime halt-1) per DEV-1c-lean-005. Matches the Block B-prime committed string at tag `phase1c-lean-g2-lean-passed`.",
+      "required": true
+    },
+    "preflight_summary_block": {
+      "spec_reference": "SPEC §17.5 item 3 / §18.11 item 3",
+      "type": "object",
+      "description": "Records pre-flight invariant checks and key magnitudes so the result JSON is self-contained for retrospective inspection. Phase 1c-Lean addition: σ_VV and σ_VH values computed at init.",
+      "required": true,
+      "fields": {
+        "sigma_vv": {
+          "type": "number",
+          "description": "Per-channel L_physics normalisation scale factor for VV at training init (SPEC §18.4.1). Computed once at random-init forward pass over training set."
+        },
+        "sigma_vh": {
+          "type": "number",
+          "description": "Per-channel L_physics normalisation scale factor for VH at training init (SPEC §18.4.1). Computed once at random-init forward pass over training set."
+        },
+        "vv_vh_magnitude_ratio": {
+          "type": "number",
+          "description": "F-2b empirical ratio for sanity checking. Phase 1b reference: ~0.645."
+        },
+        "n_train": {
+          "type": "integer",
+          "description": "Training-pool size. Phase 1c-Lean expected: 83."
+        },
+        "structural_prediction_at_kickoff": {
+          "type": "string",
+          "description": "Brief textual statement of the expected outcome category (Strong / Significant / Moderate / Inconclusive / HALT) per pre-registered analysis."
+        },
+        "wall_clock_estimate_seconds": {
+          "type": "number",
+          "description": "Per-rep training wall-clock estimate. Phase 1c-Lean envelope (§18.10): 30–90 s."
+        }
+      }
+    },
+    "sleep_wake_event_count": {
+      "spec_reference": "SPEC §17.5 item 4 / §18.11 item 4",
+      "type": "integer",
+      "description": "Count of sleep/wake events from `pmset -g log` over the run window. Non-zero counts flag the run for re-execution per SPEC §18.10 operational discipline.",
+      "required": true
+    },
+    "dominance_verdict_per_run": {
+      "spec_reference": "SPEC §18.11 item 5 (Phase 1c-Lean addition)",
+      "type": "object",
+      "description": "Dominance verdict per (λ_VV, λ_VH, rep_idx) tuple, encoding §9 dominance criterion outcome.",
+      "required": true,
+      "fields": {
+        "config_idx": {
+          "type": "integer",
+          "description": "Flat config_idx ∈ [0, 107] per SPEC §18.6.2 v0.3.2: config_idx = 18 * λ_VV_idx + 3 * λ_VH_idx + rep_idx."
+        },
+        "lambda_vv_idx": {"type": "integer", "range": [0, 5]},
+        "lambda_vh_idx": {"type": "integer", "range": [0, 5]},
+        "rep_idx": {"type": "integer", "range": [0, 2]},
+        "lambda_vv": {"type": "number", "description": "10**(-4 + lambda_vv_idx)"},
+        "lambda_vh": {"type": "number", "description": "10**(-4 + lambda_vh_idx)"},
+        "satisfies_dominance": {
+          "type": "boolean",
+          "description": "Binary §9 dominance verdict for this (λ, rep) tuple."
+        },
+        "margin_to_threshold_pct": {
+          "type": "number",
+          "description": "Percentage distance to the §9 dominance threshold. Negative means satisfies; positive means below threshold by that percentage."
+        }
+      }
+    },
+    "sigma_scale_factors": {
+      "spec_reference": "SPEC §18.11 item 6 (Phase 1c-Lean addition)",
+      "type": "object",
+      "description": "σ scale factors logged separately from the model checkpoint for downstream auditability.",
+      "required": true,
+      "fields": {
+        "sigma_vv": {"type": "number", "description": "Same value as preflight_summary_block.sigma_vv; logged separately for explicit audit-trail."},
+        "sigma_vh": {"type": "number", "description": "Same value as preflight_summary_block.sigma_vh; logged separately for explicit audit-trail."},
+        "computation_method": {
+          "type": "string",
+          "constant_value": "std_of_unweighted_l_physics_at_random_init_first_forward_pass_training_set",
+          "description": "Per SPEC §18.4.1 implementation requirement: σ_VV and σ_VH computed once at training initialisation as the standard deviation of the unweighted physics losses over the training set's first forward pass at randomly initialised network weights. Per-batch normalisation is explicitly out of scope per §18.4.1."
+        }
+      }
+    }
+  },
+  "g3_lean_lock_metadata": {
+    "lock_version": "v0.3.3",
+    "lock_dev_entries": ["DEV-1c-lean-005", "DEV-1c-lean-006", "DEV-1c-lean-007"],
+    "schema_authoring_block": "Block C-prime G3-Lean pre-training gate"
+  }
+}
