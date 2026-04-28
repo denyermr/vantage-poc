@@ -1,6 +1,6 @@
 # Phase 1b Test Specification: PINN-MIMICS Soil Moisture Retrieval at Moor House
 
-**Vantage · Phase 1b · Pre-Registration · v0.2 — Signed (substantive amendment: §18 Phase 1c-Lean pre-registration · 2026-04-28)**
+**Vantage · Phase 1b · Pre-Registration · v0.3 — Signed (substantive amendment: §18.4 Phase 1c-Lean scope correction · 2026-04-28)**
 
 > **Versioning note (v0.1 → v0.1.1, 2026-04-19):** Non-substantive amendment.
 > Added §15 "Phase 1b Pre-Registration document" cross-referencing the new
@@ -802,32 +802,49 @@ Phase 1c-MRV (target variable WTD; observable channel S1 InSAR; physics module s
 
 #### §18.4.1 Change 1: Per-channel L_physics normalisation
 
-The Phase 1b composite loss (per F-2b extension §15) was
+The Phase 1b composite loss (per F-2b extension §15 and SPEC §8 as implemented in `phase1b/pinn_mimics.py`) is
 
-> L_total = λ_data · L_data + λ_VV · L_phys_VV + λ_VH · L_phys_VH
+> L_total = L_data + λ_physics · (L_phys_VV + L_phys_VH) + λ_monotonic · L_monotonic + λ_bounds · L_bounds
 
-The F-2b empirical observation was that VH/VV magnitude ratio ≈ 0.645 across the dataset, structurally biasing the loss landscape such that no λ combination in the §17 pre-registered grid (lower bound 0.01) produced a §9-dominant solution.
+with λ_data ≡ 1.0 (fixed coefficient, not in the grid), λ_physics shared across the VV and VH physics terms, and λ_monotonic and λ_bounds as soft-loss regularisers on monotonicity and physical bounds. The pre-registered F-2b grid is 4³ = 64 over `(λ_physics, λ_monotonic, λ_bounds)`.
+
+The F-2b empirical observation was that VH/VV magnitude ratio ≈ 0.645 across the dataset, structurally biasing the loss landscape such that no λ_physics value in the grid (lower bound 0.01) produced a §9-dominant solution. Mean physics fraction was monotone non-decreasing in λ_physics across the entire grid (0.9255 → 0.9898 → 0.9979 → 0.9990).
 
 The Phase 1c-Lean composite loss is
 
-> L_total = λ_data · L_data + λ_VV · (L_phys_VV / σ_VV) + λ_VH · (L_phys_VH / σ_VH)
+> L_total = L_data + λ_VV · (L_phys_VV / σ_VV) + λ_VH · (L_phys_VH / σ_VH) + λ_monotonic · L_monotonic + λ_bounds · L_bounds
 
-where σ_VV and σ_VH are scale factors computed **once at training initialisation** as the standard deviation of the unweighted physics losses over the training set's first forward pass at randomly initialised network weights. After normalisation, both physics terms are unit-scaled and λ values control relative weighting in a comparable, magnitude-independent way.
+where:
+- σ_VV and σ_VH are scale factors computed **once at training initialisation** as the standard deviation of the unweighted physics losses over the training set's first forward pass at randomly initialised network weights;
+- λ_data ≡ 1.0 (fixed, same as Phase 1b);
+- λ_monotonic and λ_bounds are fixed at the Phase 1b grid lower-bound value (0.01 each, per the F-2b grid lower bound), preserving the soft regularisation discipline of Phase 1b;
+- λ_VV and λ_VH are the only tunable axes in the Phase 1c-Lean grid (§18.4.2).
+
+After per-channel normalisation, the two physics terms are unit-scaled and λ_VV / λ_VH control relative weighting in a comparable, magnitude-independent way. The single intervention being tested in Phase 1c-Lean is per-channel L_physics normalisation; all other elements of the Phase 1b composite are preserved to isolate the active ingredient per the §18.4.3 intervention-conflation reasoning.
 
 **Implementation requirements** (gated at G2-Lean, §18.6.1):
 
 - σ_VV and σ_VH computed once at init only. **Per-batch normalisation is explicitly out of scope** — moving-target normalisation introduces a non-stationary loss landscape and conflates the magnitude-balance question with optimiser dynamics.
 - σ values saved with the model checkpoint and reproduced exactly in the pre-flight summary block (§18.11 schema).
 - σ values logged in the result JSON.
+- L_monotonic and L_bounds reuse the Phase 1b implementation at `echo-poc/phase1b/pinn_mimics.py` without modification.
 
-#### §18.4.2 Change 2: λ grid widened
+#### §18.4.2 Change 2: λ grid recalibrated for the per-channel normalised composite
 
 | | §17 (Phase 1b F-2b) | §18 (Phase 1c-Lean) |
 |---|---|---|
-| λ values per axis | [0.01, 0.1, 1.0, 10] | [10⁻⁴, 10⁻³, 10⁻², 10⁻¹, 10⁰, 10¹] |
-| Axes | λ_data, λ_VV, λ_VH | λ_data, λ_VV, λ_VH |
-| Grid size | 4³ = 64 | 6³ = **216** |
-| Lower-bound rationale | Inherited from §14 single-pol setup | §17.3 open question 2: lower bound may be too tight for joint dual-pol formulations once magnitudes are normalised |
+| Tunable λ axes | λ_physics, λ_monotonic, λ_bounds | λ_VV, λ_VH |
+| Number of axes | 3 | 2 |
+| λ values per axis | [0.01, 0.1, 0.5, 1.0] | [10⁻⁴, 10⁻³, 10⁻², 10⁻¹, 10⁰, 10¹] |
+| Grid size | 4³ = 64 | 6² = **36** |
+| Fixed coefficients | λ_data ≡ 1.0 | λ_data ≡ 1.0; λ_monotonic = 0.01; λ_bounds = 0.01 |
+| Lower-bound rationale on tunable axes | Inherited from §14 single-pol setup | §17.3 open question 2: lower bound may be too tight for joint dual-pol formulations once magnitudes are normalised |
+
+The grid axis count is reduced from 3 (Phase 1b) to 2 (Phase 1c-Lean) because:
+- λ_data and λ_monotonic and λ_bounds are fixed coefficients in v0.3 (held at Phase 1b values to preserve intervention isolation per §18.4.3).
+- λ_physics is replaced by λ_VV and λ_VH (a *consequence* of per-channel normalisation, not an additional intervention; sharing post-normalisation λ would defeat the normalisation).
+
+The wider per-axis range (lower bound 10⁻⁴ vs Phase 1b's 10⁻²) addresses §17.3 open question 2 — the lower bound may have been too tight on joint dual-pol formulations even with magnitudes normalised. The 6-value-per-axis density is preserved from v0.2's design to give the same λ_VV / λ_VH coverage as the v0.2 specification, just over 2 axes instead of 3.
 
 #### §18.4.3 Explicitly out of scope: trunk-layer reinstatement
 
@@ -866,9 +883,9 @@ Failure of any arm halts Phase 1c-Lean until corrected. Pre-sign-off audit cycle
 
 Conditions for entering training:
 
-- λ grid locked at 6×6×6 = 216 combinations per §18.4.2.
+- λ grid locked at 6×6 = 36 combinations per §18.4.2.
 - Training fraction: **100% only** (N=83). Phase 1c-Lean is not a learning-curve experiment; the §14 4×10 factorial is explicitly not reproduced here. Single-fraction execution is justified by the pre-registered scope (§18.2): the question is configuration-debugging, not data-efficiency characterisation.
-- Reps: **3 per λ combination** as the primary plan. Total: 3 × 216 = **648 training runs**. Extension to 5 reps (1,080 runs) authorised only if results are marginal under §18.7 tier definitions and authorised pre-extension by founder sign-off.
+- Reps: **3 per λ combination** as the primary plan. Total: 3 × 36 = **108 training runs**. Extension to 5 reps (180 runs) authorised only if results are marginal under §18.7 tier definitions and authorised pre-extension by founder sign-off.
 - Random seeds: SEED = 42 + config_idx + rep_idx, carrying forward §14.6.
 - Baselines locked: RF at 100% training (Phase 1: 0.147 cm³/cm³ on sealed test, target reproduction on training-pool 5-fold CV); seasonal-climatological null on VWC (Phase 1: 0.178).
 - Sealed test set NOT touched at G3-Lean.
@@ -882,20 +899,20 @@ Tertiary metric (held-out, contingent on gates): sealed-test-set RMSE per §18.5
 
 | Tier | Primary (§9 dominance) | Secondary (CV RMSE vs 0.147) | Tertiary (sealed RMSE) | Action |
 |---|---|---|---|---|
-| **Strong pass** | ≥ 5 λ combinations satisfy dominance robustly across all 3 reps | ≤ 0.147 (RF parity at 100% or better) | ≤ 0.147 | Tag `phase1c-lean-strong-pass`. Magnitude-balance hypothesis confirmed; configuration-tunable verdict. Phase 1c-MRV de-prioritised pending strategic discussion. |
+| **Strong pass** | ≥ 3 λ combinations satisfy dominance robustly across all 3 reps | ≤ 0.147 (RF parity at 100% or better) | ≤ 0.147 | Tag `phase1c-lean-strong-pass`. Magnitude-balance hypothesis confirmed; configuration-tunable verdict. Phase 1c-MRV de-prioritised pending strategic discussion. |
 | **Significant pass** | ≥ 1 λ combination satisfies dominance robustly across all 3 reps | within 5% of 0.147 (≤ 0.154) | within 5% of 0.147 | Tag `phase1c-lean-significant-pass`. Configuration is viable; data-efficiency claim at low N still untested. |
 | **Moderate pass** | ≥ 1 λ combination satisfies dominance in some but not all reps | within 10% of 0.147 (≤ 0.162) | not unsealed | Tag `phase1c-lean-moderate-pass`. Dominance achievable but not robust. Phase 1c-Lean-2 (refinement + trunk-layer reinstatement, §18.4.3) before any move to Phase 1c-MRV. |
-| **Inconclusive** | 0 satisfy across all reps but ≥ 5 combinations within 10% of dominance threshold | n/a | not unsealed | Tag `phase1c-lean-inconclusive`. Phase 1c-Lean-2 refinement run before any move to Phase 1c-MRV. |
-| **Negative / HALT** | 0 λ combinations within 10% of dominance threshold across the full 216-cell grid | n/a | not unsealed | Tag `phase1c-lean-halt-finding`. Magnitude balance was NOT the binding constraint; the §17 finding is structural. Phase 1c-MRV with InSAR becomes the next test under substantially stronger motivation. |
+| **Inconclusive** | 0 satisfy across all reps but ≥ 3 combinations within 10% of dominance threshold | n/a | not unsealed | Tag `phase1c-lean-inconclusive`. Phase 1c-Lean-2 refinement run before any move to Phase 1c-MRV. |
+| **Negative / HALT** | 0 λ combinations within 10% of dominance threshold across the full 36-cell grid | n/a | not unsealed | Tag `phase1c-lean-halt-finding`. Magnitude balance was NOT the binding constraint; the §17 finding is structural. Phase 1c-MRV with InSAR becomes the next test under substantially stronger motivation. |
 
-The Strong/Significant cut between "≥ 5" and "≥ 1" robust dominance combinations is heuristic for evidence robustness rather than statistical: a single satisfying combination across 3 reps demonstrates the hypothesis is *recoverable*; multiple satisfying combinations demonstrate the recovery is robust to specific λ choice.
+The Strong/Significant cut between "≥ 3" and "≥ 1" robust dominance combinations is heuristic for evidence robustness rather than statistical: a single satisfying combination across 3 reps demonstrates the hypothesis is *recoverable*; multiple satisfying combinations demonstrate the recovery is robust to specific λ choice. The "≥ 3" threshold (vs v0.2's "≥ 5") is recalibrated for the 36-cell grid: ~8% of grid cells satisfying robust dominance is the Strong-pass criterion, parallel to v0.2's ~2% on the 216-cell grid; the proportion is loosened slightly because a smaller grid produces sparser robustness evidence.
 
 ### §18.8 HALT triggers
 
 Phase 1c-Lean halts before sealed-set unsealing under any of:
 
 - G2-Lean (§18.6.1) implementation gate failure on any of the three arms.
-- After full 216-cell grid run with 3 reps each: zero λ combinations within 10% of the §9 dominance threshold.
+- After full 36-cell grid run with 3 reps each: zero λ combinations within 10% of the §9 dominance threshold.
 - Cross-framework numpy ↔ PyTorch divergence at run-time exceeding the G2 tolerance specified at §18.6.1 arm 2.
 - Compute budget exceeded (>3× the §18.10 pre-estimated wall-clock time on M4 MPS) — re-scope decision at founder discretion, not auto-HALT.
 
@@ -917,8 +934,8 @@ Target hardware: Apple M4, 24 GB unified memory, macOS Sequoia 15.6.1, PyTorch M
 | Item | Estimate |
 |---|---|
 | Single training run (N=83, MIMICS forward, Phase 1 PINN architecture) | 30–90 seconds (§17 / Phase 1b empirical band) |
-| Primary plan: 216 combinations × 3 reps | 648 runs × ~60s ≈ **9–11 hours wall-clock** |
-| Extended plan (if §18.7 Moderate / Inconclusive triggers it): 216 × 5 reps | 1,080 runs × ~60s ≈ 15–18 hours |
+| Primary plan: 36 combinations × 3 reps | 108 runs × ~60s ≈ **~2 hours wall-clock** |
+| Extended plan (if §18.7 Moderate / Inconclusive triggers it): 36 × 5 reps | 180 runs × ~60s ≈ ~3 hours |
 | Memory peak per run | <1 GB; 24 GB unified memory not binding |
 | Backend | PyTorch MPS; CPU fallback accepted for any unsupported op without re-implementation |
 
@@ -929,6 +946,8 @@ Operational discipline carrying forward §17 / decisions log §24.4:
 - Per-rep training histories written to disk incrementally (not accumulated in memory across the sweep).
 - Sleep/wake event count logged in result JSON per §17.5 / §18.11. If non-zero, affected runs flagged for re-execution.
 - MPS context re-acquired if the system wakes mid-run.
+
+The compute envelope is materially tighter than v0.2 (108 runs / ~2 hours vs 648 runs / ~9–11 hours). The reduction reflects the v0.3 grid-axis correction (§18.4.2): two tunable axes × 6 values = 36 cells, vs v0.2's three tunable axes × 6 values = 216 cells. The smaller grid is a consequence of intervention isolation (per §18.4.3 reasoning); not a compute optimisation per se.
 
 ### §18.11 Result-JSON schema
 
@@ -958,6 +977,7 @@ DEV-1c-lean-NNN entries in the same format as DEV-001 through DEV-008 (§14, Pha
 - **DEV-1c-lean-001** — Sealed-test-set "used-once" acknowledgement per §18.5. The Phase 1 sealed set has been seen once in Phase 1 evaluation; Phase 1c-Lean tertiary evaluation against it is not strictly held-out. Mitigation: gate criteria evaluated on training-pool 5-fold CV; sealed set unsealed only after gates pass per §18.5 / §18.7.
 - **DEV-1c-lean-002** — Per-channel normalisation implementation choice (reserved for any aspect of σ_VV / σ_VH computation that deviates from the published Toure-style derivation; expected to remain a no-op deviation unless implementation surfaces an unanticipated issue at G2-Lean).
 - **DEV-1c-lean-003** — Founder-only sign-off with explicit "scientific co-supervisor TBC" status flag. Carbon13 cohort co-founder recruitment is in flight; full Phase 1c-MRV pre-registration sign-off (if it fires per §18.12) is binding on co-supervisor presence at G3 level. Phase 1c-Lean is not.
+- **DEV-1c-lean-004** — v0.2 → v0.3 SPEC amendment (Block A-prime). Phase 1c-Lean composite scope corrected: λ_data, λ_monotonic, λ_bounds restored to fixed Phase 1b values; grid recalibrated from 6³ = 216 over (λ_data, λ_VV, λ_VH) to 6² = 36 over (λ_VV, λ_VH); compute envelope from 648 / ~9–11 hours to 108 / ~2 hours. Surfaced at Block B halt-1 entry-check; adjudicated via Session H Block A-prime cycle.
 
 ### §18.14 Sign-off
 
