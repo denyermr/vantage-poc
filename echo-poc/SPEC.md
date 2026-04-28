@@ -1,6 +1,6 @@
 # Phase 1b Test Specification: PINN-MIMICS Soil Moisture Retrieval at Moor House
 
-**Vantage · Phase 1b · Pre-Registration · v0.3.1 — Signed (substantive amendment: §18.11 loss-formulation string canonicalisation · 2026-04-28)**
+**Vantage · Phase 1b · Pre-Registration · v0.3.2 — Signed (substantive amendment: §18.6.2 seed convention + §18 phantom-citation cleanup · 2026-04-28)**
 
 > **Versioning note (v0.1 → v0.1.1, 2026-04-19):** Non-substantive amendment.
 > Added §15 "Phase 1b Pre-Registration document" cross-referencing the new
@@ -788,13 +788,13 @@ Phase 1c-MRV (target variable WTD; observable channel S1 InSAR; physics module s
 
 | Dimension | Phase 1c-Lean (this section) | Reference |
 |---|---|---|
-| Site | Moor House (54.69°N 2.38°W) | §14.2 |
-| Target variable | Volumetric water content (VWC) | §14.3 |
-| Ground truth | COSMOS-UK MOORH daily product, Phase 1 QC convention | §14.4; DEV-001 |
-| Sensors | Sentinel-1 IW GRD descending, relative orbit 154 | §14.5 |
-| Observables | C-band amplitude VV + VH | §14.5 |
+| Site | Moor House (54.69°N 2.38°W) | SPEC §2 (line 70, "Frozen elements" Site row) |
+| Target variable | Volumetric water content (VWC) | SPEC §2 (line 71, "Frozen elements" Ground truth row) |
+| Ground truth | COSMOS-UK MOORH daily product, Phase 1 QC convention | SPEC §2 (line 71, "Frozen elements" Ground truth row); DEV-001 |
+| Sensors | Sentinel-1 IW GRD descending, relative orbit 154 | SPEC §2 (line 72, "Frozen elements" SAR row) |
+| Observables | C-band amplitude VV + VH | SPEC §2 (line 72, "Frozen elements" SAR row) |
 | Physics module | Differentiable single-crown MIMICS (Phase 1b G2 Moderate Pass) | §17.2; DEV-1b-008 |
-| Sealed test set | Phase 1 sealed set (n=36, 2023-07-25 to 2024-12-10) | §15.4; status §18.5 below |
+| Sealed test set | Phase 1 sealed set (n=36, 2023-07-25 to 2024-12-10) | SPEC §2 (line 80, sealed-set definition); status §18.5 below |
 | Pre-registration discipline | §14 spec / §17 SPEC template | §14, §17 |
 | Deviation log | DEV-1c-lean-NNN convention | §18.13 |
 
@@ -856,11 +856,11 @@ If Phase 1c-Lean is HALT or Inconclusive (§18.7), trunk-layer reinstatement com
 
 ### §18.5 Sealed test set policy
 
-The Phase 1 sealed test set defined at §15.4 (n=36, 2023-07-25 to 2024-12-10) was used once for Phase 1's final evaluation per §15.5 (PINN RMSE 0.167, RF 0.155 at N≈25; RF 0.147 at 100% training). Phase 1b preserved it unsealed (Tier 3 HALT before unsealing) per §17.4.
+The Phase 1 sealed test set defined at SPEC §14 (Phase 1 pre-registration; sealed-set lock at `data/splits/test_indices.json`, n=36, 2023-07-25 to 2024-12-10) was used once for Phase 1's final evaluation (PINN RMSE 0.167, RF 0.155 at N≈25; RF 0.147 at 100% training). Phase 1b preserved it unsealed (Tier 3 HALT before unsealing) per §17.4.
 
 Phase 1c-Lean treats the Phase 1 sealed set as **"used-once held-out"** with the following discipline:
 
-- Gate criteria (§18.7) are evaluated on **5-fold cross-validation on the n=83 training pool** with stratification by meteorological season where sample sizes permit (§14.6 convention).
+- Gate criteria (§18.7) are evaluated on **5-fold cross-validation on the n=83 training pool** with stratification by meteorological season where sample sizes permit (SPEC §2 line 81, training-pool meteorological-season stratification convention).
 - The sealed test set is unsealed for tertiary RMSE comparison (§18.7) **only** if all gate criteria pass: G2-Lean (§18.6.1) plus dominance satisfied (§9 criterion) plus CV-RMSE not degraded relative to RF baseline.
 - HALT outcomes (§18.8) do not unseal, mirroring the §17 Phase 1b discipline.
 - **DEV-1c-lean-001** (reserved, §18.13) records the "used-once" acknowledgement explicitly: the set has been seen once in Phase 1 evaluation; Phase 1c-Lean tertiary evaluation against it is therefore not strictly held-out.
@@ -886,7 +886,7 @@ Conditions for entering training:
 - λ grid locked at 6×6 = 36 combinations per §18.4.2.
 - Training fraction: **100% only** (N=83). Phase 1c-Lean is not a learning-curve experiment; the §14 4×10 factorial is explicitly not reproduced here. Single-fraction execution is justified by the pre-registered scope (§18.2): the question is configuration-debugging, not data-efficiency characterisation.
 - Reps: **3 per λ combination** as the primary plan. Total: 3 × 36 = **108 training runs**. Extension to 5 reps (180 runs) authorised only if results are marginal under §18.7 tier definitions and authorised pre-extension by founder sign-off.
-- Random seeds: SEED = 42 + config_idx + rep_idx, carrying forward §14.6.
+- **Random seeds: flat config_idx scheme inherited from Phase 1 (SPEC.md §14, line 82, paired-comparison reasoning) and Phase 1b (`phase1b/lambda_search/run_f2.py:130`).** config_idx is enumerated as a flat 0..107 index over the (λ_VV, λ_VH, rep_idx) cross-product in canonical order: `config_idx = 18 * λ_VV_idx + 3 * λ_VH_idx + rep_idx` (with λ_VV_idx ∈ [0,5], λ_VH_idx ∈ [0,5], rep_idx ∈ [0,2]). Seed assignment: `SEED = 42 + config_idx`, producing 108 unique seeds in range 42..149. The flat scheme preserves SPEC §14's paired-comparison reasoning ("Identical seeds across baselines and PINN-MIMICS to ensure paired comparison validity") because the RF baseline (per `shared/baselines/random_forest.py:56`) uses the same `seed = config.SEED + config_idx_` formula at its own config_idx enumeration.
 - Baselines locked: RF at 100% training (Phase 1: 0.147 cm³/cm³ on sealed test, target reproduction on training-pool 5-fold CV); seasonal-climatological null on VWC (Phase 1: 0.178).
 - Sealed test set NOT touched at G3-Lean.
 - Result-JSON schema includes §17.5 / §18.11 schema requirements.
@@ -979,6 +979,7 @@ DEV-1c-lean-NNN entries in the same format as DEV-001 through DEV-008 (§14, Pha
 - **DEV-1c-lean-003** — Founder-only sign-off with explicit "scientific co-supervisor TBC" status flag. Carbon13 cohort co-founder recruitment is in flight; full Phase 1c-MRV pre-registration sign-off (if it fires per §18.12) is binding on co-supervisor presence at G3 level. Phase 1c-Lean is not.
 - **DEV-1c-lean-004** — v0.2 → v0.3 SPEC amendment (Block A-prime). Phase 1c-Lean composite scope corrected: λ_data, λ_monotonic, λ_bounds restored to fixed Phase 1b values; grid recalibrated from 6³ = 216 over (λ_data, λ_VV, λ_VH) to 6² = 36 over (λ_VV, λ_VH); compute envelope from 648 / ~9–11 hours to 108 / ~2 hours. Surfaced at Block B halt-1 entry-check; adjudicated via Session H Block A-prime cycle.
 - **DEV-1c-lean-005** — v0.3 → v0.3.1 SPEC amendment (Block C-prime entry). §18.11 item 2 loss-formulation string canonicalised from `"per_channel_normalised_joint_vv_vh_composite"` (v0.2-era string carried forward unchanged through v0.3) to `"v0.3_five_term_per_channel_normalised"` (Block B-prime committed implementation string at tag `phase1c-lean-g2-lean-passed`). Surfaced at Block C-prime entry-check Rule 0.7 cross-check; adjudicated via this micro-block cycle.
+- **DEV-1c-lean-006** — v0.3.1 → v0.3.2 SPEC amendment (Block C-prime halt-2). Bundled resolution of two issues: (a) §18.6.2 seed convention amended from `SEED = 42 + config_idx + rep_idx` (which produced seed collisions and broke paired-comparison validity per SPEC.md:82) to flat `config_idx = 18 * λ_VV_idx + 3 * λ_VH_idx + rep_idx; SEED = 42 + config_idx`, byte-identical to Phase 1b inheritance; (b) phantom-citation cleanup in §18.5 / §18.6.2 / §18.7 referencing non-existent §14.6 / §15.4 / §15.5 anchors — replaced with line-anchored citations. Surfaced at Block C-prime halt-2 Phase 1b convention cross-checks; adjudicated via this micro-block cycle.
 
 ### §18.14 Sign-off
 
