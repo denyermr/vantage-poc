@@ -1,6 +1,6 @@
 # Phase 1b Test Specification: PINN-MIMICS Soil Moisture Retrieval at Moor House
 
-**Vantage · Phase 1b · Pre-Registration · v0.3 — Signed (substantive amendment: §18.4 Phase 1c-Lean scope correction · 2026-04-28)**
+**Vantage · Phase 1b · Pre-Registration · v0.3.1 — Signed (substantive amendment: §18.11 loss-formulation string canonicalisation · 2026-04-28)**
 
 > **Versioning note (v0.1 → v0.1.1, 2026-04-19):** Non-substantive amendment.
 > Added §15 "Phase 1b Pre-Registration document" cross-referencing the new
@@ -954,7 +954,7 @@ The compute envelope is materially tighter than v0.2 (108 runs / ~2 hours vs 648
 Carries forward §17.5 schema requirements with two Phase 1c-Lean specific additions:
 
 1. **Code-version hash** in JSON metadata (§17.5).
-2. **Loss-formulation string** in JSON metadata (§17.5). For Phase 1c-Lean: `"per_channel_normalised_joint_vv_vh_composite"`.
+2. **Loss-formulation string** in JSON metadata (§17.5). For Phase 1c-Lean: `"v0.3_five_term_per_channel_normalised"`. Canonicalised at SPEC v0.3 → v0.3.1 amendment per DEV-1c-lean-005; matches Block B-prime committed G2-Lean equivalence-check artefacts at tag `phase1c-lean-g2-lean-passed`.
 3. **Pre-flight summary block** in JSON (§17.5), now including σ_VV and σ_VH values computed at init.
 4. **Sleep/wake event count** in JSON (§17.5).
 5. **Phase 1c-Lean addition: dominance verdict** per (λ_data, λ_VV, λ_VH) tuple per rep, encoded as `{"satisfies_dominance": bool, "margin_to_threshold_pct": float}`.
@@ -978,6 +978,7 @@ DEV-1c-lean-NNN entries in the same format as DEV-001 through DEV-008 (§14, Pha
 - **DEV-1c-lean-002** — Per-channel normalisation implementation choice (reserved for any aspect of σ_VV / σ_VH computation that deviates from the published Toure-style derivation; expected to remain a no-op deviation unless implementation surfaces an unanticipated issue at G2-Lean).
 - **DEV-1c-lean-003** — Founder-only sign-off with explicit "scientific co-supervisor TBC" status flag. Carbon13 cohort co-founder recruitment is in flight; full Phase 1c-MRV pre-registration sign-off (if it fires per §18.12) is binding on co-supervisor presence at G3 level. Phase 1c-Lean is not.
 - **DEV-1c-lean-004** — v0.2 → v0.3 SPEC amendment (Block A-prime). Phase 1c-Lean composite scope corrected: λ_data, λ_monotonic, λ_bounds restored to fixed Phase 1b values; grid recalibrated from 6³ = 216 over (λ_data, λ_VV, λ_VH) to 6² = 36 over (λ_VV, λ_VH); compute envelope from 648 / ~9–11 hours to 108 / ~2 hours. Surfaced at Block B halt-1 entry-check; adjudicated via Session H Block A-prime cycle.
+- **DEV-1c-lean-005** — v0.3 → v0.3.1 SPEC amendment (Block C-prime entry). §18.11 item 2 loss-formulation string canonicalised from `"per_channel_normalised_joint_vv_vh_composite"` (v0.2-era string carried forward unchanged through v0.3) to `"v0.3_five_term_per_channel_normalised"` (Block B-prime committed implementation string at tag `phase1c-lean-g2-lean-passed`). Surfaced at Block C-prime entry-check Rule 0.7 cross-check; adjudicated via this micro-block cycle.
 
 ### §18.14 Sign-off
 
