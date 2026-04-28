@@ -1,0 +1,164 @@
+{
+  "spec_version": "v0.3.3",
+  "spec_section": "SPEC.md \u00a72 line 87 + \u00a718.6.2",
+  "data_source": "data/processed/aligned_dataset.csv",
+  "data_sha256": "d86613905ab329b04e53d5cc16fd25775bc73a9b89a8bcae9e3bb078669802c9",
+  "code_version_hash": "5590d2b",
+  "feature_columns": [
+    "vv_db",
+    "vh_db",
+    "vhvv_db",
+    "ndvi",
+    "precip_mm",
+    "precip_7day_mm",
+    "incidence_angle_mean"
+  ],
+  "n_train": 83,
+  "rf_100pct_5fold_cv": {
+    "baseline_id": "rf_100pct_5fold_cv",
+    "rmse_cm3_per_cm3": 0.12695962903800143,
+    "rmse_per_fold": [
+      0.13057466045284555,
+      0.10718989372905947,
+      0.13909158596731097,
+      0.12286939773597004,
+      0.13507260730482112
+    ],
+    "rmse_std_across_folds": 0.011257403552441068,
+    "n_train": 83,
+    "n_outer_folds": 5,
+    "n_inner_cv_folds": 5,
+    "cv_strategy": "random_split",
+    "rf_param_grid": {
+      "n_estimators": [
+        100,
+        200
+      ],
+      "max_depth": [
+        null,
+        10,
+        20
+      ],
+      "min_samples_leaf": [
+        1,
+        3,
+        5
+      ],
+      "max_features": [
+        0.5,
+        0.75,
+        1.0
+      ]
+    },
+    "rf_scoring": "neg_root_mean_squared_error",
+    "best_params_per_fold": [
+      {
+        "max_depth": null,
+        "max_features": 1.0,
+        "min_samples_leaf": 5,
+        "n_estimators": 100
+      },
+      {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 1,
+        "n_estimators": 200
+      },
+      {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 3,
+        "n_estimators": 100
+      },
+      {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 1,
+        "n_estimators": 100
+      },
+      {
+        "max_depth": null,
+        "max_features": 0.5,
+        "min_samples_leaf": 3,
+        "n_estimators": 100
+      }
+    ],
+    "seed": 42,
+    "informational_comparison_phase1_sealed_test_rmse": 0.147,
+    "comparison_note": "Phase 1's 0.147 is sealed-test RMSE; this number is training-pool 5-fold CV RMSE; not directly comparable due to training-pool-vs-sealed-test variability gap. Comparison is informational only, not a G3-Lean gate criterion (per kickoff \u00a73.3.1 / SPEC \u00a718.6.2 v0.3.3)."
+  },
+  "seasonal_climatological_null": {
+    "baseline_id": "seasonal_climatological_null_5fold_cv",
+    "rmse_cm3_per_cm3": 0.10046309727040317,
+    "rmse_per_fold": [
+      0.10413739916175863,
+      0.10010759585255397,
+      0.10291541999751073,
+      0.09790556413229251,
+      0.0972495072079
+    ],
+    "rmse_std_across_folds": 0.002702180573061417,
+    "n_train": 83,
+    "n_folds": 5,
+    "cv_strategy": "random_split",
+    "season_definition": "meteorological_DJF_MAM_JJA_SON",
+    "season_counts_full_pool": {
+      "DJF": 13,
+      "MAM": 22,
+      "JJA": 26,
+      "SON": 22
+    },
+    "method": "method_3_5fold_cv_per_fold_seasonal_means",
+    "per_fold_seasonal_means": [
+      {
+        "means": {
+          "DJF": 0.6713333333333333,
+          "MAM": 0.6040000000000001,
+          "JJA": 0.42440909090909096,
+          "SON": 0.5748333333333334
+        },
+        "global_mean": 0.5453636363636363
+      },
+      {
+        "means": {
+          "DJF": 0.6799090909090909,
+          "MAM": 0.6135263157894737,
+          "JJA": 0.4126363636363637,
+          "SON": 0.5312857142857143
+        },
+        "global_mean": 0.5401818181818182
+      },
+      {
+        "means": {
+          "DJF": 0.6742727272727274,
+          "MAM": 0.5968125,
+          "JJA": 0.4245714285714286,
+          "SON": 0.5334444444444445
+        },
+        "global_mean": 0.5376363636363636
+      },
+      {
+        "means": {
+          "DJF": 0.6785454545454545,
+          "MAM": 0.6030555555555556,
+          "JJA": 0.41438888888888886,
+          "SON": 0.5594
+        },
+        "global_mean": 0.5517313432835821
+      },
+      {
+        "means": {
+          "DJF": 0.6638,
+          "MAM": 0.5948333333333333,
+          "JJA": 0.4336190476190477,
+          "SON": 0.5676111111111112
+        },
+        "global_mean": 0.5472835820895522
+      }
+    ],
+    "seed": 42,
+    "informational_comparison_phase1_sealed_test_rmse": 0.178,
+    "comparison_note": "Phase 1's 0.178 is sealed-test RMSE under Method 1 (training-pool seasonal means evaluated on n=36 sealed test). This number is training-pool 5-fold CV RMSE under Method 3 (per DEV-1c-lean-007); not directly comparable due to the training-pool-vs-sealed-test variability gap. Comparison is informational only, not a G3-Lean gate criterion (per SPEC \u00a718.6.2 v0.3.3 / DEV-1c-lean-007)."
+  },
+  "generated_at_utc": "2026-04-28T16:03:40.507334+00:00"
+}
