@@ -1,6 +1,6 @@
 # Phase 1b Test Specification: PINN-MIMICS Soil Moisture Retrieval at Moor House
 
-**Vantage · Phase 1b · Pre-Registration · v0.1.1 — Signed (non-substantive amendment 2026-04-19)**
+**Vantage · Phase 1b · Pre-Registration · v0.2 — Signed (substantive amendment: §18 Phase 1c-Lean pre-registration · 2026-04-28)**
 
 > **Versioning note (v0.1 → v0.1.1, 2026-04-19):** Non-substantive amendment.
 > Added §15 "Phase 1b Pre-Registration document" cross-referencing the new
@@ -755,6 +755,216 @@ Conclusion commit:                             tagged at `phase1b-concluded-halt
 ### What the §17 conclusion does not commit the experiment to
 
 (See §17.0.2 for the binding registry. Note in particular: §17 does **not** authorise any Phase 1c work; Phase 1c requires its own pre-registration sign-off cycle.)
+
+---
+
+## 18. Phase 1c-Lean Pre-Registration
+
+**Status:** Pre-registered for execution. Founder-only sign-off per DEV-1c-lean-003.
+**Branch:** `phase1c-lean`, cut from `phase1b-concluded-halt-finding` (commit `4175fc2`).
+**Sequencing:** Follows §17 Phase 1b Conclusion. Addresses two of the four open questions registered at §17.3 (per-channel L_physics normalisation; λ-grid lower bound for joint dual-pol formulations). Defers the remaining two (trunk-layer reinstatement; L-band SAR generalisation).
+**Outcome tag at execution close:** `phase1c-lean-{strong|significant|moderate|inconclusive|halt-finding}-pass`.
+
+### §18.1 Scope
+
+Phase 1c-Lean is a leanest-possible debug of the Phase 1b Tier 3 HALT recorded at §17. It tests a single hypothesis: that the F-2b magnitude-balance saturation finding (VH/VV ≈ 0.645 across the dataset; zero λ combinations satisfying the §9 dominance criterion across the pre-registered grid) is **configuration-tunable** rather than **structural**, and is recoverable by per-channel L_physics normalisation combined with a λ grid widened to lower bound 10⁻⁴.
+
+The experiment introduces no new data sources, no new physics modules, no new ground sensors, and no partnerships. It re-uses the Phase 1 dataset (n=119; train 83 / test 36 chronological), the Phase 1b MIMICS implementation at G2 Moderate Pass under DEV-1b-008, and the existing Phase 1 / 1b pipeline.
+
+### §18.2 Research question
+
+> *Does per-channel L_physics normalisation, combined with a λ grid widened to lower bound 10⁻⁴, recover at least one configuration in which the joint VV+VH composite loss satisfies the §9 dominance criterion at Moor House on the Phase 1 dataset?*
+
+The question is scoped deliberately to:
+
+- The Phase 1b loss configuration (joint VV+VH composite, MIMICS amplitude branch under DEV-1b-008).
+- The Phase 1 dataset (Moor House, COSMOS-UK MOORH daily VWC, n=119, established sealed test set per §15).
+- The two §17.3 open questions executable without new data acquisition or partnership development.
+- A pre-registered binary primary outcome: §9 dominance satisfied, or not.
+
+Phase 1c-MRV (target variable WTD; observable channel S1 InSAR; physics module simplified Terzaghi consolidation; second site Forsinard) remains separately scoped and is not in scope here. Sequencing between Phase 1c-Lean and Phase 1c-MRV is conditional on Phase 1c-Lean outcome (§18.12).
+
+### §18.3 Continuity from §14 / §15 / §17
+
+| Dimension | Phase 1c-Lean (this section) | Reference |
+|---|---|---|
+| Site | Moor House (54.69°N 2.38°W) | §14.2 |
+| Target variable | Volumetric water content (VWC) | §14.3 |
+| Ground truth | COSMOS-UK MOORH daily product, Phase 1 QC convention | §14.4; DEV-001 |
+| Sensors | Sentinel-1 IW GRD descending, relative orbit 154 | §14.5 |
+| Observables | C-band amplitude VV + VH | §14.5 |
+| Physics module | Differentiable single-crown MIMICS (Phase 1b G2 Moderate Pass) | §17.2; DEV-1b-008 |
+| Sealed test set | Phase 1 sealed set (n=36, 2023-07-25 to 2024-12-10) | §15.4; status §18.5 below |
+| Pre-registration discipline | §14 spec / §17 SPEC template | §14, §17 |
+| Deviation log | DEV-1c-lean-NNN convention | §18.13 |
+
+### §18.4 Pre-registered changes from the §17 / F-2b configuration
+
+#### §18.4.1 Change 1: Per-channel L_physics normalisation
+
+The Phase 1b composite loss (per F-2b extension §15) was
+
+> L_total = λ_data · L_data + λ_VV · L_phys_VV + λ_VH · L_phys_VH
+
+The F-2b empirical observation was that VH/VV magnitude ratio ≈ 0.645 across the dataset, structurally biasing the loss landscape such that no λ combination in the §17 pre-registered grid (lower bound 0.01) produced a §9-dominant solution.
+
+The Phase 1c-Lean composite loss is
+
+> L_total = λ_data · L_data + λ_VV · (L_phys_VV / σ_VV) + λ_VH · (L_phys_VH / σ_VH)
+
+where σ_VV and σ_VH are scale factors computed **once at training initialisation** as the standard deviation of the unweighted physics losses over the training set's first forward pass at randomly initialised network weights. After normalisation, both physics terms are unit-scaled and λ values control relative weighting in a comparable, magnitude-independent way.
+
+**Implementation requirements** (gated at G2-Lean, §18.6.1):
+
+- σ_VV and σ_VH computed once at init only. **Per-batch normalisation is explicitly out of scope** — moving-target normalisation introduces a non-stationary loss landscape and conflates the magnitude-balance question with optimiser dynamics.
+- σ values saved with the model checkpoint and reproduced exactly in the pre-flight summary block (§18.11 schema).
+- σ values logged in the result JSON.
+
+#### §18.4.2 Change 2: λ grid widened
+
+| | §17 (Phase 1b F-2b) | §18 (Phase 1c-Lean) |
+|---|---|---|
+| λ values per axis | [0.01, 0.1, 1.0, 10] | [10⁻⁴, 10⁻³, 10⁻², 10⁻¹, 10⁰, 10¹] |
+| Axes | λ_data, λ_VV, λ_VH | λ_data, λ_VV, λ_VH |
+| Grid size | 4³ = 64 | 6³ = **216** |
+| Lower-bound rationale | Inherited from §14 single-pol setup | §17.3 open question 2: lower bound may be too tight for joint dual-pol formulations once magnitudes are normalised |
+
+#### §18.4.3 Explicitly out of scope: trunk-layer reinstatement
+
+DEV-1b-005 Set D Phase 1c exemption (the trunk-layer scattering mechanism, §17.3 open question 3) is **explicitly out of scope** for Phase 1c-Lean.
+
+Including the trunk layer would conflate two interventions: a positive Phase 1c-Lean result with trunk-layer reinstatement included would not distinguish whether per-channel normalisation, the wider grid, or the trunk layer was the active ingredient.
+
+If Phase 1c-Lean is HALT or Inconclusive (§18.7), trunk-layer reinstatement combined with λ-grid refinement around marginal combinations becomes Phase 1c-Lean-2 and requires its own pre-registration following the §14 / §17 / §18 template.
+
+### §18.5 Sealed test set policy
+
+The Phase 1 sealed test set defined at §15.4 (n=36, 2023-07-25 to 2024-12-10) was used once for Phase 1's final evaluation per §15.5 (PINN RMSE 0.167, RF 0.155 at N≈25; RF 0.147 at 100% training). Phase 1b preserved it unsealed (Tier 3 HALT before unsealing) per §17.4.
+
+Phase 1c-Lean treats the Phase 1 sealed set as **"used-once held-out"** with the following discipline:
+
+- Gate criteria (§18.7) are evaluated on **5-fold cross-validation on the n=83 training pool** with stratification by meteorological season where sample sizes permit (§14.6 convention).
+- The sealed test set is unsealed for tertiary RMSE comparison (§18.7) **only** if all gate criteria pass: G2-Lean (§18.6.1) plus dominance satisfied (§9 criterion) plus CV-RMSE not degraded relative to RF baseline.
+- HALT outcomes (§18.8) do not unseal, mirroring the §17 Phase 1b discipline.
+- **DEV-1c-lean-001** (reserved, §18.13) records the "used-once" acknowledgement explicitly: the set has been seen once in Phase 1 evaluation; Phase 1c-Lean tertiary evaluation against it is therefore not strictly held-out.
+
+A truly fresh held-out evaluation requires extending COSMOS-UK ground truth beyond 2024-12-10 (Phase 1c-Lean-2 scope; requires fresh Sentinel-1 acquisitions and ground-truth pairing) and is out of scope here.
+
+### §18.6 Engineering gates
+
+#### §18.6.1 G2-Lean: implementation gate (three-arm)
+
+Three-arm equivalence check on the per-channel normalised composite loss, mirroring the §17 Phase 1b G2 structure under DEV-1b-008:
+
+1. **Cross-framework consistency.** numpy ↔ PyTorch implementation of the per-channel normalised composite loss agrees at machine precision on a fixed random fixture. Same convention as DEV-1b-008.
+2. **Autograd ↔ finite-difference.** Gradient of the normalised loss with respect to (a) model parameters and (b) λ values agrees within Phase 1b tolerance (0.003 dB equivalent).
+3. **Scale sanity.** After normalisation on the training set, both L_phys_VV / σ_VV and L_phys_VH / σ_VH have unit standard deviation within 1e-6 numerical tolerance on the training-set first forward pass at randomly initialised network weights.
+
+Failure of any arm halts Phase 1c-Lean until corrected. Pre-sign-off audit cycle as Phase 1b. DEV-1c-lean-NNN log opened at G2-Lean kickoff.
+
+#### §18.6.2 G3-Lean: pre-training gate
+
+Conditions for entering training:
+
+- λ grid locked at 6×6×6 = 216 combinations per §18.4.2.
+- Training fraction: **100% only** (N=83). Phase 1c-Lean is not a learning-curve experiment; the §14 4×10 factorial is explicitly not reproduced here. Single-fraction execution is justified by the pre-registered scope (§18.2): the question is configuration-debugging, not data-efficiency characterisation.
+- Reps: **3 per λ combination** as the primary plan. Total: 3 × 216 = **648 training runs**. Extension to 5 reps (1,080 runs) authorised only if results are marginal under §18.7 tier definitions and authorised pre-extension by founder sign-off.
+- Random seeds: SEED = 42 + config_idx + rep_idx, carrying forward §14.6.
+- Baselines locked: RF at 100% training (Phase 1: 0.147 cm³/cm³ on sealed test, target reproduction on training-pool 5-fold CV); seasonal-climatological null on VWC (Phase 1: 0.178).
+- Sealed test set NOT touched at G3-Lean.
+- Result-JSON schema includes §17.5 / §18.11 schema requirements.
+
+### §18.7 Pre-registered success criteria
+
+Primary metric: §9 dominance criterion, evaluated as a binary verdict per λ combination per rep.
+Secondary metric: 5-fold CV RMSE (cm³/cm³) on the n=83 training pool, compared against RF baseline at 100% training (Phase 1 reference: 0.147 cm³/cm³).
+Tertiary metric (held-out, contingent on gates): sealed-test-set RMSE per §18.5 unsealing policy.
+
+| Tier | Primary (§9 dominance) | Secondary (CV RMSE vs 0.147) | Tertiary (sealed RMSE) | Action |
+|---|---|---|---|---|
+| **Strong pass** | ≥ 5 λ combinations satisfy dominance robustly across all 3 reps | ≤ 0.147 (RF parity at 100% or better) | ≤ 0.147 | Tag `phase1c-lean-strong-pass`. Magnitude-balance hypothesis confirmed; configuration-tunable verdict. Phase 1c-MRV de-prioritised pending strategic discussion. |
+| **Significant pass** | ≥ 1 λ combination satisfies dominance robustly across all 3 reps | within 5% of 0.147 (≤ 0.154) | within 5% of 0.147 | Tag `phase1c-lean-significant-pass`. Configuration is viable; data-efficiency claim at low N still untested. |
+| **Moderate pass** | ≥ 1 λ combination satisfies dominance in some but not all reps | within 10% of 0.147 (≤ 0.162) | not unsealed | Tag `phase1c-lean-moderate-pass`. Dominance achievable but not robust. Phase 1c-Lean-2 (refinement + trunk-layer reinstatement, §18.4.3) before any move to Phase 1c-MRV. |
+| **Inconclusive** | 0 satisfy across all reps but ≥ 5 combinations within 10% of dominance threshold | n/a | not unsealed | Tag `phase1c-lean-inconclusive`. Phase 1c-Lean-2 refinement run before any move to Phase 1c-MRV. |
+| **Negative / HALT** | 0 λ combinations within 10% of dominance threshold across the full 216-cell grid | n/a | not unsealed | Tag `phase1c-lean-halt-finding`. Magnitude balance was NOT the binding constraint; the §17 finding is structural. Phase 1c-MRV with InSAR becomes the next test under substantially stronger motivation. |
+
+The Strong/Significant cut between "≥ 5" and "≥ 1" robust dominance combinations is heuristic for evidence robustness rather than statistical: a single satisfying combination across 3 reps demonstrates the hypothesis is *recoverable*; multiple satisfying combinations demonstrate the recovery is robust to specific λ choice.
+
+### §18.8 HALT triggers
+
+Phase 1c-Lean halts before sealed-set unsealing under any of:
+
+- G2-Lean (§18.6.1) implementation gate failure on any of the three arms.
+- After full 216-cell grid run with 3 reps each: zero λ combinations within 10% of the §9 dominance threshold.
+- Cross-framework numpy ↔ PyTorch divergence at run-time exceeding the G2 tolerance specified at §18.6.1 arm 2.
+- Compute budget exceeded (>3× the §18.10 pre-estimated wall-clock time on M4 MPS) — re-scope decision at founder discretion, not auto-HALT.
+
+HALT is a publishable outcome under §17 precedent and produces the `phase1c-lean-halt-finding` tag.
+
+### §18.9 Diagnostic battery
+
+Computed for every run reaching training completion regardless of outcome tier, mirroring the §15 Phase 1 / §17 Phase 1b discipline:
+
+- **Amplitude-residual ratio.** std(ε_phys) / std(ε_data). Phase 1b reference: 3.3–6.4×. Phase 1c-Lean expected behaviour under correct hypothesis: ratio drops, indicating physics branch is no longer dominated by data branch under per-channel normalisation.
+- **Forward fit r.** Pearson correlation between MIMICS forward-predicted σ⁰ and observed σ⁰ at converged-model state. Phase 1 reference (WCM): r = 0.007. Phase 1c-Lean expected behaviour under correct hypothesis: r rises substantially as the loss landscape rebalances.
+- **Per-channel residual correlation with NDVI.** Phase 1 reference (WCM): r = 0.82. Phase 1b under MIMICS partially absorbed this. Phase 1c-Lean check: does residual-NDVI correlation drop further under per-channel normalisation?
+- **λ-pair stability.** Across the 3 reps per combination, does the dominance verdict reproduce? Marginal stability separates §18.7 Significant from Moderate.
+
+### §18.10 Compute envelope
+
+Target hardware: Apple M4, 24 GB unified memory, macOS Sequoia 15.6.1, PyTorch MPS backend.
+
+| Item | Estimate |
+|---|---|
+| Single training run (N=83, MIMICS forward, Phase 1 PINN architecture) | 30–90 seconds (§17 / Phase 1b empirical band) |
+| Primary plan: 216 combinations × 3 reps | 648 runs × ~60s ≈ **9–11 hours wall-clock** |
+| Extended plan (if §18.7 Moderate / Inconclusive triggers it): 216 × 5 reps | 1,080 runs × ~60s ≈ 15–18 hours |
+| Memory peak per run | <1 GB; 24 GB unified memory not binding |
+| Backend | PyTorch MPS; CPU fallback accepted for any unsupported op without re-implementation |
+
+Operational discipline carrying forward §17 / decisions log §24.4:
+
+- `sudo pmset -a sleep 0 disablesleep 1` before any multi-hour run; restore after.
+- Lid-open or AC power for the duration.
+- Per-rep training histories written to disk incrementally (not accumulated in memory across the sweep).
+- Sleep/wake event count logged in result JSON per §17.5 / §18.11. If non-zero, affected runs flagged for re-execution.
+- MPS context re-acquired if the system wakes mid-run.
+
+### §18.11 Result-JSON schema
+
+Carries forward §17.5 schema requirements with two Phase 1c-Lean specific additions:
+
+1. **Code-version hash** in JSON metadata (§17.5).
+2. **Loss-formulation string** in JSON metadata (§17.5). For Phase 1c-Lean: `"per_channel_normalised_joint_vv_vh_composite"`.
+3. **Pre-flight summary block** in JSON (§17.5), now including σ_VV and σ_VH values computed at init.
+4. **Sleep/wake event count** in JSON (§17.5).
+5. **Phase 1c-Lean addition: dominance verdict** per (λ_data, λ_VV, λ_VH) tuple per rep, encoded as `{"satisfies_dominance": bool, "margin_to_threshold_pct": float}`.
+6. **Phase 1c-Lean addition: σ scale factors** logged separately from the model checkpoint for downstream auditability.
+
+### §18.12 Sequencing to subsequent phases
+
+Conditional on §18.7 outcome, Phase 1c-Lean produces one of three forward sequences:
+
+- **Strong / Significant pass:** Magnitude-balance hypothesis confirmed; the C-band amplitude path is configuration-tunable. Phase 1c-MRV (separately scoped, WTD + InSAR + Terzaghi + Forsinard) becomes optional rather than necessary; the decision to run it depends on whether the venture's commercial framing requires WTD as the target variable for §17.3 reasons orthogonal to the science question. Strategic discussion separate from this SPEC.
+- **Moderate pass / Inconclusive:** Phase 1c-Lean-2 (refinement around marginal λ combinations + trunk-layer reinstatement per §18.4.3) requires its own pre-registration following this template before any move to Phase 1c-MRV.
+- **Negative / HALT:** Phase 1b's structural finding compounds. Phase 1c-MRV with InSAR becomes the next test under stronger motivation: amplitude alone has now failed twice on pre-registered tests, and a different observable channel is needed. The Strategy Memo (working document, not corpus) absorbs this finding explicitly. Phase 1c-MRV pre-registration (separate SPEC section, anticipated §19) drafted post-tag.
+
+### §18.13 Deviation log convention and reserved entries
+
+DEV-1c-lean-NNN entries in the same format as DEV-001 through DEV-008 (§14, Phase 1) and DEV-1b-001 through DEV-1b-010 (§17, Phase 1b). Each deviation: ID, summary, gate impact, resolution, signed-off pre-training where applicable. Pre-sign-off audit cycle that surfaced DEV-1b-001, -002, -003 in Phase 1b is the operational model.
+
+**Reserved entries (committed at SPEC.md v0.2 sign-off):**
+
+- **DEV-1c-lean-001** — Sealed-test-set "used-once" acknowledgement per §18.5. The Phase 1 sealed set has been seen once in Phase 1 evaluation; Phase 1c-Lean tertiary evaluation against it is not strictly held-out. Mitigation: gate criteria evaluated on training-pool 5-fold CV; sealed set unsealed only after gates pass per §18.5 / §18.7.
+- **DEV-1c-lean-002** — Per-channel normalisation implementation choice (reserved for any aspect of σ_VV / σ_VH computation that deviates from the published Toure-style derivation; expected to remain a no-op deviation unless implementation surfaces an unanticipated issue at G2-Lean).
+- **DEV-1c-lean-003** — Founder-only sign-off with explicit "scientific co-supervisor TBC" status flag. Carbon13 cohort co-founder recruitment is in flight; full Phase 1c-MRV pre-registration sign-off (if it fires per §18.12) is binding on co-supervisor presence at G3 level. Phase 1c-Lean is not.
+
+### §18.14 Sign-off
+
+| Role | Name | Date | Signature |
+|---|---|---|---|
+| Founder | Matthew Denyer |  |  |
+| Scientific co-supervisor | *N/A — DEV-1c-lean-003* | — | — |
 
 ---
 
