@@ -1,6 +1,6 @@
 # Phase 1b Test Specification: PINN-MIMICS Soil Moisture Retrieval at Moor House
 
-**Vantage · Phase 1b · Pre-Registration · v0.3.3 — Signed (substantive amendment: §2 line 87 + §18.6.2 null-methodology specification · 2026-04-28)**
+**Vantage · Phase 1b · Pre-Registration · v0.3.4 — Signed (substantive amendment: §18.4.1 σ-init scope + §18.6.2 sweep/CV procedure split + §18.10 compute envelope · 2026-04-28)**
 
 > **Versioning note (v0.1 → v0.1.1, 2026-04-19):** Non-substantive amendment.
 > Added §15 "Phase 1b Pre-Registration document" cross-referencing the new
@@ -824,10 +824,12 @@ After per-channel normalisation, the two physics terms are unit-scaled and λ_VV
 
 **Implementation requirements** (gated at G2-Lean, §18.6.1):
 
-- σ_VV and σ_VH computed once at init only. **Per-batch normalisation is explicitly out of scope** — moving-target normalisation introduces a non-stationary loss landscape and conflates the magnitude-balance question with optimiser dynamics.
+- σ_VV and σ_VH computed once at training initialisation only. **Per-batch normalisation is explicitly out of scope** — moving-target normalisation introduces a non-stationary loss landscape and conflates the magnitude-balance question with optimiser dynamics.
+- For Procedure A (λ-grid sweep, §18.6.2): σ values computed on the **full n=83 training pool's first forward pass** at randomly-initialised network weights (one σ pair per run; all 108 runs compute on the unified training pool).
+- For Procedure B (secondary-metric 5-fold CV, §18.6.2): σ values **recomputed per fold** on the fold's training portion's first forward pass (~67 samples per fold) at randomly-initialised network weights. Fold-local σ values, not pool-global; this maintains the per-channel normalisation discipline within the CV procedure.
 - σ values saved with the model checkpoint and reproduced exactly in the pre-flight summary block (§18.11 schema).
-- σ values logged in the result JSON.
-- L_monotonic and L_bounds reuse the Phase 1b implementation at `echo-poc/phase1b/pinn_mimics.py` without modification.
+- σ values logged in the result JSON (per-run for Procedure A; per-fold within per-cell aggregate for Procedure B).
+- L_monotonic and L_bounds reuse the Phase 1b implementation at `phase1b/pinn_mimics.py` without modification.
 
 #### §18.4.2 Change 2: λ grid recalibrated for the per-channel normalised composite
 
@@ -885,13 +887,15 @@ Conditions for entering training:
 
 - λ grid locked at 6×6 = 36 combinations per §18.4.2.
 - Training fraction: **100% only** (N=83). Phase 1c-Lean is not a learning-curve experiment; the §14 4×10 factorial is explicitly not reproduced here. Single-fraction execution is justified by the pre-registered scope (§18.2): the question is configuration-debugging, not data-efficiency characterisation.
-- Reps: **3 per λ combination** as the primary plan. Total: 3 × 36 = **108 training runs**. Extension to 5 reps (180 runs) authorised only if results are marginal under §18.7 tier definitions and authorised pre-extension by founder sign-off.
-- **Random seeds: flat config_idx scheme inherited from Phase 1 (SPEC.md §14, line 82, paired-comparison reasoning) and Phase 1b (`phase1b/lambda_search/run_f2.py:130`).** config_idx is enumerated as a flat 0..107 index over the (λ_VV, λ_VH, rep_idx) cross-product in canonical order: `config_idx = 18 * λ_VV_idx + 3 * λ_VH_idx + rep_idx` (with λ_VV_idx ∈ [0,5], λ_VH_idx ∈ [0,5], rep_idx ∈ [0,2]). Seed assignment: `SEED = 42 + config_idx`, producing 108 unique seeds in range 42..149. The flat scheme preserves SPEC §14's paired-comparison reasoning ("Identical seeds across baselines and PINN-MIMICS to ensure paired comparison validity") because the RF baseline (per `shared/baselines/random_forest.py:56`) uses the same `seed = config.SEED + config_idx_` formula at its own config_idx enumeration.
-- Baselines locked at G3-Lean (SPEC §2 line 87, DEV-1c-lean-007):
-  - **RF baseline**: 5-fold CV on n=83 training pool with `random_split` strategy (Phase 1's hyperparameter grid at `shared/config.py:225-232`, implementation at `shared/baselines/random_forest.py:71-84`, paired-comparison-valid seed `seed = config.SEED + config_idx`). Phase 1 sealed-test reference: 0.147 cm³/cm³. Locked Phase 1c-Lean training-pool 5-fold CV RMSE: see `baselines_locked.json` for value at lock time. **Comparison vs 0.147 is informational only** (training-pool-vs-sealed-test variability gap; not a halt trigger).
-  - **Seasonal-climatological null**: 5-fold CV on n=83 training pool, predict each fold's observations from seasonal means computed on the other four folds, season definition `meteorological_DJF_MAM_JJA_SON` per `data/splits/split_manifest.json`. Phase 1 sealed-test reference: 0.178 cm³/cm³ (Method 1: training-pool seasonal means evaluated on n=36 sealed test; not reproduced at G3-Lean per sealed-set "used-once held-out" discipline at SPEC §18.5). Locked Phase 1c-Lean training-pool 5-fold CV RMSE: see `baselines_locked.json` for value at lock time. **Comparison vs 0.178 is informational only** (same training-pool-vs-sealed-test variability gap; not a halt trigger).
-- Sealed test set NOT touched at G3-Lean.
-- Result-JSON schema includes §17.5 / §18.11 schema requirements.
+- Reps: **3 per λ combination** as the primary plan. Total: 3 × 36 = **108 training runs (Procedure A)**. Extension to 5 reps (180 runs) authorised only if results are marginal under §18.7 tier definitions and authorised pre-extension by founder sign-off.
+- **Random seeds: flat config_idx scheme inherited from Phase 1 (SPEC §14, line 82, paired-comparison reasoning) and Phase 1b (`phase1b/lambda_search/run_f2.py:130`).** config_idx is enumerated as a flat 0..107 index over the (λ_VV, λ_VH, rep_idx) cross-product in canonical order: `config_idx = 18 * λ_VV_idx + 3 * λ_VH_idx + rep_idx` (with λ_VV_idx ∈ [0,5], λ_VH_idx ∈ [0,5], rep_idx ∈ [0,2]). Seed assignment: `SEED = 42 + config_idx`, producing 108 unique seeds in range 42..149. The flat scheme preserves SPEC §14's paired-comparison reasoning.
+- **Procedure A — λ-grid sweep (108 runs)**: each `(config_idx, λ_VV, λ_VH, rep_idx)` tuple = one PINN-MIMICS training on the full n=83 training pool with `compute_pinn_mimics_loss_normalised`. Within-pool 80/20 split for early-stopping ONLY, with split seed `SEED + 1000` (offset to keep the early-stopping split independent of the run's main seed). Trained for `NN_MAX_EPOCHS=500` with `NN_PATIENCE=20` per Phase 1b inheritance. Converged-state dominance verdict per (config_idx, rep) emitted per §9 / §18.7 / §18.11. Diagnostic battery items per §18.9 emitted at converged state.
+- **Procedure B — secondary-metric 5-fold CV (180 fold-trainings, post-Procedure-A)**: for each cell `(λ_VV, λ_VH)` (36 cells), 5 fold-trainings on the n=83 training pool partitioned into 5 random-shuffle folds with seed `42 + 10000` (offset to keep CV-split independent of grid-sweep seeds). σ values recomputed per fold per §18.4.1. Same NN hyperparameters as Procedure A, full 500 epochs (no within-fold early-stopping; CV hold-out fold is the validation surface). Per-cell mean-of-per-fold RMSE emitted. Compared against `baselines_locked.json` RF 5-fold CV mean RMSE for the §18.7 secondary metric.
+- **Baselines locked** at G3-Lean (SPEC §2 line 87, DEV-1c-lean-007):
+  - **RF baseline**: 5-fold CV on n=83 training pool with `random_split` strategy. Phase 1 sealed-test reference: 0.147 cm³/cm³. Locked Phase 1c-Lean training-pool 5-fold CV RMSE: see `baselines_locked.json` for value at lock time. **Comparison vs 0.147 is informational only** (training-pool-vs-sealed-test variability gap; not a halt trigger).
+  - **Seasonal-climatological null**: 5-fold CV on n=83 training pool, predict each fold's observations from seasonal means computed on the other four folds, season definition `meteorological_DJF_MAM_JJA_SON` per `data/splits/split_manifest.json`. Phase 1 sealed-test reference: 0.178 cm³/cm³. Locked Phase 1c-Lean training-pool 5-fold CV RMSE: see `baselines_locked.json` for value at lock time. **Comparison vs 0.178 is informational only**.
+- Sealed test set NOT touched at G3-Lean or in Procedures A / B.
+- Result-JSON schema includes §17.5 / §18.11 schema requirements per the Procedure-A-emits-per-run-JSON, Procedure-B-emits-per-cell-aggregate split.
 
 ### §18.7 Pre-registered success criteria
 
@@ -935,9 +939,12 @@ Target hardware: Apple M4, 24 GB unified memory, macOS Sequoia 15.6.1, PyTorch M
 
 | Item | Estimate |
 |---|---|
-| Single training run (N=83, MIMICS forward, Phase 1 PINN architecture) | 30–90 seconds (§17 / Phase 1b empirical band) |
-| Primary plan: 36 combinations × 3 reps | 108 runs × ~60s ≈ **~2 hours wall-clock** |
-| Extended plan (if §18.7 Moderate / Inconclusive triggers it): 36 × 5 reps | 180 runs × ~60s ≈ ~3 hours |
+| Single Procedure A run (n=83 training, MIMICS forward, Phase 1 PINN architecture) | 30–90 seconds (§17 / Phase 1b empirical band) |
+| Procedure A primary plan: 108 runs (36 cells × 3 reps) | ~108 minutes (~1.8 hours wall-clock) |
+| Single Procedure B fold-training (n=~67 fold-train, MIMICS forward) | 30–40 seconds |
+| Procedure B: 180 fold-trainings (36 cells × 5 folds) | ~80–120 minutes (~1.5–2 hours wall-clock) |
+| **Total: Procedures A + B combined** | **~3.5–4 hours wall-clock** |
+| Extended plan (Procedure A only, 5 reps): 180 runs | ~3 hours (Procedure A); plus Procedure B unchanged at ~1.5–2 hours |
 | Memory peak per run | <1 GB; 24 GB unified memory not binding |
 | Backend | PyTorch MPS; CPU fallback accepted for any unsupported op without re-implementation |
 
@@ -949,7 +956,7 @@ Operational discipline carrying forward §17 / decisions log §24.4:
 - Sleep/wake event count logged in result JSON per §17.5 / §18.11. If non-zero, affected runs flagged for re-execution.
 - MPS context re-acquired if the system wakes mid-run.
 
-The compute envelope is materially tighter than v0.2 (108 runs / ~2 hours vs 648 runs / ~9–11 hours). The reduction reflects the v0.3 grid-axis correction (§18.4.2): two tunable axes × 6 values = 36 cells, vs v0.2's three tunable axes × 6 values = 216 cells. The smaller grid is a consequence of intervention isolation (per §18.4.3 reasoning); not a compute optimisation per se.
+The compute envelope is materially larger than v0.2 (108 runs / ~2 hours) because v0.3.4 makes Procedure B explicit. Procedure B was implicit (and overlooked) in v0.3 / v0.3.3 — the §18.7 secondary metric required 5-fold CV PINN evaluation but no v0.3.x compute envelope accounted for it. v0.3.4 closes this gap; total ~3.5–4 hours reflects Procedures A + B combined.
 
 ### §18.11 Result-JSON schema
 
@@ -983,6 +990,7 @@ DEV-1c-lean-NNN entries in the same format as DEV-001 through DEV-008 (§14, Pha
 - **DEV-1c-lean-005** — v0.3 → v0.3.1 SPEC amendment (Block C-prime entry). §18.11 item 2 loss-formulation string canonicalised from `"per_channel_normalised_joint_vv_vh_composite"` (v0.2-era string carried forward unchanged through v0.3) to `"v0.3_five_term_per_channel_normalised"` (Block B-prime committed implementation string at tag `phase1c-lean-g2-lean-passed`). Surfaced at Block C-prime entry-check Rule 0.7 cross-check; adjudicated via this micro-block cycle.
 - **DEV-1c-lean-006** — v0.3.1 → v0.3.2 SPEC amendment (Block C-prime halt-2). Bundled resolution of two issues: (a) §18.6.2 seed convention amended from `SEED = 42 + config_idx + rep_idx` (which produced seed collisions and broke paired-comparison validity per SPEC.md:82) to flat `config_idx = 18 * λ_VV_idx + 3 * λ_VH_idx + rep_idx; SEED = 42 + config_idx`, byte-identical to Phase 1b inheritance; (b) phantom-citation cleanup in §18.5 / §18.6.2 / §18.7 referencing non-existent §14.6 / §15.4 / §15.5 anchors — replaced with line-anchored citations. Surfaced at Block C-prime halt-2 Phase 1b convention cross-checks; adjudicated via this micro-block cycle.
 - **DEV-1c-lean-007** — v0.3.2 → v0.3.3 SPEC amendment (Block C-prime halt-4). Null-methodology specification corrected: SPEC §2 line 87's 0.178 reference clarified as Phase 1 sealed-test RMSE under Method 1 (training-pool seasonal means evaluated on n=36 sealed test); SPEC §18.6.2 baselines bullet expanded to specify Phase 1c-Lean's training-pool 5-fold CV null methodology explicitly (Method 3, same seasonal-mean methodology, training-pool-internal hold-out). Symmetry restored with RF baseline's 5-fold CV methodology per kickoff §3.3.1. Both reference numbers (0.178 sealed-test, locked 5-fold CV training-pool number) preserved in `baselines_locked.json` and SPEC §2 line 87 with explicit non-comparability annotation. Surfaced at Block C-prime halt-4 baselines reproduction; adjudicated via this micro-block cycle.
+- **DEV-1c-lean-008** — v0.3.3 → v0.3.4 SPEC amendment (Block D-prime halt-1). Sweep / CV procedure split made explicit: Procedure A (108 PINN runs on full n=83 pool, §9 dominance evaluation per (config_idx, rep)) and Procedure B (180 fold-trainings, 36 cells × 5 folds, secondary-metric 5-fold CV RMSE per cell). σ-init scope clarified per procedure (full pool for A; per-fold for B). Compute envelope amended from ~2 hours to ~3.5–4 hours total. Procedure B was implicit and overlooked in v0.3 / v0.3.3 — surfaced at Block D-prime halt-1 splitting/CV cross-check; adjudicated via this micro-block cycle.
 
 ### §18.14 Sign-off
 
